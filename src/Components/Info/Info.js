@@ -133,6 +133,7 @@ const InfoContainer = ({student,setStudentSuspended, updateStudentDisplayPic}) =
 }
 
 const mapStateToProps = (state) => {
+    console.log(state)
     return{
         student: state.firestore.ordered.users,
     }

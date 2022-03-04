@@ -14,6 +14,7 @@ const CourseCard = ({courses, branch, sortedByBranch, removeCourse, admin}) => {
     
     const handleCourseRemoval = (course) => {
         removeCourse(course)
+        setIsOpen(false)
     }
 
 

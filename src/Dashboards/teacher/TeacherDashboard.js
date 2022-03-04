@@ -25,8 +25,8 @@ const TeacherDashboard = ({profile, auth, authSuccess}) => {
                     <Route exact path="/" component={TeacherOverview}></Route>
                     <Route exact path="/courses" component={Courses}></Route>
                     <Route exact path="/courses/:course" component={Course}></Route>
-                    <Route exact path="/myassignments" component={MyAssignments}></Route>
-                    <Route exact path="/myclasses" component={MyClasses}></Route>
+                    {/* <Route exact path="/myassignments" component={MyAssignments}></Route> */}
+                    {/* <Route exact path="/myclasses" component={MyClasses}></Route> */}
                     <Route exact path="/forum" component={StudentForum}></Route>
             </Switch>
             <Footer></Footer>

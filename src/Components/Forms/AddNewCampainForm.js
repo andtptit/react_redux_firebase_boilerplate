@@ -7,14 +7,15 @@ import useForm from '../../Hooks/useForm'
 import {addCourse} from '../../Store/actions/courseActions'
 
 
-const AddCourseForm = ({addCourse, branches}) => {
+const AddNewCampainForm = ({addCourse, branches,courseFile}) => {
     
     const handleCourse = () => {
         addCourse(inputs)
     }
 
 
-    const { inputs, handleInputChange, handleSubmit} = useForm({title:'', branch:'All', teacher: ''}, handleCourse)
+
+    const { inputs, handleInputChange, handleSubmit} = useForm({title:'', courseFile:'All', timeLearning: ''}, handleCourse)
 
     return(
         <Form onSubmit={handleSubmit}>
@@ -25,17 +26,17 @@ const AddCourseForm = ({addCourse, branches}) => {
                         <Input  type="text" id="title" onChange={handleInputChange}></Input>
                     </Row>
                     <Row className="mt-2">
-                        <Label htmlFor="branch">Branch</Label>
-                        <Input type="select" className="selector" name="select" id="branch" onChange={handleInputChange}>
-                            <option value='All'>All Students</option>
-                            {branches && branches.map(branch => (
-                            <option key={branch.id} value={branch.name}>{branch.name}</option>
+                        <Label htmlFor="courseUrl">File data</Label>
+                        <Input type="select" className="selector" name="select" id="courseUrl" onChange={handleInputChange}>
+                            <option value='All'>All Data</option>
+                            {courseFile && courseFile.map((courseF, index) => (
+                            <option key={index} value={courseF.url}>{courseF.title}</option>
                             ))}           
                         </Input>
                     </Row>
                     <Row className="mt-2">
-                        <Label htmlFor="teacher">Teacher</Label>
-                        <Input type="text"  id="teacher" onChange={handleInputChange}></Input>
+                        <Label htmlFor="timeLearning">Thời gian học</Label>
+                        <Input type="text"  id="timeLearning" onChange={handleInputChange}></Input>
                     </Row>
                 </Col>
                 <Button color="primary" type="submit" className="mt-4">
@@ -48,8 +49,9 @@ const AddCourseForm = ({addCourse, branches}) => {
 
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return{
-        branches: state.firestore.ordered.branches
+        courseFile: state.firestore.ordered.courseFile
     }
 }
 
@@ -65,8 +67,8 @@ export default compose(
     connect(mapStateToProps, mapDispatchToProps), 
     firestoreConnect([
         {
-            collection: 'branches'
+            collection: 'courseFile'
         }
     ])
-)(AddCourseForm);
+)(AddNewCampainForm);
 

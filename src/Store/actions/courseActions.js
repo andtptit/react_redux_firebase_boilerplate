@@ -4,20 +4,18 @@ import { uid } from 'uid';
 export const addCourse = (course) => {
         return (dispatch, getState, {getFirestore, getFirebase}) => {
             const firestore = getFirestore();
-
             const date = new Date();
-
             const year = date.getFullYear()
+
+            console.log('courseaction', course);
 
             firestore
                 .add({collection: 'courses'},
                     {
-                        courseId: `${year}${course.branch}${uid()}`,
+                        courseId: `${year}${course.timeLearning}${uid()}`,
                         title: course.title,
-                        branch: course.branch,
-                        teacher: course.teacher,
-                        videos: [],
-                        references: []
+                        courseUrl: course.courseUrl,
+                        timeLearning: course.timeLearning,
                     })
                     .then((dispatch)=>{
                         dispatch({type:'CREATE_COURSE'});
@@ -70,6 +68,24 @@ export const addNewVideo = (course, title, url) => {
                     type: 'IMAGE_UPLOAD_ERROR',
                     error: err,
                 }) 
+            })
+    }
+}
+
+// Custom
+export const addNewCourseFile = (course, title, url) => {
+    return (dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
+
+        console.log(title)
+
+        firestore
+            .add({collection: 'courseFile'},
+                {
+                    title: title,
+                    url: url
+                }).catch((err)=> {
+                console.log(err)
             })
     }
 }

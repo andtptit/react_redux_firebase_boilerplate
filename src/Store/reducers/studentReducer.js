@@ -43,6 +43,12 @@ const studentReducer = (state= initialState, action) => {
                 upload: action.error
             }
         };
+        case 'FILE_UPLOAD_ERROR': {
+            return{
+                ...state,
+                upload: action.error
+            }
+        };
         default: 
         return state;
     }

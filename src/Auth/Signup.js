@@ -95,7 +95,7 @@ class Signup extends React.Component{
          <Col md="4" className="signup-background">
              <div className="signup-box">
                     <div className="logo-container">
-                        <Logo className="logo"></Logo>
+                        
                     </div>
              </div>
          </Col>

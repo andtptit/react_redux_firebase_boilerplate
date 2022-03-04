@@ -8,6 +8,7 @@ import VideoCard from '../Cards/VideoCard'
 import AddResourcesForm from '../Forms/AddResourceForm'
 import AddVideoForm from '../Forms/AddVideoForm'
 import CustomModal from '../Modal'
+import Axios from 'axios'
 
 
 const dummy = {
@@ -26,22 +27,48 @@ const CourseContainer = ({course, profile}) => {
 
     const [isVideoFormOpen, setIsVideoFormOpen] = useState(false);
     const [isResourcesFormOpen, setIsResourcesFormOpen] = useState(false);
+    const [courseUrl, setCourseUrl] = useState("");
+    const [isCourseOpen, setIsCourseOpen] = useState(false)
+    const [isButtonStarOpen, setIsButtonStarOpen] = useState(false)
 
     const videoFormToggle = () => setIsVideoFormOpen(!isVideoFormOpen);
     const resourceFormToggle = () =>  setIsResourcesFormOpen(!isResourcesFormOpen);
+
+    const fetchComments=async()=>{
+        const response=await Axios('https://firebasestorage.googleapis.com/v0/b/flash-card-kid.appspot.com/o/courseFile%2F300%20t%E1%BB%AB%20v%E1%BB%B1ng%20th%C3%B4ng%20d%E1%BB%A5ng?alt=media&token=3a8e54c2-b199-4b10-956b-2dc195969bbd');
+        setCourseUrl(response)
+    }
+    console.log(courseUrl);
+
+    const handleStartLearn = () => {
+        setIsCourseOpen(true)
+        setIsButtonStarOpen(false)
+    }
 
     return(
         <Col>
         <Row>
             <Col md="4">
                 <h5 className="course-title">Course Title: <span className="c-title">{currentCourse.title || dummy.title}</span></h5>
-                <h5 className="course-title">Branch: <span className="c-title">{currentCourse.branch || dummy.branch}</span></h5>
                 <h5 className="course-title">Course Id: <span className="c-title">{currentCourse.courseId || dummy.courseId}</span></h5>
                 {isStudent ? ''  : <Button onClick={videoFormToggle} className="button navy">Add Video</Button>}
                 {isStudent ? ''  :<Button onClick={resourceFormToggle} className="button mt-2" color="primary">Add Resource</Button>}
+                {isStudent ? ''  : <Button onClick={handleStartLearn} className="button mt-2">Học ngay</Button>}
             </Col>
         </Row>
-        <Row className="mt-3 mb-3">
+        <Row>
+            <Col md="4">
+                {isCourseOpen ? 
+                        <Col md="12">
+                            Đã bắt đầu học
+                        </Col> :
+                        <Col md="12">
+                            Học ngay cùng Kit edu!
+                        </Col>
+                    }
+            </Col>
+        </Row>
+        {/* <Row className="mt-3 mb-3">
             <Col>
                 <div className="mt-2 mb-3">
                     <h4 className="title">Course Videos</h4>
@@ -67,7 +94,7 @@ const CourseContainer = ({course, profile}) => {
                 </div>
                 : <ResourceCard resources={currentCourse.references} course={course}></ResourceCard>}
             </Col>
-        </Row>
+        </Row> */}
             <CustomModal modal={isVideoFormOpen} title="Add New Video" toggle={videoFormToggle}>
                 <AddVideoForm course={course}></AddVideoForm>
             </CustomModal>  

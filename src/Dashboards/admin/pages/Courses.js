@@ -5,16 +5,20 @@ import { compose } from 'redux'
 import {Container, Row, Col, Input, Button} from 'reactstrap'
 import CourseCard from '../../../Components/Cards/CourseCard'
 import CustomModal from '../../../Components/Modal'
-import AddCourseForm from '../../../Components/Forms/AddCourseForm'
+import AddNewCampainForm from '../../../Components/Forms/AddNewCampainForm'
+import AddNewDataCourse from '../../../Components/Forms/AddNewDataCourse'
 
-const Courses = ({branches, profile}) => {
+const Courses = ({course, branches, profile}) => {
  const [branch, setBranch] = useState('All Branches')
 
  const admin = profile.userType === "Admin" ? true : false;
 
  const [isOpen, setIsOpen] = useState(false);
+ const [isDataCourseOpen, setIsDataCourseOpen] = useState(false);
 
  const toggle = () => setIsOpen(!isOpen);
+
+ const toggleDataCourse = () => setIsDataCourseOpen(!isDataCourseOpen);
 
 
  const handleBranch = (e) => {
@@ -29,8 +33,8 @@ const Courses = ({branches, profile}) => {
                 <Col md='2'>
                     <h3 className="branch">Branch: <span>{branch}</span></h3>
                 </Col>
-                <Row md='12' className="m-0">
-                    <Col md='2'>
+
+                    {/* <Col md='2'>
                         <p>Select Branch</p>
                         </Col>
                     <Col md="4">
@@ -40,26 +44,36 @@ const Courses = ({branches, profile}) => {
                             <option key={branch.id} value={branch.name}>{branch.name}</option>
                             ))}           
                         </Input>
+                    </Col> */}
+                    <Col md="4">
+                        {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggle}>Add New Campain</Button> : undefined}
                     </Col>
-                    <Col md="6">
-                         {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggle}>Add New Course</Button> : undefined}
+                    <Col md="4">
+                        {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggleDataCourse}>Add New Data</Button> : undefined}
                     </Col>
-                </Row>
+                
             </Row>
             <CourseCard branch={branch} admin={admin}></CourseCard>
-            <CustomModal title="Add New Course" modal={isOpen} toggle={toggle}>
-                <AddCourseForm></AddCourseForm>
+            <CustomModal title="Add New Campain" modal={isOpen} toggle={toggle}>
+                <AddNewCampainForm course={course}/>
+            </CustomModal>
+            <CustomModal title="Add New Campain" modal={isDataCourseOpen} toggle={toggleDataCourse}>
+                <AddNewDataCourse course={course}/>
             </CustomModal>
     </Container>
  )
 }
 
 const mapStateToProps = (state) => {
+    
+    console.log('courses', state.firestore.ordered.courses);
     return{
         branches: state.firestore.ordered.branches,
-        profile: state.firebase.profile
+        profile: state.firebase.profile,
+        course: state.firestore.ordered.courses
     }   
 }
+
 
 export default compose(connect(mapStateToProps),  firestoreConnect([
     {

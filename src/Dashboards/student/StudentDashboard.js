@@ -19,7 +19,7 @@ const StudentDashboard = ({profile, auth}) => {
                         <Route exact path="/" component={Home}></Route>
                         <Route exact path="/courses" component={Courses}></Route>
                         <Route exact path="/courses/:course" component={Course}></Route>
-                        <Route exact path="/assignments" component={Assignments}></Route>
+                        {/* <Route exact path="/assignments" component={Assignments}></Route> */}
                         <Route exact path="/forum" component={StudentForum}></Route>
                     </Switch>
             <Footer></Footer>

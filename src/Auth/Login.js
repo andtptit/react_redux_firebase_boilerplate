@@ -73,7 +73,7 @@ class Login extends React.Component{
             <Col md="4">
                 <div className="signup-box">
                        <div className="logo-container">
-                           <Logo className="logo"></Logo>
+                           
                        </div>
                 </div>
             </Col>

@@ -10,12 +10,12 @@ import {
 
   const items = [
     {
-      src:'https://i.ibb.co/YTW8Lmd/Fest.png',
-      caption: 'Cultfest 2021'
+      src:'https://firebasestorage.googleapis.com/v0/b/flash-card-kid.appspot.com/o/imageSlider%2Fkit_background_1.png?alt=media&token=2ba97bf0-f1ce-4de3-846a-67dfd67b30f3',
+      caption: 'Kit 2021'
     },
     {
-      src:'https://i.ibb.co/vPGtxFk/hack.png',
-      caption: 'HackTommorrow'
+      src:'https://firebasestorage.googleapis.com/v0/b/flash-card-kid.appspot.com/o/imageSlider%2Fkit_background_2.png?alt=media&token=156cceab-ed30-4817-8279-43410ad5d845',
+      caption: 'Kit 2021'
     },
   ];
   
