@@ -7,8 +7,6 @@ export const addCourse = (course) => {
             const date = new Date();
             const year = date.getFullYear()
 
-            console.log('courseaction', course);
-
             firestore
                 .add({collection: 'courses'},
                     {
@@ -76,9 +74,6 @@ export const addNewVideo = (course, title, url) => {
 export const addNewCourseFile = (course, title, url) => {
     return (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
-
-        console.log(title)
-
         firestore
             .add({collection: 'courseFile'},
                 {
@@ -90,6 +85,28 @@ export const addNewCourseFile = (course, title, url) => {
     }
 }
 
+export const addNewCourse = (courseId, courseName, courseFile) => {
+    console.log(courseFile);
+    return (dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
+        JSON.parse(courseFile).map((result, index) => {
+            firestore
+                .add({collection: courseId},
+                    {
+                        courseName: courseName,
+                        workId: courseId + index,
+                        workTitle: result.workTitle,
+                        meaning: result.meaning,
+                        example: result.example,
+                        meaning_key: result.meaning_key,
+                        voice: result.voice,
+                        image: result.image
+                    }).catch((err)=> {
+                    console.log(err)
+                })
+          })
+    }
+}
 
 
 export const removeVideo = (course, title, url) => {

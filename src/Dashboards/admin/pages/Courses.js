@@ -7,6 +7,7 @@ import CourseCard from '../../../Components/Cards/CourseCard'
 import CustomModal from '../../../Components/Modal'
 import AddNewCampainForm from '../../../Components/Forms/AddNewCampainForm'
 import AddNewDataCourse from '../../../Components/Forms/AddNewDataCourse'
+import AddNewCourse from '../../../Components/Forms/AddNewCourse'
 
 const Courses = ({course, branches, profile}) => {
  const [branch, setBranch] = useState('All Branches')
@@ -15,10 +16,12 @@ const Courses = ({course, branches, profile}) => {
 
  const [isOpen, setIsOpen] = useState(false);
  const [isDataCourseOpen, setIsDataCourseOpen] = useState(false);
+ const [isCourseOpen, setIsCourseOpen] = useState(false);
 
  const toggle = () => setIsOpen(!isOpen);
 
  const toggleDataCourse = () => setIsDataCourseOpen(!isDataCourseOpen);
+ const toggleCourse = () => setIsCourseOpen(!isCourseOpen);
 
 
  const handleBranch = (e) => {
@@ -46,10 +49,13 @@ const Courses = ({course, branches, profile}) => {
                         </Input>
                     </Col> */}
                     <Col md="4">
-                        {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggle}>Add New Campain</Button> : undefined}
+                        {/* {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggle}>Add New Campain</Button> : undefined} */}
                     </Col>
                     <Col md="4">
-                        {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggleDataCourse}>Add New Data</Button> : undefined}
+                        {/* {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggleDataCourse}>Add New Data</Button> : undefined} */}
+                    </Col>
+                    <Col md="4">
+                        {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggleCourse}>Add New Course</Button> : undefined}
                     </Col>
                 
             </Row>
@@ -59,6 +65,9 @@ const Courses = ({course, branches, profile}) => {
             </CustomModal>
             <CustomModal title="Add New Campain" modal={isDataCourseOpen} toggle={toggleDataCourse}>
                 <AddNewDataCourse course={course}/>
+            </CustomModal>
+            <CustomModal title="Add New Course" modal={isCourseOpen} toggle={toggleCourse}>
+                <AddNewCourse course={course}/>
             </CustomModal>
     </Container>
  )

@@ -11,6 +11,8 @@ const TeacherTable = ({teachers, sortedByBranch, branch}) => {
     const branchWise = branch === 'All' ? teachers : sortedByBranch; 
     let teacherData = branchWise;
 
+    console.log(teacherData);
+
     return(
         <React.Fragment>
         <Table responsive bordered className="mt-4 mb-4">

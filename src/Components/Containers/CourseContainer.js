@@ -35,7 +35,7 @@ const CourseContainer = ({course, profile}) => {
     const resourceFormToggle = () =>  setIsResourcesFormOpen(!isResourcesFormOpen);
 
     const fetchComments=async()=>{
-        const response=await Axios('https://firebasestorage.googleapis.com/v0/b/flash-card-kid.appspot.com/o/courseFile%2F300%20t%E1%BB%AB%20v%E1%BB%B1ng%20th%C3%B4ng%20d%E1%BB%A5ng?alt=media&token=3a8e54c2-b199-4b10-956b-2dc195969bbd');
+        const response=await Axios('https://firebasestorage.googleapis.com/v0/b/flash-kid-9364b.appspot.com/o/courseFile%2FList%20300%20t%E1%BB%AB%20v%E1%BB%B1ng%20h%E1%BA%B1ng%20ng%C3%A0y?alt=media&token=a14a4ead-fcd7-4fe4-bb6f-fe971baad83c');
         setCourseUrl(response)
     }
     console.log(courseUrl);
@@ -53,7 +53,7 @@ const CourseContainer = ({course, profile}) => {
                 <h5 className="course-title">Course Id: <span className="c-title">{currentCourse.courseId || dummy.courseId}</span></h5>
                 {isStudent ? ''  : <Button onClick={videoFormToggle} className="button navy">Add Video</Button>}
                 {isStudent ? ''  :<Button onClick={resourceFormToggle} className="button mt-2" color="primary">Add Resource</Button>}
-                {isStudent ? ''  : <Button onClick={handleStartLearn} className="button mt-2">Học ngay</Button>}
+                {!isStudent ? ''  : <Button onClick={fetchComments} className="button mt-2">Học ngay</Button>}
             </Col>
         </Row>
         <Row>
