@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Container,Row, Col, Input, Label, Button, UncontrolledTooltip } from 'reactstrap'
 import {storage} from "../../config/fbConfig"
-import { addNewCourse } from '../../Store/actions/courseActions'
+import { addNewCourse, addNewCourseList } from '../../Store/actions/courseActions'
 import { connect } from 'react-redux'
 
-const AddNewCourse = ({course, addNewCourse}) => {
+const AddNewCourse = ({course, addNewCourse, addNewCourseList}) => {
     const [courseName, setCourseName] = useState('');
     const [courseId, setCourseId] = useState('');
     const [courseFile, setCourseFile] = useState([]);
@@ -26,11 +26,9 @@ const AddNewCourse = ({course, addNewCourse}) => {
         fileReader.readAsText(file)
     };
 
-    console.log('newdata', courseFile);
-
     const handleFileUpload = (courseId, courseName, courseFile) => {
-        console.log('add new course')
         addNewCourse(courseId, courseName, courseFile)
+        addNewCourseList(courseId, courseName)
     }
 
     return(
@@ -66,8 +64,12 @@ const mapDispatchToProps = (dispatch) => {
     return({
         addNewCourse: (courseId, courseName, courseFile) => {
             dispatch(addNewCourse(courseId, courseName, courseFile))
+        },
+        addNewCourseList: (courseId, courseName) => {
+            dispatch(addNewCourseList(courseId, courseName))
         }
     })
 }
+
 
 export default connect(null, mapDispatchToProps)(AddNewCourse);

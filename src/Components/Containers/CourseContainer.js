@@ -21,6 +21,8 @@ const dummy = {
 
 const CourseContainer = ({course, profile}) => {
 
+    console.log('xxx',course);
+
     const currentCourse = course ? course[0] : dummy
     const isStudent = profile.userType === 'Student' ? true :  false;
 
@@ -53,7 +55,7 @@ const CourseContainer = ({course, profile}) => {
                 <h5 className="course-title">Course Id: <span className="c-title">{currentCourse.courseId || dummy.courseId}</span></h5>
                 {isStudent ? ''  : <Button onClick={videoFormToggle} className="button navy">Add Video</Button>}
                 {isStudent ? ''  :<Button onClick={resourceFormToggle} className="button mt-2" color="primary">Add Resource</Button>}
-                {!isStudent ? ''  : <Button onClick={fetchComments} className="button mt-2">Học ngay</Button>}
+                {isStudent ? ''  : <Button onClick={handleStartLearn} className="button mt-2">Học ngay</Button>}
             </Col>
         </Row>
         <Row>

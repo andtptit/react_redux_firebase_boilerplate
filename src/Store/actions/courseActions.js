@@ -108,6 +108,22 @@ export const addNewCourse = (courseId, courseName, courseFile) => {
     }
 }
 
+export const addNewCourseList = (courseId, courseName) => {
+    return (dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
+        firestore
+            .add({collection: 'courses'},
+                {
+                    courseId: courseId,
+                    title: courseName,
+                })
+                .catch((err)=> {
+                    console.log(err)
+                });
+    }
+}
+
+
 
 export const removeVideo = (course, title, url) => {
     return (dispatch, getState, {getFirebase}) => {
