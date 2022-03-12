@@ -13,7 +13,7 @@ import Assignments from './pages/Assignments';
 import Admins from './pages/Admins';
 import Teacher from './pages/Teacher';
 import FlashStores from './pages/FlashStores';
-import FlashStore from './pages/FlashStores';
+import FlashStore from './pages/FlashStore';
 
 
 
@@ -38,7 +38,7 @@ const AdminDashboard = ({auth, authSuccess, profile}) => {
                     <Route exact path="/assignments" component={Assignments}></Route>
                     <Route exact path="/admins" component={Admins}></Route>
                     <Route exact path="/flashstores" component={FlashStores}></Route>
-                    <Route exact path="/flashstores/:flashstore" component={Student}></Route>
+                    <Route exact path="/flashstores/:flashstore" component={FlashStore}></Route>
                     
             </Switch>
             <Footer></Footer>

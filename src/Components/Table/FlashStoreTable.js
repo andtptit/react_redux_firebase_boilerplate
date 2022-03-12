@@ -7,16 +7,11 @@ import { NavLink } from 'react-router-dom'
 import {setStudentSuspended} from '../../Store/actions/studentActions'
 
 
-
-
-
-
-
-const FlashStoreTable = ({students, sortedByBranch, branch, setStudentSuspended}) => {
+const FlashStoreTable = ({students, sortedByBranch, branch, setStudentSuspended, courses}) => {
     const branchWise = branch === 'All' ? students : sortedByBranch; 
     let studentData = branchWise;
 
-    console.log(students);
+    console.log(courses);
 
     const handleSuspend = (student) => {
         setStudentSuspended(student)
@@ -32,15 +27,15 @@ const FlashStoreTable = ({students, sortedByBranch, branch, setStudentSuspended}
             </tr>
         </thead>
         <tbody>
-        {studentData && studentData.map((student)=> (
-            <tr key={student.SRN}>
+        {courses && courses.map((course)=> (
+            <tr key={course.SRN}>
             <td>
-                <NavLink to={`/flashstores/${student.name}`}>
-                    {student.name}
+                <NavLink to={`/flashstores/${course.courseId}`}>
+                    {course.title}
                 </NavLink></td>
-            <td>{student.Branch}</td>
+            <td>{course.courseId}</td>
             <td>
-            <Button outline color='danger' className="suspend-button" onClick={() => handleSuspend(student)}>{student.suspended ? 'Unsuspend':'Suspend'}</Button>
+            <Button outline color='danger' className="suspend-button" onClick={() => handleSuspend(course)}>{course.suspended ? 'Unsuspend':'Suspend'}</Button>
             </td>
             </tr>   
         ))}
@@ -54,8 +49,9 @@ const FlashStoreTable = ({students, sortedByBranch, branch, setStudentSuspended}
 const mapStateToProps = (state) => {
     console.log(state)
     return{
-        students: state.firestore.ordered.users || [],
+        courses: state.firestore.ordered.users || [],
         sortedByBranch: state.firestore.ordered.sortedByBranch || [],
+        courses: state.firestore.ordered.courses || [],
     }   
 }
 
@@ -74,7 +70,7 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect((props) => 
     [ 
     {
-      collection: 'courses',
-      where: [['coursesId', '==', '2020w1']],
+        collection: 'courses',
+        where: [['courseId', '!=', '']],
     },
 ]))(FlashStoreTable);
