@@ -16,24 +16,28 @@ const dummy = {
     'SRN' : 'dsu1200'
 }
 
-const FlashStoreInfo =  ({name}, {student,setStudentSuspended, updateStudentDisplayPic, detailCourse}) => {
+const FlashStoreInfo =  ({name, student,setStudentSuspended, updateStudentDisplayPic, detailCourse}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const currentStudent = student ? student[0] : dummy
 
-    console.log(`${detailCourse}`);
-    console.log(detailCourse);
+    let detail = detailCourse.khoahoc
+    console.log('detail', detail ? detail.length: '' )
+    let total = detail ? detail.length: 0
 
     const toggle = () => setIsOpen(!isOpen);
 
 
     return(
         <>
-            <Col>
-                <Row>
-                    <div>This is FlashStore</div>
-                </Row>
-            </Col>
+            <Row>
+                <Col md="3">
+                    <h3>Có tất cả {total} từ vựng.</h3>
+                </Col>
+                <Col md="6">
+                
+                </Col>
+            </Row>
         </>
     )
 }

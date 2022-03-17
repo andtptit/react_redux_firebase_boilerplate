@@ -19,28 +19,33 @@ const FlashStoreTable = ({students, sortedByBranch, branch, setStudentSuspended,
 
     return(
         <React.Fragment>
-        <Table responsive bordered className="mt-4 mb-4">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Course ID</th>
-            </tr>
-        </thead>
-        <tbody>
-        {courses && courses.map((course)=> (
-            <tr key={course.SRN}>
-            <td>
-                <NavLink to={`/flashstores/${course.courseId}`}>
-                    {course.title}
-                </NavLink></td>
-            <td>{course.courseId}</td>
-            <td>
-            <Button outline color='danger' className="suspend-button" onClick={() => handleSuspend(course)}>{course.suspended ? 'Unsuspend':'Suspend'}</Button>
-            </td>
-            </tr>   
-        ))}
-        </tbody>
-        </Table>
+            <Table responsive bordered className="mt-4 mb-4">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Course ID</th>
+                        <th>Số thành viên đã học</th>
+                        <th>Tổng số từ vựng</th>
+                        <th>Chỉnh sửa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {courses && courses.map((course)=> (
+                    <tr key={course.SRN}>
+                        <td>
+                            <NavLink to={`/flashstores/${course.courseId}`}>
+                                {course.title}
+                            </NavLink></td>
+                        <td>{course.courseId}</td>
+                        <td>15</td>
+                        <td>100</td>
+                        <td>
+                            <Button outline color='danger' className="suspend-button" onClick={() => handleSuspend(course)}>{course.suspended ? 'Viewd':'View'}</Button>
+                        </td>
+                    </tr>   
+                ))}
+                </tbody>
+            </Table>
         </React.Fragment>
     )
 }

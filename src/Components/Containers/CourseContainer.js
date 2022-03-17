@@ -9,6 +9,7 @@ import AddResourcesForm from '../Forms/AddResourceForm'
 import AddVideoForm from '../Forms/AddVideoForm'
 import CustomModal from '../Modal'
 import Axios from 'axios'
+import FlashCard from '../Cards/FlashCard'
 
 
 const dummy = {
@@ -20,8 +21,6 @@ const dummy = {
 
 
 const CourseContainer = ({course, profile}) => {
-
-    console.log('xxx',course);
 
     const currentCourse = course ? course[0] : dummy
     const isStudent = profile.userType === 'Student' ? true :  false;
@@ -59,58 +58,32 @@ const CourseContainer = ({course, profile}) => {
             </Col>
         </Row>
         <Row>
-            <Col md="4">
-                {isCourseOpen ? 
-                        <Col md="12">
-                            Đã bắt đầu học
-                        </Col> :
-                        <Col md="12">
-                            Học ngay cùng Kit edu!
-                        </Col>
+            <Col md="12">
+
+                    {isCourseOpen ?
+                         <FlashCard course={course} profile={profile} />:
+                        <h3>Học ngay cùng KIT EDU!</h3>
                     }
+            
             </Col>
         </Row>
-        {/* <Row className="mt-3 mb-3">
-            <Col>
-                <div className="mt-2 mb-3">
-                    <h4 className="title">Course Videos</h4>
-                </div>
-                {currentCourse.videos ? 
-                <div className="w-100 mb-2 empty-div">
-                    <p className="center-text">No Videos yet!</p>
-                </div>
-                :
-                <VideoCard videos={currentCourse.videos} course={course}></VideoCard>
-                }
-            </Col>
-        </Row>
-        <Row className="mt-3 mb-3">
-            <Col>
-                <div className="mt-2 mb-3">
-                    <h4 className="title">Course Resources</h4>
-                </div>
-                
-                {currentCourse.videos ? 
-                <div className="w-100 mb-2 empty-div">
-                    <p className="center-text">No Course Materials yet!</p>
-                </div>
-                : <ResourceCard resources={currentCourse.references} course={course}></ResourceCard>}
-            </Col>
-        </Row> */}
-            <CustomModal modal={isVideoFormOpen} title="Add New Video" toggle={videoFormToggle}>
-                <AddVideoForm course={course}></AddVideoForm>
-            </CustomModal>  
-            <CustomModal modal={isResourcesFormOpen} title="Add New Resource" toggle={resourceFormToggle}>
-                <AddResourcesForm course={course}></AddResourcesForm>
-            </CustomModal>
+       
+
+        <CustomModal modal={isVideoFormOpen} title="Add New Video" toggle={videoFormToggle}>
+            <AddVideoForm course={course}></AddVideoForm>
+        </CustomModal>  
+        <CustomModal modal={isResourcesFormOpen} title="Add New Resource" toggle={resourceFormToggle}>
+            <AddResourcesForm course={course}></AddResourcesForm>
+        </CustomModal>
+
         </Col>
   )
 }
 
 const mapStateToProps = (state) =>{
     return{
-        profile: state.firebase.profile,
         course: state.firestore.ordered.course,
+        profile: state.firebase.profile.SRN
     }
 }
 

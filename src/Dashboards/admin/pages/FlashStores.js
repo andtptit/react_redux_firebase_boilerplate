@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { firestoreConnect } from 'react-redux-firebase'
-import { Container, Input,Row, Col} from 'reactstrap'
+import { Container, Input,Row, Col, Button} from 'reactstrap'
 import { compose } from 'redux'
 import {connect} from 'react-redux';
-import StudentTable from '../../../Components/Table/StudentTable'
 import FlashStoreTable from '../../../Components/Table/FlashStoreTable';
+import { Redirect, Route, Switch } from 'react-router';
 
 
 
@@ -15,6 +15,11 @@ const FlashStores = ({branches}) => {
         setSelectedBranch(e.target.value)
     }
 
+    const handleEditFlashStore = () =>{ 
+        let path = `/FlashStores/edit`; 
+    }
+
+
 
     return(
         <Container className="mt-4 mb-4">
@@ -22,11 +27,12 @@ const FlashStores = ({branches}) => {
             <Row>
                 <Col md='2'>
                     <h3 className="branch">Branch: <span>{selectedBranch}</span></h3>
+                    <Button onClick={handleEditFlashStore} color="primary">Edit FlashStore</Button>
                 </Col>
                 <Row md='12'>
                     <Col md='5'>
                         <p>Select Branch</p>
-                        </Col>
+                    </Col>
                     <Col md="auto">
                         <Input type="select" className="selector" name="select" id="branch" onChange={handleBranch}>
                             <option value='All' defaultValue>All FlashStores</option>

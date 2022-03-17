@@ -123,6 +123,38 @@ export const addNewCourseList = (courseId, courseName) => {
     }
 }
 
+export const addLearned = (course, dataCourse, profile, datenow)  => {
+    console.log('courseid', course[0], 'datacourse', dataCourse, 'profile', profile, 'day', datenow);
+    console.log('dataCourse', dataCourse)
+    return (dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase();
+        const firestore = getFirebase().firestore();
+
+        firestore
+            .collection(course[0].courseId)
+            .doc(dataCourse.id)
+            .update({
+                learned: 
+                {
+                    ...dataCourse.learned,
+                    [profile]: {
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        time: datenow
+                    }
+                }
+                
+            },
+            {merge: true}
+            )
+            .catch((err)=> {
+                console.log(err)
+                dispatch({
+                    type: 'IMAGE_UPLOAD_ERROR',
+                    error: err,
+                }) 
+            })
+    }
+}
 
 
 export const removeVideo = (course, title, url) => {
