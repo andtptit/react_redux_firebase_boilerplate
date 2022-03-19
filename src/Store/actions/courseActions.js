@@ -24,24 +24,63 @@ export const addCourse = (course) => {
         }
 }
 
+export const removeDataCourse = (course) => {
+    return (dispatch, getState, {getFirebase}) => {
+        const firestore = getFirebase().firestore();
+        firestore
+            .collection("222")
+            .get()
+            .then(querySnapshot => {
+            querySnapshot.docs.map(doc => {
+                firestore
+                .collection("222")
+                .doc(doc.id)
+                .delete()
+            });
+            });
+            // .doc('867U1gkqp5hYB465YEup')
+            // .delete()
+            // .then(() => {
+            //     dispatch({
+            //         type: 'REMOVED_COURSE'
+            //     })
+            // })
+            // .catch((err) => {
+            //     dispatch({
+            //         type: 'REMOVE_TASK_ERR',
+            //         err
+            //     })
+            // })
+    }
+}
+
 export const removeCourse = (course) => {
     return (dispatch, getState, {getFirebase}) => {
         const firestore = getFirebase().firestore();
         firestore
-            .collection('courses')
-            .doc(course.id)
-            .delete()
-            .then(() => {
-                dispatch({
-                    type: 'REMOVED_COURSE'
-                })
-            })
-            .catch((err) => {
-                dispatch({
-                    type: 'REMOVE_TASK_ERR',
-                    err
-                })
-            })
+            .collection(course.courseId)
+            .get()
+            .then(querySnapshot => {
+            querySnapshot.docs.map(doc => {
+                firestore
+                .collection(course.courseId)
+                .doc(doc.id)
+                .delete()
+            });
+            });
+            // .doc('867U1gkqp5hYB465YEup')
+            // .delete()
+            // .then(() => {
+            //     dispatch({
+            //         type: 'REMOVED_COURSE'
+            //     })
+            // })
+            // .catch((err) => {
+            //     dispatch({
+            //         type: 'REMOVE_TASK_ERR',
+            //         err
+            //     })
+            // })
     }
 }
 
@@ -100,7 +139,8 @@ export const addNewCourse = (courseId, courseName, courseFile) => {
                         example: result.example,
                         meaning_key: result.meaning_key,
                         voice: result.voice,
-                        image: result.image
+                        image: result.image,
+                        learned: {}
                     }).catch((err)=> {
                     console.log(err)
                 })
@@ -108,7 +148,7 @@ export const addNewCourse = (courseId, courseName, courseFile) => {
     }
 }
 
-export const addNewCourseList = (courseId, courseName) => {
+export const addNewCourseList = (courseId, courseName, courseLength) => {
     return (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
         firestore
@@ -116,6 +156,8 @@ export const addNewCourseList = (courseId, courseName) => {
                 {
                     courseId: courseId,
                     title: courseName,
+                    courseLength: courseLength,
+                    studentLearned: 0
                 })
                 .catch((err)=> {
                     console.log(err)

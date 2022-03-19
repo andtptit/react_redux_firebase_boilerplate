@@ -8,6 +8,7 @@ const AddNewCourse = ({course, addNewCourse, addNewCourseList}) => {
     const [courseName, setCourseName] = useState('');
     const [courseId, setCourseId] = useState('');
     const [courseFile, setCourseFile] = useState([]);
+    const [courseLength, setCourseLength] = useState(0);
 
     const handleFile = (e) => {
         setCourseFile(e.target.files[0])
@@ -18,17 +19,17 @@ const AddNewCourse = ({course, addNewCourse, addNewCourseList}) => {
         var content = fileReader.result;
         content = content.split()
         setCourseFile(content)
-    };
-
+        setCourseLength(JSON.parse(content).length)
+    }
     const handleFileChosen = (file) => {
         fileReader = new FileReader();
         fileReader.onloadend = handleFileRead;
         fileReader.readAsText(file)
     };
 
-    const handleFileUpload = (courseId, courseName, courseFile) => {
+    const handleFileUpload = (courseId, courseName, courseFile, courseLength) => {
         addNewCourse(courseId, courseName, courseFile)
-        addNewCourseList(courseId, courseName)
+        addNewCourseList(courseId, courseName, courseLength)
     }
 
     return(
@@ -54,7 +55,7 @@ const AddNewCourse = ({course, addNewCourse, addNewCourseList}) => {
                     </UncontrolledTooltip> */}
                 </Col>
             </Row>
-            <Button color="primary" className="mt-3 mb-3" onClick={() => {handleFileUpload(courseId, courseName, courseFile)}}>Add Data</Button>
+            <Button color="primary" className="mt-3 mb-3" onClick={() => {handleFileUpload(courseId, courseName, courseFile, courseLength)}}>Add Data</Button>
         </Container>
     )
 }
@@ -65,8 +66,8 @@ const mapDispatchToProps = (dispatch) => {
         addNewCourse: (courseId, courseName, courseFile) => {
             dispatch(addNewCourse(courseId, courseName, courseFile))
         },
-        addNewCourseList: (courseId, courseName) => {
-            dispatch(addNewCourseList(courseId, courseName))
+        addNewCourseList: (courseId, courseName, courseLength) => {
+            dispatch(addNewCourseList(courseId, courseName, courseLength))
         }
     })
 }

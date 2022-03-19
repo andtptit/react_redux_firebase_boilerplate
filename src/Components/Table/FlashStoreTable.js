@@ -3,19 +3,10 @@ import { firestoreConnect } from 'react-redux-firebase'
 import {connect} from 'react-redux'
 import { compose } from 'redux'
 import {Button, Form, Input, Table} from 'reactstrap'
-import { NavLink } from 'react-router-dom'
-import {setStudentSuspended} from '../../Store/actions/studentActions'
 
 
-const FlashStoreTable = ({students, sortedByBranch, branch, setStudentSuspended, courses}) => {
-    const branchWise = branch === 'All' ? students : sortedByBranch; 
-    let studentData = branchWise;
-
+const FlashStoreTable = ({students, branch, courses}) => {
     console.log(courses);
-
-    const handleSuspend = (student) => {
-        setStudentSuspended(student)
-    }
 
     return(
         <React.Fragment>
@@ -32,15 +23,12 @@ const FlashStoreTable = ({students, sortedByBranch, branch, setStudentSuspended,
                 <tbody>
                 {courses && courses.map((course)=> (
                     <tr key={course.SRN}>
-                        <td>
-                            <NavLink to={`/flashstores/${course.courseId}`}>
-                                {course.title}
-                            </NavLink></td>
+                        <td>{course.title}</td>
                         <td>{course.courseId}</td>
                         <td>15</td>
                         <td>100</td>
                         <td>
-                            <Button outline color='danger' className="suspend-button" onClick={() => handleSuspend(course)}>{course.suspended ? 'Viewd':'View'}</Button>
+                            <Button outline color='primary' className="suspend-button">View</Button>
                         </td>
                     </tr>   
                 ))}
@@ -51,31 +39,32 @@ const FlashStoreTable = ({students, sortedByBranch, branch, setStudentSuspended,
 }
 
 
-const mapStateToProps = (state) => {
-    console.log(state)
+const mapStateToProps = (state, props) => {
+    console.log('state', state)
     return{
-        courses: state.firestore.ordered.users || [],
         sortedByBranch: state.firestore.ordered.sortedByBranch || [],
         courses: state.firestore.ordered.courses || [],
+        dataCourse: state.firestore.ordered.dataCourse || [],
     }   
 }
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        setStudentSuspended: (student) => {
-            dispatch(setStudentSuspended(student))
-        }
+        
     })
 }
 
 
+export default compose(firestoreConnect((props) => {
+    
+    console.log('-------',JSON.stringify(props.courses))
+    return ([
+        {
+        collection: props.courses ? `${props.courses[0].courseId}` : 'khoahoc',
+        where: [['image', '!=', '']],
+        storeAs: props.courses ? 'dataCourse' + `${props.courses[0].courseId}` : 'dataCourse'
+    }
+    ])
 
-
-
-export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect((props) => 
-    [ 
-    {
-        collection: 'courses',
-        where: [['courseId', '!=', '']],
-    },
-]))(FlashStoreTable);
+}), connect(mapStateToProps, mapDispatchToProps),
+)(FlashStoreTable);

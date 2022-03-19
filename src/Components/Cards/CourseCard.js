@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import CustomModal from '../../Components/Modal'
-import { removeCourse } from '../../Store/actions/courseActions'
+import { removeCourse, removeDataCourse } from '../../Store/actions/courseActions'
 import { NavLink } from 'react-router-dom'
 
 
@@ -14,6 +14,7 @@ const CourseCard = ({courses, branch, sortedByBranch, removeCourse, admin}) => {
     
     const handleCourseRemoval = (course) => {
         removeCourse(course)
+        // removeDataCourse(course)
         setIsOpen(false)
     }
 

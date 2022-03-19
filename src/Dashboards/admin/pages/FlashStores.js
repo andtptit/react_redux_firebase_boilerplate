@@ -4,11 +4,11 @@ import { Container, Input,Row, Col, Button} from 'reactstrap'
 import { compose } from 'redux'
 import {connect} from 'react-redux';
 import FlashStoreTable from '../../../Components/Table/FlashStoreTable';
-import { Redirect, Route, Switch } from 'react-router';
+import { NavLink } from 'react-router-dom'
 
 
 
-const FlashStores = ({branches}) => {
+const FlashStores = ({courses, branches}) => {
     const [selectedBranch, setSelectedBranch] = useState('All');
 
     const handleBranch = (e) => {
@@ -16,7 +16,7 @@ const FlashStores = ({branches}) => {
     }
 
     const handleEditFlashStore = () =>{ 
-        let path = `/FlashStores/edit`; 
+
     }
 
 
@@ -27,7 +27,9 @@ const FlashStores = ({branches}) => {
             <Row>
                 <Col md='2'>
                     <h3 className="branch">Branch: <span>{selectedBranch}</span></h3>
-                    <Button onClick={handleEditFlashStore} color="primary">Edit FlashStore</Button>
+                    <NavLink to='/flashstores/edit'>
+                        <Button type='submit' color="primary">Edit FlashStore</Button>
+                    </NavLink>
                 </Col>
                 <Row md='12'>
                     <Col md='5'>
@@ -43,7 +45,7 @@ const FlashStores = ({branches}) => {
                     </Col>
                 </Row>
             </Row>
-            <FlashStoreTable branch={selectedBranch}></FlashStoreTable>
+            <FlashStoreTable courses={courses}></FlashStoreTable>
         </Container>        
     )
 }
@@ -52,6 +54,7 @@ const FlashStores = ({branches}) => {
 
 const mapStateToProps = (state) => {
     return{
+        courses: state.firestore.ordered.courses,
         branches: state.firestore.ordered.branches,
     }   
 }
@@ -59,7 +62,11 @@ const mapStateToProps = (state) => {
 
 export default compose(connect(mapStateToProps), firestoreConnect([
     {
-        collection: 'branches'
+        collection: 'branches',
+    },
+    {
+        collection: 'courses',
+        storeAs: 'courses'
     },   
 ]))(FlashStores);
 
