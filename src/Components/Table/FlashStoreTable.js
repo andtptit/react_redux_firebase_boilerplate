@@ -25,8 +25,8 @@ const FlashStoreTable = ({students, branch, courses}) => {
                     <tr key={course.SRN}>
                         <td>{course.title}</td>
                         <td>{course.courseId}</td>
-                        <td>15</td>
-                        <td>100</td>
+                        <td>{course.studentLearned}</td>
+                        <td>{course.courseLength}</td>
                         <td>
                             <Button outline color='primary' className="suspend-button">View</Button>
                         </td>
@@ -39,8 +39,7 @@ const FlashStoreTable = ({students, branch, courses}) => {
 }
 
 
-const mapStateToProps = (state, props) => {
-    console.log('state', state)
+const mapStateToProps = (state) => {
     return{
         sortedByBranch: state.firestore.ordered.sortedByBranch || [],
         courses: state.firestore.ordered.courses || [],
@@ -48,23 +47,16 @@ const mapStateToProps = (state, props) => {
     }   
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return({
-        
-    })
-}
 
 
 export default compose(firestoreConnect((props) => {
-    
-    console.log('-------',JSON.stringify(props.courses))
     return ([
         {
         collection: props.courses ? `${props.courses[0].courseId}` : 'khoahoc',
         where: [['image', '!=', '']],
-        storeAs: props.courses ? 'dataCourse' + `${props.courses[0].courseId}` : 'dataCourse'
+        storeAs: props.courses
     }
     ])
 
-}), connect(mapStateToProps, mapDispatchToProps),
+}), connect(mapStateToProps),
 )(FlashStoreTable);

@@ -9,12 +9,12 @@ import { NavLink } from 'react-router-dom'
 
 
 
-const CourseCard = ({courses, branch, sortedByBranch, removeCourse, admin}) => {
+const CourseCard = ({courses, branch, sortedByBranch, removeCourse, removeDataCourse, admin}) => {
     const [isOpen, setIsOpen] = useState(false)
     
     const handleCourseRemoval = (course) => {
         removeCourse(course)
-        // removeDataCourse(course)
+        removeDataCourse(course)
         setIsOpen(false)
     }
 
@@ -70,6 +70,9 @@ const mapDispatchToProps = (dispatch) => {
     return({
         removeCourse: (course) => {
             dispatch(removeCourse(course))
+        },
+        removeDataCourse: (course) => {
+            dispatch(removeDataCourse(course))
         }
     })
 }

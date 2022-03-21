@@ -11,6 +11,7 @@ import CustomModal from '../Modal'
 import FlashCard from '../Cards/FlashCard'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { updateStudentLearnedCount } from '../../Store/actions/courseActions'
 
 const dummy = {
     title: 'Test Course',
@@ -20,7 +21,7 @@ const dummy = {
 }
 
 
-const CourseContainer = ({course, profile, dataCourse}) => {
+const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount}) => {
 
     const currentCourse = course ? course[0] : dummy
     const isStudent = profile.userType === 'Student' ? true :  false;
@@ -37,6 +38,11 @@ const CourseContainer = ({course, profile, dataCourse}) => {
     const resourceFormToggle = () =>  setIsResourcesFormOpen(!isResourcesFormOpen);
 
     const handleStartLearn = () => {
+        setIsCourseOpen(true)
+        updateStudentLearnedCount(course)
+    }
+
+    const handleContinueLearn = () => {
         setIsCourseOpen(true)
     }
 
@@ -74,7 +80,9 @@ const CourseContainer = ({course, profile, dataCourse}) => {
                     {/* {isStudent ? ''  : <Button onClick={videoFormToggle} className="button navy">Add Video</Button>}
                     {isStudent ? ''  :<Button onClick={resourceFormToggle} className="button mt-2" color="primary">Add Resource</Button>} */}
                     {isStudent ? ''  :<Button onClick={handleStartLearn} className="button mt-2" color="primary">Show Detail</Button>}
-                    {isAdmin ? ''  : <Button onClick={handleStartLearn} className="button mt-2">Học ngay</Button>}
+                    {isStudent && objDataCourseRemind.length ? <Button onClick={handleContinueLearn} className="button mt-2">Tiếp tục học</Button> :
+                        <Button onClick={handleStartLearn} className="button mt-2">Bắt đầu ngay</Button>
+                    }
                 </Col>
                 <Col md='8'>
                     <Col md="6" style={{margin:'auto', maxWidth: '40%'}}>
@@ -98,9 +106,10 @@ const CourseContainer = ({course, profile, dataCourse}) => {
             <Row>
                 <Col md="12">
                     {isCourseOpen && isStudent?
-                            <FlashCard course={course} profile={profile} />:
+                            <FlashCard course={course} objDataCourseNew={objDataCourseNew} objDataCourseRemind={objDataCourseRemind} profile={profile} />:
                         <h3>Học ngay cùng KIT EDU!</h3>
                     }
+                    { objDataCourseRemind.length ? <h4>Đã học xong</h4> : <h4>Chưa học xong</h4> }
                     {isCourseOpen && isAdmin?
                     <>
                         <h3>Thống kê số lượng kiến thức đã học theo từng user</h3>
@@ -130,8 +139,15 @@ const mapStateToProps = (state) =>{
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return{
+        updateStudentLearnedCount: (course) => {
+            dispatch(updateStudentLearnedCount(course))
+        }
+    }
+}
 
-export default compose(connect(mapStateToProps), firestoreConnect(
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect(
     (props) => [
         {
             collection: 'courses',

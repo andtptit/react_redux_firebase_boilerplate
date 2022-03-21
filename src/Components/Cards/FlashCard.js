@@ -11,7 +11,7 @@ import FlashCardDetail from '../../Dashboards/student/pages/FlashCardDetail'
 
 
 
-const FlashCard = ({course, dataCourse, addLearned, profile}) => {
+const FlashCard = ({course, dataCourse, addLearned, profile, objDataCourseRemind, objDataCourseNew}) => {
     const [isOpen, setIsOpen] = useState(false)
     const [dataFlash, setDataFlash] = useState({})
     
@@ -21,23 +21,22 @@ const FlashCard = ({course, dataCourse, addLearned, profile}) => {
     }
     const profileX = profile.SRN
 
-    console.log('dataCourse', dataCourse)
-
     useEffect(() => {
         console.log('set dataflash 1')
-        setDataFlash(dataCourse ? dataCourse[Math.floor(Math.random() * dataCourse.length)] : undefined)
-    }, [dataCourse != null])
-
+        setDataFlash(objDataCourseNew ? objDataCourseNew[Math.floor(Math.random() * objDataCourseNew.length)] : undefined)
+    }, [objDataCourseNew != null, objDataCourseNew])
 
     let datenow = Date.now()
 
     const handleLearn = () => {
         addLearned(course, dataFlash, profileX, datenow)
         console.log('set dataflash 2')
-        setDataFlash(dataCourse ? dataCourse[Math.floor(Math.random() * dataCourse.length)] : undefined)
+        // setDataFlash(objDataCourseNew ? objDataCourseNew[Math.floor(Math.random() * objDataCourseNew.length)] : undefined)
     }
     
     const cardImage = "https://firebasestorage.googleapis.com/v0/b/flash-kid-9364b.appspot.com/o/frames%2Fsunday.png?alt=media&token=fae0c35d-951f-49e8-9ce8-376b72fbc64a"
+
+    console.log('flash', dataFlash && dataFlash.voice)
 
     return(
         <React.Fragment>

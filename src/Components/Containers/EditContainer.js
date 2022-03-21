@@ -10,7 +10,7 @@ import ResultSearchContainer from './ResultSearchContainer'
 
 const EditContainer = ({listcourse}) => {
 
-    const { inputs, handleInputChange} = useForm({SearchData: '', CourseSelect: ''})
+    const { inputs, handleInputChange} = useForm({SearchData: '', CourseSelect: 'all'})
     console.log(inputs);
 
     const [isResultSearchOpen, setIsResultSearchOpen] = useState(false)
@@ -29,14 +29,14 @@ const EditContainer = ({listcourse}) => {
                         <Col>
                             <Row className="mt-2">
                                 <Label htmlFor="SearchData">Work Title or Work Id</Label>
-                                <Input type="text"  id="SearchData" onChange={handleInputChange}></Input>
+                                <Input type="text"  id="SearchData" value={inputs.SearchData} onChange={handleInputChange}></Input>
                             </Row>
                         </Col>
                         <Col>
                             <Row className="mt-2">
                                 <Label htmlFor="CourseSelect">Select Course</Label>
-                                <Input type="select" className="selector" name="select" id="CourseSelect" onChange={handleInputChange}>
-                                    <option defaultValue='All' value='All'>All Course</option>
+                                <Input type="select" className="selector" name="select" id="CourseSelect" value={inputs.CourseSelect} onChange={handleInputChange}>
+                                    <option defaultValue='all' value='all'>All Course</option>
                                     {listcourse && listcourse.map((courseX, index) => (
                                         <option key={index} value={courseX.courseId}>{courseX.title}</option>
                                     ))}

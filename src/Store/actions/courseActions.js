@@ -25,32 +25,81 @@ export const addCourse = (course) => {
 }
 
 export const removeDataCourse = (course) => {
+    console.log('course', course)
     return (dispatch, getState, {getFirebase}) => {
         const firestore = getFirebase().firestore();
         firestore
-            .collection("222")
-            .get()
-            .then(querySnapshot => {
-            querySnapshot.docs.map(doc => {
-                firestore
-                .collection("222")
-                .doc(doc.id)
-                .delete()
-            });
-            });
-            // .doc('867U1gkqp5hYB465YEup')
-            // .delete()
-            // .then(() => {
-            //     dispatch({
-            //         type: 'REMOVED_COURSE'
-            //     })
-            // })
-            // .catch((err) => {
-            //     dispatch({
-            //         type: 'REMOVE_TASK_ERR',
-            //         err
-            //     })
-            // })
+            .collection('courses')
+            .doc(`${course.id}`)
+            .delete()
+            .then(() => {
+                dispatch({
+                    type: 'REMOVED_COURSE'
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: 'REMOVE_TASK_ERR',
+                    err
+                })
+            })
+    }
+}
+
+
+export const updateDataCourse = (currentData, datasearch) => {
+    console.log('khoahoc', currentData)
+    console.log('datasearch', datasearch)
+    return (dispatch, getState, {getFirebase}) => {
+        const firestore = getFirebase().firestore();
+
+        firestore
+            .collection(datasearch.CourseSelect)
+            .doc(`${currentData.id}`)
+            .update({
+                workTitle: currentData.workTitle,
+                meaning: currentData.meaning,
+                example: [currentData.example],
+                meaning_key: currentData.meaning_key,
+                voice: currentData.voice,
+                image: currentData.image,
+            },
+            {merge: true}
+            )
+            .then(() => {
+                dispatch({
+                    type: 'IMAGE_UPLOADED',
+                    success: 'Image Uploaded SuccessFully',
+                });
+            })
+            .catch((err)=> {
+                dispatch({
+                    type: 'IMAGE_UPLOAD_ERROR',
+                    error: err,
+                }) 
+            })
+    }
+}
+
+export const updateStudentLearnedCount = (course) => {
+    console.log(course[0].id)
+
+    return (dispatch, getState, {getFirebase}) => {
+        const firestore = getFirebase().firestore();
+
+        firestore
+            .collection('courses')
+            .doc(`${course[0].id}`)
+            .update({
+                studentLearned: course[0].studentLearned + 1
+            },
+            {merge: true}
+            )
+            .then(() => {
+            })
+            .catch((err)=> {
+                console.log(err)
+            })
     }
 }
 
@@ -67,20 +116,7 @@ export const removeCourse = (course) => {
                 .doc(doc.id)
                 .delete()
             });
-            });
-            // .doc('867U1gkqp5hYB465YEup')
-            // .delete()
-            // .then(() => {
-            //     dispatch({
-            //         type: 'REMOVED_COURSE'
-            //     })
-            // })
-            // .catch((err) => {
-            //     dispatch({
-            //         type: 'REMOVE_TASK_ERR',
-            //         err
-            //     })
-            // })
+        });
     }
 }
 
@@ -166,7 +202,7 @@ export const addNewCourseList = (courseId, courseName, courseLength) => {
 }
 
 export const addLearned = (course, dataCourse, profile, datenow)  => {
-    console.log('courseid', course[0], 'datacourse', dataCourse, 'profile', profile, 'day', datenow);
+    console.log('courseid', course, 'datacourse', dataCourse, 'profile', profile, 'day', datenow);
     console.log('dataCourse', dataCourse)
     return (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase();
