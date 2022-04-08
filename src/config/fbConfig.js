@@ -7,13 +7,13 @@ import 'firebase/storage';
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBg5frCnKGq967fABvze8sfZk7hEQcg-vQ",
-    authDomain: "flash-kid-9364b.firebaseapp.com",
-    projectId: "flash-kid-9364b",
-    storageBucket: "flash-kid-9364b.appspot.com",
-    messagingSenderId: "933367001873",
-    appId: "1:933367001873:web:96c57de2fca164c54ad2b0",
-    measurementId: "G-9GQ85NHMYE"
+    apiKey: "AIzaSyCMzKpyUePLbvU5BA3b4PUvNABIefMCXiE",
+    authDomain: "tuvungtienghanthaytu-2f56b.firebaseapp.com",
+    projectId: "tuvungtienghanthaytu-2f56b",
+    storageBucket: "tuvungtienghanthaytu-2f56b.appspot.com",
+    messagingSenderId: "897134720210",
+    appId: "1:897134720210:web:30131fe68b81576203a90b",
+    measurementId: "G-H8VM58Z48W"
 }
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

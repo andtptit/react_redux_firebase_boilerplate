@@ -22,7 +22,7 @@ const FlashStoreTable = ({students, branch, courses}) => {
                 </thead>
                 <tbody>
                 {courses && courses.map((course)=> (
-                    <tr key={course.SRN}>
+                    <tr key={course.id}>
                         <td>{course.title}</td>
                         <td>{course.courseId}</td>
                         <td>{course.studentLearned}</td>
@@ -41,18 +41,18 @@ const FlashStoreTable = ({students, branch, courses}) => {
 
 const mapStateToProps = (state) => {
     return{
-        sortedByBranch: state.firestore.ordered.sortedByBranch || [],
-        courses: state.firestore.ordered.courses || [],
-        dataCourse: state.firestore.ordered.dataCourse || [],
+        sortedByBranch: state.firestore.ordered.sortedByBranch,
+        courses: state.firestore.ordered.courses,
+        dataCourse: state.firestore.ordered.dataCourse,
     }   
 }
 
 
-
 export default compose(firestoreConnect((props) => {
+    console.log('props', props.courses)
     return ([
         {
-        collection: props.courses ? `${props.courses[0].courseId}` : 'khoahoc',
+        collection: props.courses == [] ? `${props.courses[0].courseId}` : 'khoahoc',
         where: [['image', '!=', '']],
         storeAs: props.courses
     }

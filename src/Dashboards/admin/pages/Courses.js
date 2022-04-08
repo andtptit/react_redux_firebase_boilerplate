@@ -33,7 +33,7 @@ const Courses = ({course, branches, profile}) => {
     <Container className="mt-4 mb-4">
      <h1 className="table-title mt-3 mb-3">Courses</h1>
             <Row className="mt-4 mb-4">
-                <Col md='2'>
+                <Col md='4'>
                     <h3 className="branch">Branch: <span>{branch}</span></h3>
                 </Col>
 

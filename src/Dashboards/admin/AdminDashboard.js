@@ -31,12 +31,12 @@ const AdminDashboard = ({auth, authSuccess, profile}) => {
             <Switch>
                     <Route exact path="/" component={Overview}></Route>
                     <Route exact path="/students" component={Students}></Route>
-                    <Route exact path="/teachers" component={Teachers}></Route>
+                    {/* <Route exact path="/teachers" component={Teachers}></Route> */}
                     <Route exact path="/students/:student" component={Student}></Route>
-                    <Route exact path="/teachers/:teacher" component={Teacher}></Route>
+                    {/* <Route exact path="/teachers/:teacher" component={Teacher}></Route> */}
                     <Route exact path="/courses" component={Courses}></Route>
                     <Route exact path="/courses/:course" component={Course}></Route>
-                    <Route exact path="/assignments" component={Assignments}></Route>
+                    {/* <Route exact path="/assignments" component={Assignments}></Route> */}
                     <Route exact path="/admins" component={Admins}></Route>
                     <Route exact path="/flashstores" component={FlashStores}></Route>
                     <Route exact path="/flashstores/edit" component={EditFlashStore}></Route>

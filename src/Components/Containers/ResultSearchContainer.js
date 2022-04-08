@@ -8,8 +8,8 @@ import { updateDataCourse } from '../../Store/actions/courseActions'
 
 
 const dummy = {
-    "workId": "Not Found",
-    "workTitle": "Not Found",
+    "wordId": "Not Found",
+    "wordTitle": "Not Found",
     "meaning": "Not Found",
     "example": ["Not Found "],
     "image": "Not Found",
@@ -42,9 +42,9 @@ const ResultSearchContainer = ({dataSearch, courseSelectData, updateDataCourse})
     },[currentKhoahoc, dataSearch])
 
 
-    const handleInputChangeWorkTitle = (text) => {
+    const handleInputChangeWordTitle = (text) => {
         setCurrentData((prev) => {
-            return {...prev,'workTitle': text}
+            return {...prev,'wordTitle': text}
         })
     }
     console.log('currentData', currentData)
@@ -87,13 +87,13 @@ const ResultSearchContainer = ({dataSearch, courseSelectData, updateDataCourse})
                 <Form>
                     <Col>
                         <Row className="mt-2">
-                            <Label htmlFor="currentWorkId">Work ID: <strong>{currentData.workId}</strong></Label>
+                            <Label htmlFor="currentWordId">Work ID: <strong>{currentData.wordId}</strong></Label>
                         </Row>
                     </Col>
                     <Col>
                         <Row className="mt-2">
-                            <Label htmlFor="currentWorkTitle">Work Title</Label>
-                            <Input type="text"  id="currentWorkTitle" onChange={(e) => handleInputChangeWorkTitle(e.target.value)} value={currentData.workTitle}></Input>
+                            <Label htmlFor="currentWordTitle">Work Title</Label>
+                            <Input type="text"  id="currentWordTitle" onChange={(e) => handleInputChangeWordTitle(e.target.value)} value={currentData.wordTitle}></Input>
                         </Row>
                     </Col>
                     <Col>
@@ -130,7 +130,7 @@ const ResultSearchContainer = ({dataSearch, courseSelectData, updateDataCourse})
                         </Button>
                     </Col>
                 </Form>
-                </Col>
+            </Col>
         </Row>
         
   )
@@ -156,12 +156,12 @@ export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreCo
     ({dataSearch}) => [
         {
             collection: `${dataSearch.CourseSelect}`,
-            where: ['workId', '==', `${dataSearch.SearchData}`],
+            where: ['wordId', '==', `${dataSearch.SearchData}`],
             storeAs: 'courseSelectData'
         },
         {
             collection: `${dataSearch.CourseSelect}`,
-            where: ['workTitle', '==', `${dataSearch.SearchData}`],
+            where: ['wordTitle', '==', `${dataSearch.SearchData}`],
             storeAs: 'courseSelectData'
         }
     ]    

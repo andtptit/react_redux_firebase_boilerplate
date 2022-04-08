@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
-import { Button, Col, Container, Row, Progress } from 'reactstrap'
+import {Card, CardBody, CardImg, Row, Col, CardSubtitle, Container, CardHeader, Button, Progress, CardText} from 'reactstrap'
 import { compose } from 'redux'
 import ResourceCard from '../Cards/ResourceCard'
 import VideoCard from '../Cards/VideoCard'
@@ -71,36 +71,39 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
 
     return(
         <Col>
-            <Row>
-                <Col md="4">
-                    <h5 className="course-title">Course Title: <span className="c-title">{currentCourse.title || dummy.title}</span></h5>
-                    <h5 className="course-title">Course Id: <span className="c-title">{currentCourse.courseId || dummy.courseId}</span></h5>
-                    <h5 className="course-title">Tống số từ vựng: <span className="c-title">{dataCourse ? dataCourse.length : '0'}</span></h5>
-                    {isStudent ? <h5 className="course-title">Tổng số từ bạn đã học: <span className="c-title">{objDataCourseRemind ? objDataCourseRemind.length : '0'}</span></h5> : ''}
-                    {/* {isStudent ? ''  : <Button onClick={videoFormToggle} className="button navy">Add Video</Button>}
-                    {isStudent ? ''  :<Button onClick={resourceFormToggle} className="button mt-2" color="primary">Add Resource</Button>} */}
-                    {isStudent ? ''  :<Button onClick={handleStartLearn} className="button mt-2" color="primary">Show Detail</Button>}
-                    {isStudent && objDataCourseRemind.length ? <Button onClick={handleContinueLearn} className="button mt-2">Tiếp tục học</Button> :
-                        <Button onClick={handleStartLearn} className="button mt-2">Bắt đầu ngay</Button>
-                    }
+            <Row md="12">
+                <Col md='6' >
+                    <Card style={{minHeight: '250px'}} className="course-card" body outline color="info">
+                    <CardHeader className="course-t">Name: <strong>{currentCourse.title || dummy.title}</strong></CardHeader>
+                    {/* {!isCourseOpen && <CardImg top width="100%" src="https://firebasestorage.googleapis.com/v0/b/flash-kid-9364b.appspot.com/o/images%2Fkit_background_3.png?alt=media&token=82bba651-74e1-47e1-9546-4cdf288684f1" alt="Card image cap" />} */}
+                        <CardBody>
+                            {/* <CardText className="mb-2 subtitle">ID khóa học: <strong>{currentCourse.courseId || dummy.courseId}</strong></CardText>  */}
+                            <CardText className="mb-2 subtitle">Số lượng từ vựng: {dataCourse ? dataCourse.length : '0'}</CardText>
+                            <CardText className="mb-2 subtitle">Số lượng từ bạn đã học: {objDataCourseRemind ? objDataCourseRemind.length : '0'}</CardText>
+                            <CardText className="mb-2 subtitle">Mô tả: Khóa học dành cho người mới bắt đầu...</CardText>
+                            <Col style={{paddingLeft: '0'}} md="6">
+                            {isStudent ? ''  :<Button onClick={handleStartLearn} className="button mt-2" color="primary">Show Detail</Button>}
+                            {isStudent && objDataCourseRemind.length && !isCourseOpen ? <Button size="lg" onClick={handleContinueLearn} className="button mt-2">Tiếp tục học</Button> : ''}
+                            {isStudent && !objDataCourseRemind.length && !isCourseOpen ? <Button size="lg" onClick={handleStartLearn} className="button mt-2">Bắt đầu ngay</Button> : ''}
+
+                            </Col>
+                        </CardBody>
+                    </Card> 
+                    <CustomModal itle="Remove Course">
+                        <Container>
+                            <h4>Are you sure?</h4>
+                            <Button color="danger" className="card-button w-25" >Yes</Button>
+                            <Button color="primary" className="card-button w-25 ml-2 mr-2" >No</Button>
+                        </Container>
+                    </CustomModal>
                 </Col>
-                <Col md='8'>
-                    <Col md="6" style={{margin:'auto', maxWidth: '40%'}}>
-                        {/* <CircularProgressbar
-                            value={percentage}
-                            text={`${percentage}%`}
-                            background
-                            backgroundPadding={6}
-                            styles={buildStyles({
-                            backgroundColor: "#3e98c7",
-                            textColor: "#fff",
-                            pathColor: "#fff",
-                            trailColor: "transparent"
-                            })}
-                        /> */}
-                        {isStudent ? <h4 className="course-title">Tiến độ: <span className="c-title">{percent.toFixed(2)}%</span></h4> : ''}
-                        
-                    </Col>
+                <Col md='6' >
+                    <Card className="course-card" body outline color="info">
+                    {/* <CardHeader className="course-t">Name: <strong>{currentCourse.title || dummy.title}</strong></CardHeader> */}
+                    <CardImg top width="100%" src="https://firebasestorage.googleapis.com/v0/b/flash-kid-9364b.appspot.com/o/images%2Fkit_background_3.png?alt=media&token=82bba651-74e1-47e1-9546-4cdf288684f1" alt="Card image cap" />
+                    <Progress className='mt-2' value={percent.toFixed(2)} />
+                    <div className="text-center">Tiến độ {percent.toFixed(2)}%</div>
+                    </Card> 
                 </Col>
             </Row>
             <Row>

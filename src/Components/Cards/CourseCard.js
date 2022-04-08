@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {Card, CardBody, CardTitle, Button, Row, Col, CardSubtitle, Container} from 'reactstrap'
+import {Card, CardBody, CardImg, Button, Row, Col, CardSubtitle, Container, CardHeader} from 'reactstrap'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -18,7 +18,6 @@ const CourseCard = ({courses, branch, sortedByBranch, removeCourse, removeDataCo
         setIsOpen(false)
     }
 
-
     const toggle = () => setIsOpen(!isOpen)
 
     const sortedCourses =  branch === "All Branches" ? courses : sortedByBranch;
@@ -27,16 +26,15 @@ const CourseCard = ({courses, branch, sortedByBranch, removeCourse, removeDataCo
         <React.Fragment>
         <Row md="12">
             {sortedCourses && sortedCourses.map((c) =>
-                    <Col md='6' key={c.id}>
-                        <Card className="course-card">
+                    <Col md='4' key={c.id}>
+                        <Card className="course-card" body outline color="info">
+                        <CardHeader className="course-t">Tên Khóa Học: <strong>{c.title}</strong></CardHeader>
                             <CardBody>
-                                <CardTitle className="course-t"><strong>{c.title}</strong></CardTitle>
-                                <CardSubtitle className="mb-2 subtitle">{c.teacher}</CardSubtitle>
-                                <CardSubtitle className="mb-2 subtitle">{c.branch}</CardSubtitle>
-                                <CardSubtitle className="mb-2 subtitle">{c.courseId}</CardSubtitle>
+                                <CardSubtitle className="mb-2 subtitle">ID khóa học: <strong>{c.courseId}</strong></CardSubtitle> 
+                                <CardSubtitle className="mb-2 subtitle">Số lượng từ vựng: {c.courseLength}</CardSubtitle>
                                 <Button  color="primary" className="mr-3">
                                     <a href={`/courses/${c.title}`} className="link">
-                                        View
+                                        {admin ? 'Xem hóa học' : 'Học ngay'}
                                     </a>
                                 </Button>
                                 {admin ? <Button onClick={toggle} color="danger"> Remove </Button> : undefined}
@@ -78,14 +76,24 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect((props) => [
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect((props) =>
     {
-        collection: 'courses',
-        storeAs: 'courses'
-    },   
-    {
-        collection: 'courses',
-        where: ['branch', '==', `${props.branch}`],
-        storeAs: 'sortedByBranch'
+        let courseDetail = props.courses && props.courses[0] ? props.courses[0].courseId : 'courseNull'
+        return [
+            {
+                collection: 'courses',
+                storeAs: 'courses'
+            },   
+            {
+                collection: 'courses',
+                where: ['branch', '==', `${props.branch}`],
+                storeAs: 'sortedByBranch'
+            },
+            {
+                collection: courseDetail,
+                storeAs: 'courseDetail_' + courseDetail
+            }
+
+        ]
     }
-]))(CourseCard);
+))(CourseCard);

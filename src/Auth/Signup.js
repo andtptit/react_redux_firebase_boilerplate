@@ -1,7 +1,6 @@
 import React from 'react'
 import {Row, Col, Container, Form, FormGroup, Label, Input, Button} from 'reactstrap'
 import '../App.css'
-import {ReactComponent as Logo} from '../Assets/Logo.svg'
 import { Link, Redirect } from 'react-router-dom'
 import {connect} from 'react-redux';
 import {signUp} from '../Store/actions/authActions';
@@ -19,10 +18,8 @@ class Signup extends React.Component{
          email: '',
          name: '',
          password: '',
-         branch: 'CSE',
          type: 'Student',
          phone: '',
-         semester: 'First',
         },
         errors: {}
     }
@@ -50,8 +47,8 @@ class Signup extends React.Component{
      let isValid = true;
 
      if(!input["email"]){
-         isValid = false;
-         errors["email"] = "Please enter your email address"
+        isValid = false;
+        errors["email"] = "Please enter your email address"
      }
 
      if (typeof input["email"] !== "undefined") {
@@ -88,7 +85,7 @@ class Signup extends React.Component{
 
     
  render(){
-    const {auth, branches, semesters, authError} = this.props;
+    const {auth, authError} = this.props;
     if(auth.uid) return (<Redirect to="/"></Redirect>)
     return(
      <Row>
@@ -132,20 +129,8 @@ class Signup extends React.Component{
                             {this.state.errors.phone && <p className="error">{this.state.errors.phone}</p>}
                         </FormGroup>
                     </Col>
-                    <Col md='5' className="mt-3">
-                        <FormGroup>
-                        <Label for="exampleSelect">Select Your Branch</Label>
-                                <Input type="select" name="branch" id="branch" onChange={this.handleChange}>
-                                {branches && branches.map(branch => (
-                                    <>
-                                        <option key={branch.name} value={branch.name}>{branch.name}</option>
-                                    </>
-                                ))
-                                }
-                                </Input>
-                        </FormGroup>
-                    </Col>
-                    <Col md='5' className="mt-0 mb-0"> 
+                    <Col md='5' className="mt-3 mb-0"> 
+                        <Label for="exampleSelect">Select Your Gender</Label>
                         <Row>
                         <Col>
                             <FormGroup check>
@@ -165,7 +150,8 @@ class Signup extends React.Component{
                         </Col>
                         </Row>
                     </Col>
-                    <Col md='5' className="mt-0 mb-0"> 
+                    <Col md='5' className="mt-3 mb-0"> 
+                    <Label for="exampleSelect">Select Your Type</Label>
                         <Row>
                         <Col>
                             <FormGroup check>
@@ -185,19 +171,6 @@ class Signup extends React.Component{
                         </Col>
                         </Row>
                     </Col>
-                    {this.state.input.type === "Teacher" ? '' : <Col md='5' className="mt-3">
-                        <FormGroup>
-                        <Label for="exampleSelect">Select Your Semester</Label>
-                                <Input type="select" name="select" id="semester" onChange={this.handleChange}>
-                                {semesters && semesters[0] && semesters[0].sems.map(sem => (
-                                    <>
-                                        <option key={sem} value={sem}>{sem}</option>
-                                    </>
-                                ))
-                                }
-                                </Input>
-                        </FormGroup>
-                    </Col>}
                 </Row>
                 <Button color="primary" className="signup-button" type="submit">Submit</Button>
                 <p className="login-helper">Have an account already? <Link to="/login">Login</Link></p>
@@ -211,17 +184,13 @@ class Signup extends React.Component{
   }
 }
 
-
 const mapStateToProps = (state) => {
     return {
         auth: state.firebase.auth,
         profile: state.firebase.profile, 
-        branches: state.firestore.ordered.branches,
-        semesters: state.firestore.ordered.semesters,
         authError: state.auth.authError,
     }
 }
-
 
 const mapDispatchToProps = (dispatch) => {
     return({
@@ -230,7 +199,6 @@ const mapDispatchToProps = (dispatch) => {
         }
     })
 }
-
 
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), 

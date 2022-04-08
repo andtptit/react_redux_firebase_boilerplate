@@ -11,21 +11,21 @@ export const ADMIN_ROUTES = [
         'route': 'Students',
         'url': '/students'
     },
-    {
-        'route': 'Assignments',
-        'url': '/assignments'
-    },
-    {
-        'route': 'Teachers',
-        'url': '/teachers'
-    },
+    // {
+    //     'route': 'Assignments',
+    //     'url': '/assignments'
+    // },
+    // {
+    //     'route': 'Teachers',
+    //     'url': '/teachers'
+    // },
     {
         'route': 'Admins',
         'url': '/admins'
     },
     {
         'route': 'Stores',
-        'url': '/FlashStores'
+        'url': '/flashStores'
     }
 ]
 
@@ -62,10 +62,10 @@ export const STUDENT_ROUTES = [
         'route': 'Courses',
         'url': '/courses'
     },
-    {
-        'route': 'Assignments',
-        'url': '/assignments'
-    },
+    // {
+    //     'route': 'Assignments',
+    //     'url': '/assignments'
+    // },
     {
         'route': 'Forum',
         'url': '/forum'

@@ -57,7 +57,7 @@ export const updateDataCourse = (currentData, datasearch) => {
             .collection(datasearch.CourseSelect)
             .doc(`${currentData.id}`)
             .update({
-                workTitle: currentData.workTitle,
+                wordTitle: currentData.wordTitle,
                 meaning: currentData.meaning,
                 example: [currentData.example],
                 meaning_key: currentData.meaning_key,
@@ -169,8 +169,8 @@ export const addNewCourse = (courseId, courseName, courseFile) => {
                 .add({collection: courseId},
                     {
                         courseName: courseName,
-                        workId: courseId + index,
-                        workTitle: result.workTitle,
+                        wordId: courseId + index,
+                        wordTitle: result.wordTitle,
                         meaning: result.meaning,
                         example: result.example,
                         meaning_key: result.meaning_key,
