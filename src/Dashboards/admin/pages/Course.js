@@ -10,7 +10,7 @@ const Course = () => {
     return(
         <Container>
             <h2 className="table-title mt-3 mb-3 p-3">Course</h2>
-            <CourseContainer title={course}></CourseContainer>
+            <CourseContainer courseId={course}></CourseContainer>
         </Container>
     )
 }

@@ -25,29 +25,43 @@ const CourseCard = ({courses, branch, sortedByBranch, removeCourse, removeDataCo
     return(
         <React.Fragment>
         <Row md="12">
+            <Col md='12'>
+                <Card className="welcome-card mt-2">
+                    <h4>Khóa bạn đang học</h4>
+                    <h6>Bạn chưa học khóa nào</h6>
+                </Card>  
+            </Col>
+            
+        </Row>
+        <Row md="12">
+            <Col md='12'>
+                <Card className="welcome-card mt-2">
+                    <h4>Danh sách các khóa học</h4>
+                </Card>
+            </Col>
             {sortedCourses && sortedCourses.map((c) =>
-                    <Col md='4' key={c.id}>
-                        <Card className="course-card" body outline color="info">
-                        <CardHeader className="course-t">Tên Khóa Học: <strong>{c.title}</strong></CardHeader>
-                            <CardBody>
-                                <CardSubtitle className="mb-2 subtitle">ID khóa học: <strong>{c.courseId}</strong></CardSubtitle> 
-                                <CardSubtitle className="mb-2 subtitle">Số lượng từ vựng: {c.courseLength}</CardSubtitle>
-                                <Button  color="primary" className="mr-3">
-                                    <a href={`/courses/${c.title}`} className="link">
-                                        {admin ? 'Xem hóa học' : 'Học ngay'}
-                                    </a>
-                                </Button>
-                                {admin ? <Button onClick={toggle} color="danger"> Remove </Button> : undefined}
-                            </CardBody>
-                        </Card> 
-                        <CustomModal toggle={toggle} modal={isOpen} title="Remove Course">
-                            <Container>
-                                <h4>Are you sure?</h4>
-                                <Button color="danger" className="card-button w-25" onClick={() => handleCourseRemoval(c)}>Yes</Button>
-                                <Button color="primary" className="card-button w-25 ml-2 mr-2" onClick={toggle}>No</Button>
-                            </Container>
-                        </CustomModal>
-                    </Col>
+                <Col md='4' key={c.id}>
+                    <Card className="course-card" body outline color="info">
+                    <CardHeader className="course-t">Tên Khóa Học: <strong>{c.title}</strong></CardHeader>
+                        <CardBody>
+                            <CardSubtitle className="mb-2 subtitle">ID khóa học: <strong>{c.courseId}</strong></CardSubtitle> 
+                            <CardSubtitle className="mb-2 subtitle">Số lượng từ vựng: {c.courseLength}</CardSubtitle>
+                            <Button  color="primary" className="mr-3">
+                                <a href={`/courses/${c.courseId}`} className="link">
+                                    {admin ? 'Xem hóa học' : 'Học ngay'}
+                                </a>
+                            </Button>
+                            {admin ? <Button onClick={toggle} color="danger"> Remove </Button> : undefined}
+                        </CardBody>
+                    </Card> 
+                    <CustomModal toggle={toggle} modal={isOpen} title="Remove Course">
+                        <Container>
+                            <h4>Are you sure?</h4>
+                            <Button color="danger" className="card-button w-25" onClick={() => handleCourseRemoval(c)}>Yes</Button>
+                            <Button color="primary" className="card-button w-25 ml-2 mr-2" onClick={toggle}>No</Button>
+                        </Container>
+                    </CustomModal>
+                </Col>
             )}
         </Row>
         </React.Fragment>

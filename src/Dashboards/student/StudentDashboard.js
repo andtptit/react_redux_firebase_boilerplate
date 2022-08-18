@@ -7,7 +7,7 @@ import ErrorPage from '../../Errorpage';
 import StudentForum from '../forum/StudentForum';
 import Courses from '../admin/pages/Courses'
 import Course from '../admin/pages/Course'
-import Assignments from '../admin/pages/Assignments'
+import FlashCardArray from '../../Components/Cards/FlashCardArray';
 
 const StudentDashboard = ({profile, auth}) => {
     if(!auth.uid) return <Redirect to="/login"></Redirect>   
@@ -19,6 +19,7 @@ const StudentDashboard = ({profile, auth}) => {
                         <Route exact path="/" component={Home}></Route>
                         <Route exact path="/courses" component={Courses}></Route>
                         <Route exact path="/courses/:course" component={Course}></Route>
+                        <Route exact path="/courses/:course/flashcards" component={FlashCardArray}></Route>
                         {/* <Route exact path="/assignments" component={Assignments}></Route> */}
                         <Route exact path="/forum" component={StudentForum}></Route>
                     </Switch>

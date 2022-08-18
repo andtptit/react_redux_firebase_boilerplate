@@ -50,9 +50,6 @@ const AddNewCourse = ({course, addNewCourse, addNewCourseList}) => {
                 <Col md="5">
                     <Label htmlFor="courseFile">File Course Data</Label>
                     <Input type="file" onChange={(e)=>{handleFileChosen(e.target.files[0])}} id="courseFile"></Input>
-                    {/* <UncontrolledTooltip placement='right' target="pdfUpload">
-                        Video Files
-                    </UncontrolledTooltip> */}
                 </Col>
             </Row>
             <Button color="primary" className="mt-3 mb-3" onClick={() => {handleFileUpload(courseId, courseName, courseFile, courseLength)}}>Add Data</Button>

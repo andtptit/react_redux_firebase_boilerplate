@@ -3,15 +3,15 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import {Card, CardBody, CardImg, Row, Col, CardSubtitle, Container, CardHeader, Button, Progress, CardText} from 'reactstrap'
 import { compose } from 'redux'
-import ResourceCard from '../Cards/ResourceCard'
-import VideoCard from '../Cards/VideoCard'
 import AddResourcesForm from '../Forms/AddResourceForm'
 import AddVideoForm from '../Forms/AddVideoForm'
 import CustomModal from '../Modal'
 import FlashCard from '../Cards/FlashCard'
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { updateStudentLearnedCount } from '../../Store/actions/courseActions'
+
+import { useParams } from 'react-router'
+
 
 const dummy = {
     title: 'Test Course',
@@ -26,8 +26,6 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
     const currentCourse = course ? course[0] : dummy
     const isStudent = profile.userType === 'Student' ? true :  false;
     const isAdmin = profile.userType === 'Admin' ? true :  false;
-
-    console.log('profile', profile)
 
     const [isVideoFormOpen, setIsVideoFormOpen] = useState(false);
     const [isResourcesFormOpen, setIsResourcesFormOpen] = useState(false);
@@ -45,6 +43,9 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
     const handleContinueLearn = () => {
         setIsCourseOpen(true)
     }
+
+    const xx = useParams()
+    console.log('xx', xx.course)
 
     const profileX = profile.SRN
     let objDataCourseNew = []
@@ -66,8 +67,8 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
         if(objDataCourseRemind, dataCourse) {
             setPercent(objDataCourseRemind.length / dataCourse.length * 100)
         }
-    },[objDataCourseRemind])
-    
+    },[objDataCourseRemind]);
+        
 
     return(
         <Col>
@@ -84,7 +85,13 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
                             <Col style={{paddingLeft: '0'}} md="6">
                             {isStudent ? ''  :<Button onClick={handleStartLearn} className="button mt-2" color="primary">Show Detail</Button>}
                             {isStudent && objDataCourseRemind.length && !isCourseOpen ? <Button size="lg" onClick={handleContinueLearn} className="button mt-2">Tiếp tục học</Button> : ''}
-                            {isStudent && !objDataCourseRemind.length && !isCourseOpen ? <Button size="lg" onClick={handleStartLearn} className="button mt-2">Bắt đầu ngay</Button> : ''}
+                            {isStudent && !objDataCourseRemind.length && !isCourseOpen ? 
+                            <Button  color="primary" className="mr-3">
+                                <a href={`/courses/${xx.course}/flashcards`} className="link">
+                                    Bắt đầu học
+                                </a>
+                            </Button> : ''
+                            }
 
                             </Col>
                         </CardBody>
@@ -108,10 +115,11 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
             </Row>
             <Row>
                 <Col md="12">
-                    {isCourseOpen && isStudent?
-                            <FlashCard course={course} objDataCourseNew={objDataCourseNew} objDataCourseRemind={objDataCourseRemind} profile={profile} />:
+                    {/* {isCourseOpen && isStudent?
+                            <FlashCards course={course} objDataCourseNew={objDataCourseNew} objDataCourseRemind={objDataCourseRemind} profile={profile} />:
                         <h3>Học ngay cùng KIT EDU!</h3>
-                    }
+                    } */}
+
                     { objDataCourseRemind.length ? <h4>Đã học xong</h4> : <h4>Chưa học xong</h4> }
                     {isCourseOpen && isAdmin?
                     <>
@@ -122,12 +130,12 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
                 </Col>
             </Row>
         
-            <CustomModal modal={isVideoFormOpen} title="Add New Video" toggle={videoFormToggle}>
+            {/* <CustomModal modal={isVideoFormOpen} title="Add New Video" toggle={videoFormToggle}>
                 <AddVideoForm course={course}></AddVideoForm>
             </CustomModal>  
             <CustomModal modal={isResourcesFormOpen} title="Add New Resource" toggle={resourceFormToggle}>
                 <AddResourcesForm course={course}></AddResourcesForm>
-            </CustomModal>
+            </CustomModal> */}
 
         </Col>
   )
@@ -151,16 +159,17 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect(
-    (props) => [
-        {
+    (props) => {
+        console.log("props", props)
+        return [{
             collection: 'courses',
-            where: ['title', '==', `${props.title}`],
+            where: ['courseId', '==', `${props.courseId}`],
             storeAs: 'course'
         },
         {
-            collection: props.course ? `${props.course[0].courseId}` : 'khoahoc',
+            collection: `${props.courseId}`,
             where: [['image', '!=', '']],
             storeAs: 'dataCourse'
-        }
-    ]    
+        }]
+}
 ))(CourseContainer);
