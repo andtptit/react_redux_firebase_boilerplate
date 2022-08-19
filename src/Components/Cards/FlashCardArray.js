@@ -83,7 +83,7 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned}) => {
   const [percent, setPercent] = useState(0)
   useEffect(() => {
     if(objDataCourseRemind, dataCourse) {
-        setPercent(objDataCourseRemind.length / dataCourse.length * 100)
+      setPercent(objDataCourseRemind.length / dataCourse.length * 100)
     }
   },[objDataCourseRemind]);
 
@@ -113,37 +113,53 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned}) => {
     <Container className="mt-4 mb-4">
      <h1 className="table-title mt-3 mb-3">FlashCard</h1>
       <Row md="12">
-          <Col md='6'>
+          <Col md='12'>
             <Card className="welcome-card mt-2">
                 <h4>{course ? course[0].title : 'Khoa hoc'}</h4>
             </Card>
           </Col>
-          <Col md='6'>
-            <h5>Bạn đã học {objDataCourseRemind ? objDataCourseRemind.length : 0}/{dataCourse ? dataCourse.length : 0} từ vựng</h5>
+          <Col md='1'>
+            <h5>{objDataCourseRemind ? objDataCourseRemind.length : 0}/{dataCourse ? dataCourse.length : 0}</h5>
+          </Col>
+          <Col md='11'>
             <Progress className='mt-2' value={percent.toFixed(2)} />
-            <div className="text-center">Tiến độ {percent.toFixed(2)}%</div>
           </Col>
 
-          {/* Flashcard */}
-          <div className="col-md-6 cardContainer">
-            <div className={isFlip ? 'card' : 'card flipped'} onClick={() => handleChangeClass()}>
-              
-              <div className="front">
-                <h3 className="cardTitle">Front end (Mr. Cock - <strong>the bird</strong>)</h3>
-                <p>Markup and web languages such as HTML, CSS, JavaScript, and ancillary libraries commonly used in those languages such as Sass or JQuery.</p>
+          <Col md='12'>
+            {/* Flashcard */}
+            <div className="col-md-12 cardContainer">
+              <div className={isFlip ? 'cards' : 'cards flipped'} onClick={() => handleChangeClass()}>
+                <div className="front">
+                  <div class="cards__words">
+                    <h3 className="cards__words">개념 [개ː념] </h3>
+                  </div>
+                </div>
+                <div className="back">
+                  <div className="cardsImg">
+                    <img src="https://www.pdiam.com/wp-content/uploads/2018/08/khai-niem-la-gi-2.jpg" width="150px" heigh="150px"></img>
+                  </div>
+                  <div class="content">
+                    <h3 className="cards__meaning">[槪念] khái niệm</h3>
+
+                      <p>
+                        개념이 없다: không có khái niệm 
+                      </p>
+        
+                  </div>
+                </div>
               </div>
-              
-              <div className="back">
-                  <h3 className="cardTitle">Back end (Mr. Warm)</h3>
-                  <p>Scripting languages like Node.js, PHP, Python, Ruby, or Perl or Compiled languages like Go.</p>
-              </div>
-              
             </div>
-          </div>
+          </Col>
 
-          
+          {/* <Col md="12">
+            <div className="cards__button-wapper">
+              <Button color='primary' className='ml-2 mt2'>Quay lại</Button>
+              <Button color='success' className='ml-2 mt2'>Từ tiếp theo</Button>
+            </div>
+          </Col> */}
+
+
       </Row>
-
       <Row md="12">
         
       </Row>

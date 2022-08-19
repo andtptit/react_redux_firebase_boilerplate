@@ -18,7 +18,7 @@ const StudentDashboard = ({profile, auth}) => {
                     <Switch>
                         <Route exact path="/" component={Home}></Route>
                         <Route exact path="/courses" component={Courses}></Route>
-                        <Route exact path="/courses/:course" component={Course}></Route>
+                        <Route exact path="/courses/:course" component={FlashCardArray}></Route>
                         <Route exact path="/courses/:course/flashcards" component={FlashCardArray}></Route>
                         {/* <Route exact path="/assignments" component={Assignments}></Route> */}
                         <Route exact path="/forum" component={StudentForum}></Route>

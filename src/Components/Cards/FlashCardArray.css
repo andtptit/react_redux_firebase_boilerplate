@@ -1,346 +1,191 @@
-.FlashcardArrayWrapper * {
-    box-sizing: border-box;
-  }
-  
-  .FlashcardArrayWrapper {
-    gap: 10px;
-    position: relative;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 560px;
-  }
-  .FlashcardArrayWrapper__CardHolder {
-    height: 340px;
-    width: 100%;
-    perspective: 1000px;
-  
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
 
-  }
-  .FlashcardArrayWrapper__CardHolder .FlashcardWrapper:nth-child(1),
-  .FlashcardArrayWrapper__CardHolder .FlashcardWrapper:nth-child(3) {
-    background: transparent;
-    box-shadow: none;
-    transform-style: preserve-3d;
-    opacity: 0;
-    pointer-events: none;
-    display: block !important;
-    transition: transform 0.24s ease, opacity 0.12s linear !important;
-    transform: translateX(-16%) rotateY(16deg) translateZ(0) !important;
-  }
-  .FlashcardArrayWrapper__CardHolder .FlashcardWrapper:nth-child(3) {
-    transform: translateX(16%) rotateY(-16deg) translateZ(0) !important;
-    z-index: 5;
-  }
-  .FlashcardArrayWrapper__CardHolder .FlashcardWrapper:nth-child(2) {
-    display: block !important;
-    transition: transform 0.24s ease, opacity 0.12s linear !important;
-    background: transparent;
-    box-shadow: none;
-    transform-style: preserve-3d;
-    z-index: 6;
-  }
-  .FlashcardArrayWrapper__controls {
-    width: 100%;
-    height: 40px;
-  
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 35px;
-  }
-  .FlashcardArrayWrapper__controls button {
-    height: 100%;
-    font-size: 40px;
-    background-color: rgba(240, 248, 255, 0);
-    border: none;
-    padding: 0;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  
-    transition: all 0.12s cubic-bezier(0.47, 0, 0.745, 0.715);
-  }
-  
-  .FlashcardArrayWrapper__controls button img {
-    cursor: pointer;
-    height: 80%;
-    background-color: rgba(255, 255, 255, 0);
-  }
-  
-  .FlashcardArrayWrapper__controls button img:hover {
-    filter: invert(91%) sepia(20%) saturate(5066%) hue-rotate(340deg)
-      brightness(107%) contrast(101%);
-  }
-  
-  .FlashcardArrayWrapper__controls--count {
-    font-size: 15px !important;
-  }
-  @media only screen and (max-width: 625px) {
-    .FlashcardArrayWrapper {
-      width: 90vw;
-    }
-  }
+.cards
+{
+  width: 70%;
+  height: 300px;
+  cursor: pointer;
+  margin: auto;
 
+  padding-top: 20px;
 
-  .FlashcardWrapper * {
-    box-sizing: border-box;
-  }
-  
-  .FlashcardWrapper {
-    height: 100%;
-    width: 100%;
-    perspective: 1000px;
-    position: relative;
-    zoom: 1;
-    bottom: 10%;
-    clear: left;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transform: none !important;
-  }
-  .FlashcardWrapper__item {
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    position: absolute;
-    transform-style: preserve-3d;
-    transition: transform 0.45s ease;
-    background-color: transparent;
-    border-radius: 1rem;
-  }
-  .FlashcardWrapper__item--front,
-  .FlashcardWrapper__item--back {
-    box-shadow: 0 0 2.5rem 0 rgba(0, 0, 0, 0.16);
-    border-radius: 1rem;
-    backface-visibility: hidden;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-    font-size: 28px;
-    color: black;
-    cursor: pointer;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .FlashcardWrapper__item--front {
-    background-color: #ffffff;
-  }
-  .FlashcardWrapper__item--back {
-    background-color: #ffffff;
-    transform: rotateX(-180deg);
+  /*transition effects */
+  -webkit-transition: -webkit-transform 0.6s;
+  -moz-transition: -moz-transform 0.6s;
+  -o-transition: -o-transform 0.6s;
+  transition: transform 0.6s;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
 
-    background-image: url("https://firebasestorage.googleapis.com/v0/b/flash-kid-9364b.appspot.com/o/frames%2Fmonday.png?alt=media&token=dec9070d-89a5-471c-974c-f995805dbc9e");
-  }
-  .FlashcardWrapper__item--flip {
-    transform: rotateX(180deg) !important;
-  }
-  .FlashcardWrapper__item--content {
-    text-align: center;
-    padding: 40px 34px;
-    font-size: 30px;
-    height: 100%;
-    width: 100%;
-    font-family: "Poppins", sans-serif;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+.cards.flipped 
+{
+  -webkit-transform: rotateY( 180deg );
+  -moz-transform: rotateY( 180deg );
+  -o-transform: rotateY( 180deg );
+  transform: rotateY( 180deg );
+}
 
-  .cardContainer 
+.cards .front,
+.cards .back {
+  display: block;
+  width: 100%;
+  height: 250px;
+  color: rgb(0, 0, 0);
+  /* text-align: center; */
+  font-size: 4em;
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+  box-shadow: 3px 5px 20px 2px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.26);
+  border-radius: 20px;
+  border-bottom: 5px solid #CFCFCF;
+
+}
+
+p {
+  font-size: 16px;
+  margin-top: 25px;
+}
+
+.cardsImg {
+  flex-shrink: 0;
+  background-image: linear-gradient(147deg, #000 0%, #000 74%);
+  box-shadow: 0px 3px 10px 1px rgb(252 56 56 / 20%);
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 30px;
+  border-width: 1px solid #000;
+}
+
+.cards .back {
+  width: 100%;
+  padding-left: 3%;
+  padding-right: 3%;
+  font-size: 16px;
+  line-height: 25px;
+  margin: auto;
+}
+
+.cards .back {
+  -webkit-transform: rotateY( 180deg );
+  -moz-transform: rotateY( 180deg );
+  -o-transform: rotateY( 180deg );
+  transform: rotateY( 180deg );
+}
+
+/*Colors for front and back applied here*/
+.cardContainer .cards .front  {
+  background: linear-gradient(147deg, rgb(168, 255, 134) 0%, rgb(134, 248, 89) 50%);
+  display: flex;
+  align-items: center;
+}
+
+.cardContainer .cards .back {
+  background: linear-gradient(147deg, rgb(116, 129, 245) 0%, rgb(151, 160, 241) 50%);
+  display: flex;
+  align-items: center;
+}
+
+h3.cardTitle {
+  line-height: 1.2em;
+  margin-top: 8%;
+  font-weight: 600;
+}
+.content h3.cardTitle
+{
+  margin-top: 0%;
+}
+
+.cards__words {
+  margin: auto;
+}
+
+.content {
+  padding: 4%;
+  font-weight: 100;
+  text-align: left;
+  font-weight: bold;
+}
+
+.cards__meaning {
+
+}
+
+.cards__example {
+  
+}
+
+.cards__button-wapper {
+  display: flex;
+  justify-content: center;
+}
+
+@media all and (max-width: 1000px){
+  h3.cardTitle{
+      font-weight: 500;
+        
+  }
+  .content p
   {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%,-50%);
-    
-    margin-top: 55px;
-   
-    -webkit-transition: all .3s ease;
-    -moz-transition: all .3s ease;
-    -ms-transition: all .3s ease;
-    transition: all .3s ease;
-  
-    
-    /*depth of the elements */
-    -webkit-perspective: 800px;
-    -moz-perspective: 800px;
-    -o-perspective: 800px;
-    perspective: 800px;
-    padding-left: 1%;
-  }
-  
-  .card 
-  {
-    width: 99%;
-    height: 200px;
-    cursor: pointer;
-    
-    /*transition effects */
-    -webkit-transition: -webkit-transform 0.6s;
-    -moz-transition: -moz-transform 0.6s;
-    -o-transition: -o-transform 0.6s;
-    transition: transform 0.6s;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-  }
-  
-  .card.flipped 
-  {
-    -webkit-transform: rotateY( 180deg );
-    -moz-transform: rotateY( 180deg );
-    -o-transform: rotateY( 180deg );
-    transform: rotateY( 180deg );
-  }
-  
-  .card .front,
-  .card .back {
-    display: block;
-    height: 100%;
-    width: 100%;
-    color: rgb(0, 0, 0);
-    text-align: center;
-    font-size: 4em;
-    position: absolute;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
-    backface-visibility: hidden;
-    box-shadow: 3px 5px 20px 2px rgba(0, 0, 0, 0.25);
-    -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.26);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.26);
-  }
-  
-  p {
-    font-size: 16px;
-    margin-top: 25px;
-  }
-  
-  .card .back {
-    width: 100%;
-    padding-left: 3%;
-    padding-right: 3%;
-    font-size: 16px;
-    line-height: 25px;
-  }
-  
-  .card .back {
-    -webkit-transform: rotateY( 180deg );
-    -moz-transform: rotateY( 180deg );
-    -o-transform: rotateY( 180deg );
-    transform: rotateY( 180deg );
-  }
-  
-  /*Colors for front and back applied here*/
-  .cardContainer .card .front  {
-    background: #00cec9;
-  }
-  
-  .cardContainer .card .back {
-    background: #ff7675;
-  }
-  
-  h3.cardTitle {
+    margin-top: -15%;
     line-height: 1.2em;
-    margin-top: 8%;
-    font-weight: 600;
   }
-  .content h3.cardTitle
+  
+  .cards
   {
-    margin-top: 0%;
+    height:175px;
   }
+
+}
+@media all and (max-width : 752px) {
   
-  .content {
-    padding: 4%;
-    font-weight: 100;
-    text-align: left;
-    font-weight: bold;
+  .secondRow
+  {
+    margin-top: -3%;
   }
-  
-  @media all and (max-width: 1000px){
-    h3.cardTitle{
-        font-weight: 500;
-         
-    }
-    .content p
-    {
-      margin-top: -15%;
-      line-height: 1.2em;
-    }
-    
-    .card
-    {
-     height:175px;
-    }
-  
+  .cardContainer:nth-child(3),.cardContainer:nth-child(4)
+  {
+    margin-top: 3%;
   }
-  @media all and (max-width : 752px) {
-   
-    .secondRow
-    {
-      margin-top: -3%;
-    }
+
+}
+@media all and (max-width : 390px) {
+  
+  .cards
+  {
+  width:100%;
+    height:150px;
+  }
+  .secondRow
+  {
+    margin-top: -9%;
+  }
+  .well 
+  {
+  padding: 1%;
+  }
     .cardContainer:nth-child(3),.cardContainer:nth-child(4)
-    {
-      margin-top: 3%;
-    }
-  
+  {
+    margin-top: 5%;
   }
-  @media all and (max-width : 390px) {
-   
-    .card
-    {
-    width:100%;
-     height:150px;
-    }
-    .secondRow
-    {
-      margin-top: -9%;
-    }
-    .well 
-    {
-    padding: 1%;
-    }
-     .cardContainer:nth-child(3),.cardContainer:nth-child(4)
-    {
-      margin-top: 5%;
-    }
-    h3.cardTitle
-    {
-     font-weight: 500;     
-    }
-    .content p
-    {
-      margin-top: -20%;
-      line-height: 1.2em;
-    }
-    .cardWrapper
-    {
-      margin-left: 4%;
-    }
-  
+  h3.cardTitle
+  {
+    font-weight: 500;     
   }
-  
+  .content p
+  {
+    margin-top: -20%;
+    line-height: 1.2em;
+  }
+  .cardWrapper
+  {
+    margin-left: 4%;
+  }
+
+}
