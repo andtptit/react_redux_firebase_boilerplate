@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import {TrashCan24} from '@carbon/icons-react'
+// import {TrashCan24} from '@carbon/icons-react'
 import { Badge, Button, Card, CardTitle, Col, Input, ListGroup, ListGroupItem, Row } from 'reactstrap';
 import { addComment, removeQuestion, removeComment } from '../../Store/actions/forumActions';
 
@@ -32,8 +32,8 @@ const ForumQuestionCard = ({question, profile, removeQuestion, removeComment, ad
                 <Col md="8">
                     <Badge className="topic">{question.topic}</Badge>  
                 </Col>
-                {profile.name === question.user ? <Col>
-                    <TrashCan24 className="remove-question" onClick={() => handleRemove(question)}/>                </Col> : undefined}
+                {/* {profile.name === question.user ? <Col>
+                    <TrashCan24 className="remove-question" onClick={() => handleRemove(question)}/>                </Col> : undefined} */}
             </Row>
         </Card>
         {isTeacher && <div className="comment-section">
@@ -55,11 +55,11 @@ const ForumQuestionCard = ({question, profile, removeQuestion, removeComment, ad
                 <ListGroupItem>
                     <span className="comment-user">{a.user}</span>
                     <h6 className="comment-answer mt-2 mb-2">{a.comment}</h6>
-                    {
+                    {/* {
                         profile.name === a.user ? 
                             <TrashCan24 className="remove-question" onClick={() => handleCommentRemove(question,  a.comment, a.user)}/>
                         : undefined
-                    }
+                    } */}
                 </ListGroupItem>
             </ListGroup>
         ))}

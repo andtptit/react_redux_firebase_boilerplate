@@ -1,60 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
-import Flashcard from "./FlashCard";
 import "./FlashCardArray.css";
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import { FlashcardArray } from "react-quizlet-flashcard";
 import {Card, CardBody, CardImg, Row, Col, CardSubtitle, Container, CardHeader, Button, Progress, CardText} from 'reactstrap'
 import { addLearned } from '../../Store/actions/courseActions'
-
+import { CircularProgressbar } from 'react-circular-progressbar';
+import {Restart, Shuffle} from '@carbon/icons-react'
+import { Icon } from "@carbon/icons-react";
 
 
 
 const FlashCardArray = ({course, profile, dataCourse, addLearned}) => {
-  const cards = [
-    {
-      id: 1,
-      front: "What is the capital of <u>Alaska</u>?",
-      back: "Juneau",
-      frontChild: <div>Hello there</div>,
-      backChild: <p>This is a back child</p>
-    },
-    {
-      id: 2,
-      front: "What is the capital of California?",
-      back: "Sacramento",
-    },
-    {
-      id: 3,
-      front: "What is the capital of New York?",
-      back: "Albany",
-    },
-    {
-      id: 4,
-      front: "What is the capital of Florida?",
-      back: "Tallahassee",
-    },
-    {
-      id: 5,
-      front: "What is the capital of Texas?",
-      back: "Austin",
-    },
-    {
-      id: 6,
-      front: "What is the capital of New Mexico?",
-      back: "Santa Fe",
-    },
-    {
-      id: 7,
-      front: "What is the capital of Arizona?",
-      back: "Phoenix",
-    },
-  ];
 
-  const arr = []
   const profileX = profile.SRN
   let datenow = Date.now()
+
+  const [currentCard, setCurrentCard] = useState({})
+  const [cardNum, setCardNum] = useState(0)
+  const [isFlip, setIsFlip] = useState(true)
+  const [percent, setPercent] = useState(0)
+  const [percentNum, setPercentNum] = useState(0)
+
 
   let objDataCourseNew = []
   let objDataCourseRemind = []
@@ -68,46 +35,51 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned}) => {
     }
   }
 
-  console.log('objDataCourseRemind', objDataCourseRemind, 'objDataCourseNew', objDataCourseNew);
 
-
-  dataCourse && dataCourse.map((item, index) => {
-    arr.push({
-      id: item.wordId,
-      front: item.wordTitle,
-      back: item.meaning,
-      index: index
-    })
-  })
-
-  const [percent, setPercent] = useState(0)
   useEffect(() => {
     if(objDataCourseRemind, dataCourse) {
       setPercent(objDataCourseRemind.length / dataCourse.length * 100)
     }
   },[objDataCourseRemind]);
 
-  const [currentCard, setCurrentCard] = useState({})
-  const [cardNum, setCardNum] = useState(0)
-  const [isFlip, setIsFlip] = useState(true)
+  useEffect(() => {
+    dataCourse && setPercentNum(cardNum/ dataCourse.length * 100)
+  },[cardNum]);
+
 
   const handlePrevCard = () => {
-    arrayRef.current.prevCard()
+    setCardNum(cardNum - 1)
   }
 
   const handleNextCard = () => {
-    arrayRef.current.nextCard()
-    addLearned(course, dataCourse[currentCard.index], profileX, datenow)
-
-    if (cardNum == dataCourse.length) {
-      console.log("Chuc mung ban da hoan thanh khoa hoc")
-    }
+    addLearned(course, currentCard, profileX, datenow)
+    setCardNum(cardNum + 1)
   }
-  const arrayRef = useRef({});
 
   const handleChangeClass = () => {
     setIsFlip(!isFlip)
   }
+
+  let arr_index = []
+  useEffect(() => {
+    for (let i = dataCourse && dataCourse.length - 1; i >= 0; i--) {
+      arr_index.push(i)
+    }
+    
+    arr_index = arr_index.sort(() => Math.random() - 0.5)
+    console.log('shuffled', arr_index)
+    dataCourse && setCurrentCard(dataCourse[arr_index[cardNum]])
+
+  }, [dataCourse != undefined, cardNum])
+
+
+
+  console.log('datacourse', dataCourse)
+  console.log('currentx', currentCard.example)
+
+
+  let poolLearned = []
+  let poolNew = []
 
   return (
     <Container className="mt-4 mb-4">
@@ -115,53 +87,56 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned}) => {
       <Row md="12">
           <Col md='12'>
             <Card className="welcome-card mt-2">
-                <h4>{course ? course[0].title : 'Khoa hoc'}</h4>
+                <h4>Bạn đang học khóa học: {course ? course[0].title : 'Khoa hoc'}</h4>
             </Card>
           </Col>
-          <Col md='1'>
-            <h5>{objDataCourseRemind ? objDataCourseRemind.length : 0}/{dataCourse ? dataCourse.length : 0}</h5>
-          </Col>
-          <Col md='11'>
-            <Progress className='mt-2' value={percent.toFixed(2)} />
-          </Col>
-
-          <Col md='12'>
+          <Col md='9'>
             {/* Flashcard */}
+            <Progress className="cards__process" color="success" value={percentNum}>{cardNum} / {dataCourse && dataCourse.length}</Progress>
+            {dataCourse && cardNum < dataCourse.length ? 
             <div className="col-md-12 cardContainer">
               <div className={isFlip ? 'cards' : 'cards flipped'} onClick={() => handleChangeClass()}>
                 <div className="front">
-                  <div class="cards__words">
-                    <h3 className="cards__words">개념 [개ː념] </h3>
+                  <div className="cards__words">
+                    <h3 className="cards__words">{currentCard && currentCard.wordTitle}</h3>
                   </div>
                 </div>
                 <div className="back">
                   <div className="cardsImg">
                     <img src="https://www.pdiam.com/wp-content/uploads/2018/08/khai-niem-la-gi-2.jpg" width="150px" heigh="150px"></img>
                   </div>
-                  <div class="content">
-                    <h3 className="cards__meaning">[槪念] khái niệm</h3>
-
-                      <p>
-                        개념이 없다: không có khái niệm 
-                      </p>
-        
+                  <div className="content">
+                    <h3 className="cards__meaning">{currentCard && currentCard.meaning}</h3>
+                    <h4 className="cards__example">
+                      {currentCard && currentCard.example}
+                    </h4>
                   </div>
                 </div>
               </div>
+            </div> :
+            <h3>Bạn đã học xong khóa học</h3>}
+          </Col>
+          <Col md="3">
+            <div className="button__group">
+              <Button color="success" className="mt-2 mb-2"> <Shuffle /> Xáo trộn lại khóa học</Button>
+              <Button color="warning" className="mt-2 mb-2"> <Restart /> Học lại từ đầu</Button>
             </div>
           </Col>
 
-          {/* <Col md="12">
+          <Col md="9" xs="12">
             <div className="cards__button-wapper">
-              <Button color='primary' className='ml-2 mt2'>Quay lại</Button>
-              <Button color='success' className='ml-2 mt2'>Từ tiếp theo</Button>
+              {cardNum == 0 ? <Button disabled onClick={() => handlePrevCard()} color='primary' className='ml-2 mt2 disable'>Quay lại</Button> :
+              <Button onClick={() => handlePrevCard()} color='primary' className='ml-2 mt2 disable'>Quay lại</Button>}
+              {dataCourse && cardNum == dataCourse.length ?
+              <Button disabled  onClick={() => handleNextCard()} color='success' className='ml-2 mt2'>Từ tiếp theo</Button> :
+              <Button  onClick={() => handleNextCard()} color='success' className='ml-2 mt2'>Từ tiếp theo</Button>
+              }
             </div>
-          </Col> */}
+          </Col>
 
 
       </Row>
       <Row md="12">
-        
       </Row>
       
     </Container>
