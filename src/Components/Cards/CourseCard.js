@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom'
 
 
 
-const CourseCard = ({courses, branch, sortedByBranch, removeCourse, removeDataCourse, admin}) => {
+const CourseCard = ({courses, removeCourse, removeDataCourse, admin, profile}) => {
     const [isOpen, setIsOpen] = useState(false)
     
     const handleCourseRemoval = (course) => {
@@ -18,52 +18,84 @@ const CourseCard = ({courses, branch, sortedByBranch, removeCourse, removeDataCo
         setIsOpen(false)
     }
 
+    console.log("coursesxx=", courses)
+
     const toggle = () => setIsOpen(!isOpen)
 
-    const sortedCourses =  branch === "All Branches" ? courses : sortedByBranch;
+    const profileX = profile.SRN
+    let objCourseNew = []
+    let objCourseLearned = []
+    if(courses) {
+      for ( var index=0; index<courses.length; index++ ) {
+        if (courses[index] && Object.keys(courses[index].studentLearned).includes(profileX)) {
+            objCourseLearned.push(courses[index])
+        } else {
+            objCourseNew.push(courses[index])
+        }
+      }
+    }
+
+  
 
     return(
         <React.Fragment>
-        <Row md="12">
-            <Col md='12'>
-                <Card className="welcome-card mt-2">
-                    <h4>Khóa bạn đang học</h4>
-                    <h6>Bạn chưa học khóa nào</h6>
-                </Card>  
-            </Col>
-            
-        </Row>
-        <Row md="12">
-            <Col md='12'>
-                <Card className="welcome-card mt-2">
-                    <h4>Danh sách các khóa học</h4>
-                </Card>
-            </Col>
-            {sortedCourses && sortedCourses.map((c) =>
-                <Col md='4' key={c.id}>
-                    <Card className="course-card" body outline color="info">
-                    <CardHeader className="course-t">Tên Khóa Học: <strong>{c.title}</strong></CardHeader>
-                        <CardBody>
-                            <CardSubtitle className="mb-2 subtitle">ID khóa học: <strong>{c.courseId}</strong></CardSubtitle> 
+            <div className='card-container__custom'>
+            <Row md="12">
+                <Col md='12'>
+                    <div className='header__custom header__courses'>
+                        <h4>Khóa bạn đang học</h4>
+                    </div>
+                </Col>
+                {objCourseLearned && objCourseLearned.map((c) =>
+                    <Col className='pr-2 pl-2' md='3' xs='6' key={c.id}>
+                        <Card className="course-card course-card__custom" body outline color="info">
+                        <CardImg top src="https://www.voca.vn/assets/file_upload/images/let%27s%20go.png" alt="Card image cap" />
+                        <CardHeader className="course-title card-header__custom"><strong>{c.title}</strong></CardHeader>
+                        <CardBody className='card-body__custom'>
                             <CardSubtitle className="mb-2 subtitle">Số lượng từ vựng: {c.courseLength}</CardSubtitle>
-                            <Button  color="primary" className="mr-3">
+                            <Button  className="mt-2 card-button__custom continue">
+                                <a href={`/courses/${c.courseId}`} className="link">
+                                    Tiếp tục học
+                                </a>
+                            </Button>
+                        </CardBody>
+                        </Card>
+                    </Col>
+                )}
+                
+            </Row>
+            <Row md="12">
+                <Col md='12'>
+                    <div className='header__custom header__courses'>
+                        <h4>Danh sách các khóa học</h4>
+                    </div>
+                </Col>
+                {objCourseNew && objCourseNew.map((c) =>
+                    <Col className='pr-2 pl-2' md='3' xs='6' key={c.id}>
+                        <Card className="course-card course-card__custom" body outline color="info">
+                        <CardImg top src="https://www.voca.vn/assets/file_upload/images/let%27s%20go.png" alt="Card image cap" />
+                        <CardHeader className="course-title card-header__custom"><strong>{c.title}</strong></CardHeader>
+                        <CardBody className='card-body__custom'>
+                            <CardSubtitle className="mb-2 subtitle">Số lượng từ vựng: {c.courseLength}</CardSubtitle>
+                            <Button  className="mt-2 card-button__custom new">
                                 <a href={`/courses/${c.courseId}`} className="link">
                                     {admin ? 'Xem hóa học' : 'Học ngay'}
                                 </a>
                             </Button>
-                            {admin ? <Button onClick={toggle} color="danger"> Remove </Button> : undefined}
+                            {admin ? <Button className="mt-2 card-button__custom" onClick={toggle} color="danger"> Remove </Button> : undefined}
                         </CardBody>
-                    </Card> 
-                    <CustomModal toggle={toggle} modal={isOpen} title="Remove Course">
-                        <Container>
-                            <h4>Are you sure?</h4>
-                            <Button color="danger" className="card-button w-25" onClick={() => handleCourseRemoval(c)}>Yes</Button>
-                            <Button color="primary" className="card-button w-25 ml-2 mr-2" onClick={toggle}>No</Button>
-                        </Container>
-                    </CustomModal>
-                </Col>
-            )}
-        </Row>
+                        </Card> 
+                        <CustomModal toggle={toggle} modal={isOpen} title="Remove Course">
+                            <Container>
+                                <h4>Are you sure?</h4>
+                                <Button color="danger" className="card-button w-25" onClick={() => handleCourseRemoval(c)}>Yes</Button>
+                                <Button color="primary" className="card-button w-25 ml-2 mr-2" onClick={toggle}>No</Button>
+                            </Container>
+                        </CustomModal>
+                    </Col>
+                )}
+            </Row>
+            </div>
         </React.Fragment>
     )
 }
@@ -74,7 +106,7 @@ const mapStateToProps = (state) => {
     console.log(state)
     return{
         courses: state.firestore.ordered.courses,
-        sortedByBranch: state.firestore.ordered.sortedByBranch
+        profile: state.firebase.profile
     }   
 }
 
@@ -97,11 +129,6 @@ export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreCo
             {
                 collection: 'courses',
                 storeAs: 'courses'
-            },   
-            {
-                collection: 'courses',
-                where: ['branch', '==', `${props.branch}`],
-                storeAs: 'sortedByBranch'
             },
             {
                 collection: courseDetail,

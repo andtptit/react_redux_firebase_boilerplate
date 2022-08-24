@@ -2,7 +2,7 @@
 .cards
 {
   width: 100%;
-  height: 350px;
+  height: 330px;
   cursor: pointer;
   margin: auto;
 
@@ -40,9 +40,9 @@
   -moz-backface-visibility: hidden;
   -o-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.26);
+  /* -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.26); */
   border-radius: 10px;
-  box-shadow: rgb(188 194 207) 0px 4px 0px;
+  /* box-shadow: rgb(188 194 207) 0px 4px 0px; */
 }
 
 p {
@@ -78,17 +78,17 @@ p {
 
 /*Colors for front and back applied here*/
 .cardContainer .cards .front  {
-  background: linear-gradient(147deg, rgb(235 237 243) 0%, rgb(228 246 255) 50%);
+  background: linear-gradient(147deg, rgb(230 255 229) 0%, rgb(236 255 241) 50%);
   display: flex;
   align-items: center;
-  border: 1px solid #bbb;
+  /* border: 1px solid rgb(243, 243, 243); */
 }
 
 .cardContainer .cards .back {
-  background: linear-gradient(147deg, rgb(243 229 196) 0%, rgb(255 235 214) 50%);
+  background: linear-gradient(147deg, rgb(236 239 255) 0%, rgb(243 249 255) 50%);
   display: flex;
   align-items: center;
-  border: 1px solid #bbb;
+  /* border: 1px solid rgb(243, 243, 243); */
 }
 
 h3.cardTitle {
@@ -110,29 +110,78 @@ h3.cardTitle {
 }
 
 .content {
-  padding: 4%;
   font-weight: 100;
   text-align: left;
-  
+  width: 100%;
+}
+
+.cards__meaning__group
+{
+  padding: 10px;
+  box-shadow: rgb(188 194 207) 0px 1px 0px;
 }
 
 .cards__meaning {
   font-family: Noto Serif Korean;
+  font-weight: 500;
+  color: #ff1d1d;
+}
+
+.cards__subtitle
+{
+  
 }
 
 .cards__example {
   font-family: Noto Serif Korean;
+  font-size: 18px;
+  color: #00118b;
 }
 
 .cards__button-wapper {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+}
+
+.cards__button-wapper__cards
+{
+  display: block;
+  width: calc(100% - 30px);
+  position: absolute;
+  padding: 15px;
+  bottom: 0;
+}
+
+.cards__button-wapper__prev
+{
+  float: left;
+  color: #000 !important;
+  background: #ffa464 !important;
+  box-shadow: rgb(0 0 0 / 10%) 0px -2px 0px inset;
+  border-color: #ededed !important;
+  min-width: 65px;
+}
+
+.cards__button-wapper__next
+{
+  float: right;
+  color: #000 !important;
+  background: #ffa464 !important;
+  box-shadow: rgb(0 0 0 / 10%) 0px -2px 0px inset;
+  border-color: #ededed !important;
+  min-width: 65px;
 }
 
 .button__group {
   display: flex;
-  flex-direction: column;
-  margin-top: 100px;
+  
+}
+
+.button__group__button
+{
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .cards__process
@@ -141,9 +190,40 @@ h3.cardTitle {
   margin-right: 15px;
 }
 
+.header__custom
+{
+  padding: 15px 0 15px 0;
+  margin: 15px;
+  box-shadow: rgb(188 194 207) 0px 3px 0px;
+  color: #e15d00;
+}
+
+.header__custom h4 {
+  font-weight: 600;
+}
+
+.header__custom.header__courses {
+  padding: 15px 0 10px 0 !important;
+  margin: 15px 0 15px 0 !important;
+}
+
+.cards_example__group
+{
+  padding: 10px;
+  box-shadow: rgb(188 194 207) 0px 1px 0px;
+}
+
+
+.xxxm{
+  background: rgb(188 194 207);
+  height: 3px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
 @media all and (max-width: 1000px){
   h3.cardTitle{
-    font-weight: 500;
+    font-weight: 500px;
   }
 
   .content p
@@ -151,26 +231,41 @@ h3.cardTitle {
     margin-top: -15%;
     line-height: 1.2em;
   }
+
+  .cardContainer
+  {
+    /* padding-right: 0 !important;
+    padding-left: 0 !important; */
+  }
   
   .cards
   {
-    height:400px;
+    height: 565px;
   }
 
   .cards .front,
   .cards .back 
   {
-    height: 400px;
+    height: 470px;
   }
 
   .button__group
   {
-    margin-top: 50px;
+    margin-top: 20px;
+    flex-direction: row;
+    justify-content: space-around;
   }
 
   .cards__button-wapper
   {
-    margin-top: 50px;
+    padding: 15px 0 15px 0;
+    flex-direction: column;
+  }
+
+  .button__group__button
+  {
+    margin-bottom: 20px;
+    font-size: 15px;
   }
 
   .cardsImg
@@ -186,24 +281,21 @@ h3.cardTitle {
 
 
 }
-@media all and (max-width : 752px) {
-  
-  .secondRow
-  {
-    margin-top: -3%;
-  }
-  .cardContainer:nth-child(3),.cardContainer:nth-child(4)
-  {
-    margin-top: 3%;
-  }
 
-}
-@media all and (max-width : 390px) {
+@media all and (max-width : 768px) {
   
   .cards
   {
   width:100%;
-    height:400px;
+    height: 565px;
+  }
+
+  .cards__button-wapper
+  {
+    padding: 15px 0 15px 0;
+    margin: 0 15px 0 15px;
+    background-color: rgb(185, 255, 200);
+    flex-direction: row;
   }
   .secondRow
   {

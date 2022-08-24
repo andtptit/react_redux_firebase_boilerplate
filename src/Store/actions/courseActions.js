@@ -193,7 +193,7 @@ export const addNewCourseList = (courseId, courseName, courseLength) => {
                     courseId: courseId,
                     title: courseName,
                     courseLength: courseLength,
-                    studentLearned: 0
+                    studentLearned: {}
                 })
                 .catch((err)=> {
                     console.log(err)
@@ -202,8 +202,6 @@ export const addNewCourseList = (courseId, courseName, courseLength) => {
 }
 
 export const addLearned = (course, dataCourse, profile, datenow)  => {
-    console.log('courseid', course, 'datacourse', dataCourse, 'profile', profile, 'day', datenow);
-    console.log('dataCourse', dataCourse)
     return (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase();
         const firestore = getFirebase().firestore();
@@ -215,6 +213,38 @@ export const addLearned = (course, dataCourse, profile, datenow)  => {
                 learned: 
                 {
                     ...dataCourse.learned,
+                    [profile]: {
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        time: datenow
+                    }
+                }
+                
+            },
+            {merge: true}
+            )
+            .catch((err)=> {
+                console.log(err)
+                dispatch({
+                    type: 'IMAGE_UPLOAD_ERROR',
+                    error: err,
+                }) 
+            })
+    }
+}
+
+export const addLearned_Title = (course, profile, datenow)  => {
+    console.log('course_xx', course)
+    return (dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase();
+        const firestore = getFirebase().firestore();
+
+        firestore
+            .collection("courses")
+            .doc(course[0].id)
+            .update({
+                studentLearned: 
+                {
+                    ...course[0].studentLearned,
                     [profile]: {
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                         time: datenow

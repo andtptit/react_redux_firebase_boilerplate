@@ -15,7 +15,6 @@ const FlashStoreTable = ({students, branch, courses}) => {
                     <tr>
                         <th>Name</th>
                         <th>Course ID</th>
-                        <th>Số thành viên đã học</th>
                         <th>Tổng số từ vựng</th>
                         <th>Chỉnh sửa</th>
                     </tr>
@@ -25,7 +24,6 @@ const FlashStoreTable = ({students, branch, courses}) => {
                     <tr key={course.id}>
                         <td>{course.title}</td>
                         <td>{course.courseId}</td>
-                        <td>{course.studentLearned}</td>
                         <td>{course.courseLength}</td>
                         <td>
                             <Button outline color='primary' className="suspend-button">View</Button>

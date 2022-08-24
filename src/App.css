@@ -247,14 +247,14 @@ body{
   text-align: center;
   font-size: 16px; 
   font-family: 'Source Sans Pro';
-  margin: auto;
+  margin-top: auto;
   background-color: #AFD1FF;
   color: navy; 
   position: fixed;
   bottom: 0;
   width: 100%;
   overflow: hidden;
-  width: 100%;
+  
 }
 
 .notif-heading{
@@ -504,4 +504,61 @@ body{
       margin-top: 150px;
       margin-bottom: 50px;
   }
+}
+
+/* Card custom */
+
+.course-card__custom {
+  background: linear-gradient(147deg, rgb(188, 250, 180) 0%, rgb(196 255 200) 50%) !important;
+  box-shadow: rgb(183 183 183) 0px 1px 0px;
+}
+
+.card-header__custom
+{
+  background: linear-gradient(147deg, rgb(188, 250, 180) 0%, rgb(196 255 200) 50%) !important;
+}
+
+.card-button__custom
+{
+  width: 100%;
+  color: #fff;
+  border-radius: 9px;
+  text-align: center;
+  line-height: 42px;
+  font-size: 15px;
+  margin: 12px 0px 0px;
+  border-color: none !important;
+}
+
+.card-button__custom.continue
+{
+  background: #FF9600 !important;
+}
+
+.card-button__custom.new
+{
+  background: #5C6CFC !important;
+}
+
+.card-container__custom
+{
+  padding-bottom: 10rem !important;
+}
+
+@media all and (max-width: 1000px)
+{
+  .course-card__custom {
+    padding: 0.5rem !important;
+  }
+
+  .card-header__custom
+  {
+    padding: 0.5rem 0.5rem !important;
+  }
+
+  .card-body__custom
+  {
+    padding: 0.5rem !important;
+  }
+  
 }
