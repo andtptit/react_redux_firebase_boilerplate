@@ -5,7 +5,8 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import CustomModal from '../../Components/Modal'
 import { removeCourse, removeDataCourse } from '../../Store/actions/courseActions'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
+import CustomBreadcurmb from '../Breadcrumb'
 
 
 
@@ -17,8 +18,6 @@ const CourseCard = ({courses, removeCourse, removeDataCourse, admin, profile}) =
         removeDataCourse(course)
         setIsOpen(false)
     }
-
-    console.log("coursesxx=", courses)
 
     const toggle = () => setIsOpen(!isOpen)
 
@@ -35,35 +34,38 @@ const CourseCard = ({courses, removeCourse, removeDataCourse, admin, profile}) =
       }
     }
 
-  
+    const str_href = window.location.pathname
+    const url_bred = str_href.split("/")
 
     return(
         <React.Fragment>
+            <CustomBreadcurmb url_bred={url_bred}/>
             <div className='card-container__custom'>
-            <Row md="12">
-                <Col md='12'>
-                    <div className='header__custom header__courses'>
-                        <h4>Khóa bạn đang học</h4>
-                    </div>
-                </Col>
-                {objCourseLearned && objCourseLearned.map((c) =>
-                    <Col className='pr-2 pl-2' md='3' xs='6' key={c.id}>
-                        <Card className="course-card course-card__custom" body outline color="info">
-                        <CardImg top src="https://www.voca.vn/assets/file_upload/images/let%27s%20go.png" alt="Card image cap" />
-                        <CardHeader className="course-title card-header__custom"><strong>{c.title}</strong></CardHeader>
-                        <CardBody className='card-body__custom'>
-                            <CardSubtitle className="mb-2 subtitle">Số lượng từ vựng: {c.courseLength}</CardSubtitle>
-                            <Button  className="mt-2 card-button__custom continue">
-                                <a href={`/courses/${c.courseId}`} className="link">
-                                    Tiếp tục học
-                                </a>
-                            </Button>
-                        </CardBody>
-                        </Card>
+            {admin ? "" :
+                <Row md="12">
+                    <Col md='12'>
+                        <div className='header__custom header__courses'>
+                            <h4>Khóa bạn đang học</h4>
+                        </div>
                     </Col>
-                )}
-                
-            </Row>
+                    {objCourseLearned && objCourseLearned.map((c) =>
+                        <Col className='pr-2 pl-2' md='3' xs='6' key={c.id}>
+                            <Card className="course-card course-card__custom" body outline color="info">
+                            <CardImg top src="https://www.voca.vn/assets/file_upload/images/let%27s%20go.png" alt="Card image cap" />
+                            <CardHeader className="course-title card-header__custom"><strong>{c.title}</strong></CardHeader>
+                            <CardBody className='card-body__custom'>
+                                <CardSubtitle className="mb-2 subtitle">Số lượng từ vựng: {c.courseLength}</CardSubtitle>
+                                <Button  className="mt-2 card-button__custom continue">
+                                    <a href={`/courses/${c.courseId}`} className="link">
+                                        Tiếp tục học
+                                    </a>
+                                </Button>
+                            </CardBody>
+                            </Card>
+                        </Col>
+                    )}
+                </Row>
+            }
             <Row md="12">
                 <Col md='12'>
                     <div className='header__custom header__courses'>

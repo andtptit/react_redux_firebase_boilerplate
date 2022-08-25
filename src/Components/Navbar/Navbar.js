@@ -24,7 +24,7 @@ const CustomNavbar = ({links, currentUser, signOut}) => {
     return(
         <div>
         <Navbar color="dark" dark expand="md" className="navbar">
-          <NavbarBrand href="/">Kit Education</NavbarBrand>
+          <NavbarBrand href="/">FlashCard Tiếng Hàn Thầy Tư</NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>

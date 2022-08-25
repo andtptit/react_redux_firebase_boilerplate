@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./FlashCardArray.css";
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import {Card, CardBody, CardImg, Row, Col, CardSubtitle, Container, CardHeader, Button, Progress, CardText} from 'reactstrap'
+import { Row, Col, Button, Progress, Container } from 'reactstrap'
 import { addLearned, addLearned_Title } from '../../Store/actions/courseActions'
-import { CircularProgressbar } from 'react-circular-progressbar';
-import {NextFilled, PreviousFilled, Restart, Shuffle} from '@carbon/icons-react'
-
+import {NextFilled, PreviousFilled} from '@carbon/icons-react'
+import CustomBreadcurmb from "../Breadcrumb";
+import {storage} from "../../config/fbConfig"
 
 
 const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Title}) => {
@@ -99,11 +99,37 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
     setIsShuffer(!isShuffer)
   }
 
-  let iconStyles = { color: "#3c3c3c", fontSize: "1.5em" };
+  let iconStyles = { color: "#3c3c3c" }
+
+  const str_href = window.location.pathname
+  const url_bred = str_href.split("/")
+
+  const [imgURL, setImgURL] = useState([])
+  useEffect(() => {
+    let arr_img = []
+    console.log('render img')
+    storage
+        .ref("list_course")
+        .listAll()
+        .then(function(result) {
+          console.log(result.items);
+          result.items.forEach(function(fileRef) {
+            fileRef.getDownloadURL().then(function(fileURL) {
+                console.log(fileURL);
+                arr_img.push(fileURL);
+            })
+        });
+      });
+    setImgURL(arr_img)
+  },[])
+
+  console.log('arr_img', imgURL)
+  
 
   return (
     <Container className="mt-4 mb-4 card-container__custom">
-     <h1 className="table-title mt-3 mb-3">FlashCard</h1>
+     <h1 className="table-title mt-3 mb-3">Học FlashCard</h1>
+     <CustomBreadcurmb url_bred={url_bred} />
       <Row md="12">
           <Col md='12'>
             <div className="header__custom">
@@ -119,14 +145,6 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
                   <div className="cards__words">
                     <h3 className="cards__words">{currentCard && currentCard.wordTitle}</h3>
                   </div>
-                  {/* <div className="cards__button-wapper__cards">
-                    <Button onClick={() => handlePrevCard()} className="cards__button-wapper__prev">
-                      <PreviousFilled style={iconStyles} className="left" size={30}/>
-                    </Button>
-                    <Button onClick={() => handleNextCard()} className="cards__button-wapper__next">
-                      <NextFilled style={iconStyles} className="right" size={30}/>
-                    </Button>
-                  </div> */}
                 </div>
                 <div className="back">
                   <div className="cardsImg__group">
@@ -144,60 +162,48 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
                       }) : ""}
                     </div>
                   </div>
-                  {/* <div className="cards__button-wapper__cards">
-                    <Button onClick={() => handlePrevCard()} className="cards__button-wapper__prev">
-                      <PreviousFilled style={iconStyles} className="left" size={30}/>
-                    </Button>
-                    <Button onClick={() => handleNextCard()} className="cards__button-wapper__next">
-                      <NextFilled style={iconStyles} className="right" size={30}/>
-                    </Button>
-                  </div> */}
                 </div>
 
               </div>
               <div className="cards__button-wapper__cards">
-                <Button onClick={() => handlePrevCard()} className="cards__button-wapper__prev">
-                  <PreviousFilled style={iconStyles} className="left" size={30}/>
-                </Button>
-                <Button onClick={() => handleNextCard()} className="cards__button-wapper__next">
-                  <NextFilled style={iconStyles} className="right" size={30}/>
-                </Button>
-              </div>
-              <div className="xxxm"></div>
-
+                {cardNum == 1 ? <Button disabled onClick={() => handlePrevCard()} className="cards__button-wapper__prev">
+                    <PreviousFilled style={iconStyles} className="left" size={30}/>
+                  </Button> : 
+                  <Button onClick={() => handlePrevCard()} className="cards__button-wapper__prev">
+                    <PreviousFilled style={iconStyles} className="left" size={30}/>
+                  </Button>}
                 
-                {/* {cardNum == 1 ? <Button disabled onClick={() => handlePrevCard()}  className='ml-2 mt2 disable'><PreviousFilled size={30}/></Button> :
-                <Button onClick={() => handlePrevCard()}  className='ml-2 mt2 disable'> <PreviousFilled size={30}/></Button>}
-                {dataCourse && cardNum > dataCourse.length ?
-                <Button disabled  onClick={() => handleNextCard()} color='success' className='ml-2 mt2'><NextFilled size={30}/></Button> :
-                <Button  onClick={() => handleNextCard()} color='success' className='ml-2 mt2'><NextFilled size={30}/></Button>
+                {
+                  dataCourse && cardNum > dataCourse.length ? <Button disabled onClick={() => handleNextCard()} className="cards__button-wapper__next">
+                    <NextFilled style={iconStyles} className="right" size={30}/>
+                  </Button> :
+                  <Button onClick={() => handleNextCard()} className="cards__button-wapper__next">
+                      <NextFilled style={iconStyles} className="right" size={30}/>
+                  </Button>
                 }
                 
-                <Button onClick={() => handleShufferCourse()} color="success" className="button__group__button ml-2 mt2"> <Shuffle />Trộn khóa học</Button>
-                <Button onClick={() => handleRestartCourse()} color="warning" className="button__group__button ml-2 mt2">
-                  <Restart size={28} style={iconStyles} /> Học lại
-                </Button> */}
-    
-
-              {/* <div className="cards__button-wapper">
-                <Button onClick={() => handleShufferCourse()} color="success" className="button__group__button ml-2 mt2"> <Shuffle />Trộn khóa học</Button>
-                <Button onClick={() => handleRestartCourse()} color="warning" className="button__group__button ml-2 mt2">
-                  <Restart size={28} style={iconStyles} /> Học lại
-                </Button>
-              </div> */}
+              </div>
+              <div className="xxxm"></div>
             </div> :
-            <div>
-              Bạn đã hoàn thành khóa học
+            <div className="cards_finish__group">
+              <div className="cards_finish__group__title">
+                Bạn vừa hoàn thành phần
+              </div>
+              <div className="cards_finish__group__name_course">{course && course[0].title}</div>
+                <Button href="/courses" outline color="success" >
+                  
+                  Quay lại khóa học
+                </Button>
             </div>
             }
           </Col>
           <Col md="3">
             <div className="cards__button-wapper">
-                <Button onClick={() => handleShufferCourse()} color="success" className="button__group__button ml-2 mt2">
-                  <Shuffle size={28} style={iconStyles} />Trộn
+                <Button onClick={() => handleShufferCourse()} color="danger" className="button__group__button ml-2 mt2">
+                  Trộn
                   </Button>
-                <Button onClick={() => handleRestartCourse()} color="warning" className="button__group__button ml-2 mt2">
-                  <Restart size={28} style={iconStyles} /> Học lại
+                <Button onClick={() => handleRestartCourse()} color="info" className="button__group__button ml-2 mt2">
+                  Học lại
                 </Button>
             </div>
           </Col>
@@ -207,16 +213,24 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
         <Col md='12'>
           <div className="header__custom">
               <h4>Từ vựng đã học</h4>
-              {objDataCourseNew && objDataCourseNew.map((obj, index) => {
-                <h4 key={index}>{obj.meaning}</h4>
-              })}
           </div>
+          {objDataCourseRemind.length ? objDataCourseRemind.map(function(item, index){
+                  return <div key={index} className="words_statistic__group"> 
+                            <h4 className="words_statistic__title">{item.wordTitle}</h4>
+                            <h4 className="words_statistic__meaning">{item.meaning}</h4>
+                            {/* <h4 className="words_statistic__speaker" key={index}>{item.voice}</h4> */}
+                        </div>
+                }) : <h4 className="words_statistic__title" >Bắt đầu học ngay</h4>}
           <div className="header__custom">
-              <h4>Từ vựng đã học</h4>
-              {objDataCourseRemind ? objDataCourseRemind.map(function(item, index){
-                  return <h4 className="cards__example" key={index}>{item.meaning}</h4>;
-                }) : ""}
+              <h4>Từ vựng chưa học</h4>
           </div>
+          {objDataCourseNew.length ? objDataCourseNew.map(function(item, index){
+                  return <div key={index} className="words_statistic__group"> 
+                            <h4 className="words_statistic__title" >{item.wordTitle}</h4>
+                            <h4 className="words_statistic__meaning" >{item.meaning}</h4>
+                            {/* <h4 className="words_statistic__speaker" key={index}>{item.voice}</h4> */}
+                        </div>
+                }) : <h4 className="words_statistic__title" >Bạn đã học hết tất cả các từ vựng</h4>}
         </Col>
       </Row>
       

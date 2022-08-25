@@ -55,19 +55,19 @@ export const TEACHER_ROUTES = [
 
 export const STUDENT_ROUTES = [
     {
-        'route': 'Home',
+        'route': 'Trang chủ',
         'url':'/'
     },
     {
-        'route': 'Courses',
+        'route': 'Học FlashCard',
         'url': '/courses'
     },
     // {
     //     'route': 'Assignments',
     //     'url': '/assignments'
     // },
-    {
-        'route': 'Forum',
-        'url': '/forum'
-    },
+    // {
+    //     'route': 'Forum',
+    //     'url': '/forum'
+    // },
 ];

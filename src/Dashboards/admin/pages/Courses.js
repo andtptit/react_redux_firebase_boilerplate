@@ -31,23 +31,8 @@ const Courses = ({course, branches, profile}) => {
 
  return(
     <Container className="mt-4 mb-4">
-     <h1 className="table-title mt-3 mb-3">Courses</h1>
+     <h1 className="table-title mt-3 mb-3">Danh sách các khóa học</h1>
             <Row className="mt-4 mb-4">
-                <Col md='4'>
-                    <h3 className="branch">Branch: <span>{branch}</span></h3>
-                </Col>
-
-                    {/* <Col md='2'>
-                        <p>Select Branch</p>
-                        </Col>
-                    <Col md="4">
-                        <Input type="select" className="selector mb-3 w-auto" name="select" id="branch" onChange={handleBranch}>
-                            <option value='All Branches' defaultValue>All Branches</option>
-                            {branches && branches.map(branch => (
-                            <option key={branch.id} value={branch.name}>{branch.name}</option>
-                            ))}           
-                        </Input>
-                    </Col> */}
                     <Col md="4">
                         {/* {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggle}>Add New Campain</Button> : undefined} */}
                     </Col>

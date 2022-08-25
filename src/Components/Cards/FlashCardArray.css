@@ -221,6 +221,48 @@ h3.cardTitle {
   margin-bottom: 15px;
 }
 
+
+/* tu vung da hoc/chua hoc */
+.words_statistic__group
+{
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  background-color: #fdfdfd;
+  width: 70%;
+  padding: 15px;
+  box-shadow: rgb(188 194 207) 0px 1px 0px;
+  margin: 15px 30px 15px 30px;
+}
+
+.words_statistic__title,
+.words_statistic__meaning
+{
+  font-family: Noto Serif Korean;
+  font-size: 18px;
+  color: #542b00;
+}
+
+.cards_finish__group
+{
+  padding: 15px;
+}
+
+.cards_finish__group__title
+{
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #0008ff;
+}
+
+.cards_finish__group__name_course
+{
+  margin-bottom: 15px;
+  font-size: 23px;
+  font-weight: 600;
+  color: #0008ff;
+}
+
 @media all and (max-width: 1000px){
   h3.cardTitle{
     font-weight: 500px;
@@ -292,9 +334,8 @@ h3.cardTitle {
 
   .cards__button-wapper
   {
-    padding: 15px 0 15px 0;
+    padding: 20px 0 0 0;
     margin: 0 15px 0 15px;
-    background-color: rgb(185, 255, 200);
     flex-direction: row;
   }
   .secondRow
@@ -321,6 +362,20 @@ h3.cardTitle {
   .cardWrapper
   {
     margin-left: 4%;
+  }
+
+  .words_statistic__group
+  {
+    width: calc(100% - 30px);
+    margin: 15px;
+  }
+
+  .words_statistic__title,
+  .words_statistic__meaning
+  {
+    font-family: Noto Serif Korean;
+    font-size: 16px;
+    color: #542b00;
   }
 
 }

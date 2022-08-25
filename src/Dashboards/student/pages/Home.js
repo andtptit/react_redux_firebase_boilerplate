@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Card, Row, Container, Col, CardTitle, CardText, Button } from 'reactstrap';
@@ -8,42 +8,51 @@ import Slider from '../../../Components/Slider';
 
 
 
-const TeacherOverview = ({profile, classes, notifications}) => {
-    const myClasses = classes || []
+const TeacherOverview = ({profile, listcourse}) => {
+    
+    const profileX = profile.SRN
+    let objCourseNew = []
+    let objCourseLearned = []
+    if(listcourse) {
+        console.log("render")
+        for ( var index=0; index<listcourse.length; index++ ) {
+            if (listcourse[index] && Object.keys(listcourse[index].studentLearned).includes(profileX)) {
+                objCourseLearned.push(listcourse[index])
+            } else {
+                objCourseNew.push(listcourse[index])
+            }
+        }
+    }
+
     return(
-        <Container className="mt-4 mb-4">
+        <Container className="mt-4 mb-4 card-container__custom">
         <Row>
             <Slider></Slider>
-            <Col md='3'>
-                <Notification notifications={notifications} profile={profile}></Notification>        
+            <Col md="12">
+                <div className="header__custom">
+                <h4>Học tập</h4>
+                </div>
             </Col>
-            <Col md='9'>
-            <Card className="welcome-card mt-4">
-                <h2>Welcome</h2>
-                <h4 className="username">{profile.name}</h4>
-            </Card>            
-            <Card className="welcome-card mt-4">
-                <h5>Your Classes</h5>
-                <Row>
-                {myClasses && myClasses.map((c) => (
-                            <Col md='4'>
-                                <Card className="class-card mt-2 mb-2"> 
-                                    <CardTitle className="class-course">{c.course}</CardTitle>
-                                    <CardText className="class-time">{c.time}</CardText>
-                                    <Button className="class-btn">
-                                        <a href={c.link} className="class-link">
-                                            Go to Class
-                                        </a>
-                                    </Button>
-                                </Card> 
-                            </Col>
-                    ))
-                }
-                </Row>
-                {
-                 classes.length === 0 && <h6 className="class-helper">No classes</h6>
-                }
-            </Card> 
+            <Col md="6">
+                <div className='home_course__group'>
+                    <h5>
+                        Khóa học: {listcourse && listcourse.length}
+                    </h5>
+                </div>
+            </Col>
+            <Col md="6">
+                <div className='home_course__group'>
+                    <h5>
+                        Đã học: {objCourseLearned && objCourseLearned.length}
+                    </h5>
+                </div>
+            </Col>
+            <Col md="12">
+                <div className='home_course__group'>
+                    <h5>
+                        Khóa học gần nhất:
+                    </h5>
+                </div>
             </Col>
         </Row>
         </Container>
@@ -54,17 +63,17 @@ const mapStateToProps = (state) => {
     console.log(state)
     return {
         profile: state.firebase.profile, 
-        classes: state.firestore.ordered.classes || [],
-        notifications: state.firestore.ordered.notifications || [],
+        listcourse: state.firestore.ordered.listcourse,
     }
 }
 
-export default compose(connect(mapStateToProps), firestoreConnect((props) => [
-    {
-        collection: 'classes',
-        where: ["branch", "==", `${props.profile.Branch}`]
-    },
-    {
-        collection: 'notifications',
-    }
-]))(TeacherOverview);
+export default compose(connect(mapStateToProps), firestoreConnect((props) =>
+{
+    console.log('props', props)
+    return [
+        {
+            collection: 'courses',
+            storeAs: 'listcourse'
+        },
+    ]
+} ))(TeacherOverview);
