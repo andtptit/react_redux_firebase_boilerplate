@@ -62,13 +62,6 @@ const EditDataCourseForm = ({dataEdit2, course, updateDataCourseFull, edited, da
 
     const toggleCourse = () => setIsCourseOpen(!isCourseOpen);
 
-    useEffect(() => {
-        console.log('useEffect')
-        if (dataEdit2 != undefined) {
-            setImgURL(dataEdit2[0].image)
-        }
-    },[dataEdit2 != undefined, dataEdit2])
-
     console.log('dataEdit2', dataEdit2)
     
     let arr_ex = ""
@@ -97,7 +90,7 @@ const EditDataCourseForm = ({dataEdit2, course, updateDataCourseFull, edited, da
                 <Col md="12">
                     <div className='course_form__edit_group'>
                         <Col md="6">
-                            <img className='modal_image__custom' src={imgURL ? imgURL : ""} alt='image' height={"50px"}></img>
+                            <img className='modal_image__custom' src={dataEdit2 && dataEdit2[0] ? dataEdit2[0].image: ""} alt='image' height={"50px"}></img>
                         </Col>
                         <Col md="6" style={{margin: "auto"}}>
                             <Button outline color='success' onClick={toggleCourse}>Change Image</Button>

@@ -8,6 +8,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { updateStudentLearnedCount } from '../../Store/actions/courseActions'
 import EditCourseForm from '../Forms/EditCourseForm'
 import EditDataCourseForm from '../Forms/EditDataCourseForm'
+import AddDataCourseForm from '../Forms/AddDataCourseForm'
 
 
 
@@ -22,14 +23,17 @@ const dummy = {
 const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount}) => {
 
     const currentCourse = course ? course[0] : dummy
-    const isStudent = profile.userType === 'Student' ? true :  false;
-    const isAdmin = profile.userType === 'Admin' ? true :  false;
+    const isStudent = profile.userType === 'Student' ? true :  false
+    const isAdmin = profile.userType === 'Admin' ? true :  false
 
-    const [isCourseOpen, setIsCourseOpen] = useState(false);
-    const [isDataCourseOpen, setIsDataCourseOpen] = useState(false);
+    const [isCourseOpen, setIsCourseOpen] = useState(false)
+    const [isAddataOpen, setIsAddDataOpen] = useState(false)
+    const [isDataCourseOpen, setIsDataCourseOpen] = useState(false)
     const [dataEdit, setDataEdit] = useState({})
 
-    const toggleCourse = () => setIsCourseOpen(!isCourseOpen);
+    const toggleCourse = () => setIsCourseOpen(!isCourseOpen)
+    const toggleAddDataCourse = () => setIsAddDataOpen(!isAddataOpen)
+
     const toggleDataCourse = (item) => {
         setIsDataCourseOpen(!isDataCourseOpen);
         setDataEdit(item)
@@ -42,8 +46,11 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
     return(
         <Col>
             <Row md="12">
-                <Col md="12">
+                <Col md="3">
                     <Button outline color='success' onClick={toggleCourse}>Edit Khóa học</Button>
+                </Col>
+                <Col md="3">
+                    <Button outline color='primary' onClick={toggleAddDataCourse}>Thêm từ vựng</Button>
                 </Col>
                 <Col md="12" style={{marginTop: "10px"}}>
                     <div className='xxxm'></div>
@@ -73,6 +80,9 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
 
             <CustomModal title="Edit Khóa học" modal={isCourseOpen} toggle={toggleCourse}>
                 <EditCourseForm course={course}/>
+            </CustomModal>
+            <CustomModal title="Thêm từ vựng" modal={isAddataOpen} toggle={toggleAddDataCourse}>
+                <AddDataCourseForm course={course}/>
             </CustomModal>
             <CustomModal title="Edit data khóa học" modal={isDataCourseOpen} toggle={toggleDataCourse}>
                 <EditDataCourseForm course={course} dataEdit={dataEdit}/>

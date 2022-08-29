@@ -53,22 +53,6 @@ const AddNewCourse = ({course, addNewCourse, addNewCourseList}) => {
         setName(e.target.files[0].name)
     }
 
-    const handleFileUploadx = (file, course, name) => {
-        const currentCourse = course;
-        const newImg = file;
-        const title = name;
-        const uploadTask = storage.ref(`/list_course/${title}`).put(newImg);
-        uploadTask.on("state_changed", console.log, console.error, () => {
-          storage
-            .ref("list_course")
-            .child(title)
-            .getDownloadURL()
-            .then((url) => {
-                console.log("URLL", url)
-            });
-        });
-        }
-
     return(
         <Container>
             <Row md="12">
@@ -85,16 +69,16 @@ const AddNewCourse = ({course, addNewCourse, addNewCourseList}) => {
             </Row>
             <Row md="12" className="mt-3">
                 <Col md="5">
-                    <Label htmlFor="name">Video File</Label>
+                    <Label htmlFor="name">Image</Label>
                     <Input type="file" onChange={handleFilex} id="pdfUpload"></Input>
                     <UncontrolledTooltip placement='right' target="pdfUpload">
-                        Video Files
+                        Image
                     </UncontrolledTooltip>
                 </Col>
             </Row>
             <Row md="12" className="mt-3">
                 <Col md="5">
-                    <Label htmlFor="courseFile">File Course Data</Label>
+                    <Label htmlFor="courseFile">File Flash Data (json.txt)</Label>
                     <Input type="file" onChange={(e)=>{handleFileChosen(e.target.files[0])}} id="courseFile"></Input>
                 </Col>
             </Row>
