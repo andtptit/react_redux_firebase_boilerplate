@@ -24,6 +24,122 @@ export const addCourse = (course) => {
         }
 }
 
+export const updateImageCourse = (selectedImg, course) => {
+    console.log('selectedImg', selectedImg)
+    return (dispatch, getState, {getFirebase}) => {
+        const firestore = getFirebase().firestore();
+
+        firestore
+            .collection("courses")
+            .doc(`${course[0].id}`)
+            .update({
+                imgUrl: selectedImg
+            },
+            {merge: true}
+            )
+            .then(() => {
+                dispatch({
+                    type: 'IMAGE_UPLOADED',
+                    success: 'Success',
+                });
+            })
+            .catch((err)=> {
+                dispatch({
+                    type: 'IMAGE_UPLOAD_ERROR',
+                    error: err,
+                }) 
+            })
+    }
+}
+
+export const updateImageDataCourse = (selectedImg, course, dataEdit) => {
+    console.log('dataEdit', dataEdit)
+    console.log('selectedImg', selectedImg)
+    console.log('course', course)
+    return (dispatch, getState, {getFirebase}) => {
+        const firestore = getFirebase().firestore();
+
+        firestore
+            .collection(`${course[0].courseId}`)
+            .doc(`${dataEdit.id}`)
+            .update({
+                image: selectedImg
+            },
+            {merge: true}
+            )
+            .then(() => {
+                dispatch({
+                    type: 'IMAGE_UPLOADED',
+                    success: 'Success',
+                });
+            })
+            .catch((err)=> {
+                dispatch({
+                    type: 'IMAGE_UPLOAD_ERROR',
+                    error: err,
+                }) 
+            })
+    }
+}
+
+export const updateDataCourseFull = (course, newObjData) => {
+    return (dispatch, getState, {getFirebase}) => {
+        const firestore = getFirebase().firestore();
+
+        firestore
+            .collection(`${course[0].courseId}`)
+            .doc(`${newObjData.id}`)
+            .update({
+                wordId: newObjData.wordId,
+                example: newObjData.example,
+                meaning: newObjData.meaning
+            },
+            {merge: true}
+            )
+            .then(() => {
+                dispatch({
+                    type: 'IMAGE_UPLOADED',
+                    success: 'Success',
+                });
+            })
+            .catch((err)=> {
+                dispatch({
+                    type: 'IMAGE_UPLOAD_ERROR',
+                    error: err,
+                }) 
+            })
+    }
+}
+
+
+export const updateCourse = (course, title) => {
+    return (dispatch, getState, {getFirebase}) => {
+        const firestore = getFirebase().firestore();
+
+        firestore
+            .collection("courses")
+            .doc(`${course[0].id}`)
+            .update({
+                title: title
+            },
+            {merge: true}
+            )
+            .then(() => {
+                dispatch({
+                    type: 'IMAGE_UPLOADED',
+                    success: 'Success',
+                });
+            })
+            .catch((err)=> {
+                dispatch({
+                    type: 'IMAGE_UPLOAD_ERROR',
+                    error: err,
+                }) 
+            })
+    }
+}
+
+
 export const removeDataCourse = (course) => {
     console.log('course', course)
     return (dispatch, getState, {getFirebase}) => {
@@ -184,7 +300,7 @@ export const addNewCourse = (courseId, courseName, courseFile) => {
     }
 }
 
-export const addNewCourseList = (courseId, courseName, courseLength) => {
+export const addNewCourseList = (courseId, courseName, courseLength, url) => {
     return (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
         firestore
@@ -193,7 +309,8 @@ export const addNewCourseList = (courseId, courseName, courseLength) => {
                     courseId: courseId,
                     title: courseName,
                     courseLength: courseLength,
-                    studentLearned: {}
+                    studentLearned: {},
+                    imgUrl: url
                 })
                 .catch((err)=> {
                     console.log(err)

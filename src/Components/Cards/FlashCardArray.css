@@ -235,12 +235,26 @@ h3.cardTitle {
   margin: 15px 30px 15px 30px;
 }
 
+.words_statistic__group.admin
+{
+  margin: 10px 0 10px 0;
+  height: 70px;
+  width: 100%;
+  justify-content: space-between;
+}
+
 .words_statistic__title,
 .words_statistic__meaning
 {
   font-family: Noto Serif Korean;
   font-size: 18px;
   color: #542b00;
+}
+
+.words_statistic__title.admin,
+.words_statistic__meaning.admin
+{
+  margin-right: 20px;
 }
 
 .cards_finish__group

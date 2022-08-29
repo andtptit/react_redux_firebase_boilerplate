@@ -1,32 +1,51 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Button, Col, Container, Form, Input, Label, Row } from 'reactstrap'
 import { compose } from 'redux'
-import useForm from '../../Hooks/useForm'
-import { updateStudentInfo } from '../../Store/actions/studentActions'
+import { updateImageCourse, updateImageDataCourse } from '../../Store/actions/courseActions'
 import CustomAlert from '../Alert'
 
-const GalleryImageForm = ({course, updateStudentInfo, edited}) => {
+const GalleryImageForm = ({course, updateImageCourse, updateImageDataCourse, dataCourse, arr_img, dataEdit}) => {
 
-    const updateStudent = () => {
-       updateStudentInfo(inputs)
-    }    
-    
-    const {inputs, handleInputChange, handleSubmit} = useForm({
-        id: course[0].courseId, 
-        name: course[0].title,
-    }, updateStudent);
+    const [indexImg, setIndexImg] = useState(0)
+    const [arrayImg, setArrayImg] = useState(arr_img)
+    const [selectedImg, setSelectedImg] = useState("")
+
+    const handleSelectImg = (e) => {
+        setIndexImg(e)
+        console.log(arr_img[e])
+        setSelectedImg(arr_img[e])
+    }
+
+    useEffect(() => {
+        console.log('render')
+        setArrayImg(arr_img)
+    },[])
+
+    function handleChangeImage(selectedImg){
+        updateImageCourse(selectedImg, course)
+    }
+
+    function handleChangeImageDataCourse(selectedImg){
+        updateImageDataCourse(selectedImg, course, dataEdit)
+    }
+
 
 
     return(
-        <Form onSubmit={handleSubmit}>
+        <Form >
             <Container>
             <Row md="12">
-                <img onClick={() => console.log("XXX")} width={"100px"} src='https://firebasestorage.googleapis.com/v0/b/tuvungtienghanthaytu-2f56b.appspot.com/o/list_course%2Fenglish-words-for-starter-1621594978.jpg?alt=media&token=9d88078e-571f-4c1d-9166-4523c2abd44b'></img>
-                <img width={"100px"} src="https://firebasestorage.googleapis.com/v0/b/tuvungtienghanthaytu-2f56b.appspot.com/o/list_course%2Flet's%20go.png?alt=media&token=03b820d7-469a-4ac5-8d2e-78eccd326e55"></img>
+                {arrayImg.map((imgURL, index) => {
+                    return <div key={index} className={indexImg == index ? "modal_image__custom active" : "modal_image__custom"}>
+                                <img onClick={() => handleSelectImg(index)} height={"40px"} src={imgURL}></img>
+                            </div>
+                })}
             </Row>
-            <Button type="submit" className="mt-3 mb-3" color="primary">Save</Button>
-            {edited && <CustomAlert alert={edited}></CustomAlert>}
+            {
+                dataCourse ? <Button onClick={() => handleChangeImageDataCourse(selectedImg)} className="mt-3 mb-3" color="primary">Save Image</Button> :
+                <Button onClick={() => handleChangeImage(selectedImg)} className="mt-3 mb-3" color="primary">Save Image</Button>
+            }
             </Container>
         </Form>
     )
@@ -34,21 +53,22 @@ const GalleryImageForm = ({course, updateStudentInfo, edited}) => {
 
 
 const mapStateToProps = (state) => {
-    console.log(state)
+    console.log('state', state)
     return{
-        edited: state.student.edited
+        edited: state.student.upload
     }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        updateStudentInfo: (student) => {
-            dispatch(updateStudentInfo(student))
+        updateImageCourse: (selectedImg, course) => {
+            dispatch(updateImageCourse(selectedImg, course))
+        },
+        updateImageDataCourse: (selectedImg, course, dataEdit) => {
+            dispatch(updateImageDataCourse(selectedImg, course, dataEdit))
         }
     })
 }
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(GalleryImageForm);
-
-

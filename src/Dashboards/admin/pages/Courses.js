@@ -34,10 +34,8 @@ const Courses = ({course, branches, profile}) => {
      <h1 className="table-title mt-3 mb-3">Danh sách các khóa học</h1>
             <Row className="mt-4 mb-4">
                     <Col md="4">
-                        {/* {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggle}>Add New Campain</Button> : undefined} */}
                     </Col>
                     <Col md="4">
-                        {/* {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggleDataCourse}>Add New Data</Button> : undefined} */}
                     </Col>
                     <Col md="4">
                         {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggleCourse}>Add New Course</Button> : undefined}

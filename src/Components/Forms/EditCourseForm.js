@@ -1,57 +1,86 @@
-import React, { useState }  from 'react'
+import React, { useState, useEffect }  from 'react'
 import { connect } from 'react-redux'
 import { Button, Col, Container, Form, Input, Label, Row } from 'reactstrap'
 import { compose } from 'redux'
 import useForm from '../../Hooks/useForm'
-import { updateStudentInfo } from '../../Store/actions/studentActions'
+import { updateCourse } from '../../Store/actions/courseActions'
 import CustomAlert from '../Alert'
 import GalleryImageForm from './GalleryImageForm'
-import CustomModal from '../Modal'
+import CustomModalL from '../Modal/CustomModalL'
+import {storage} from "../../config/fbConfig"
 
-const EditCourseForm = ({course, updateStudentInfo, edited}) => {
-
-    const updateStudent = () => {
-       updateStudentInfo(inputs)
-    }    
-    
-    const {inputs, handleInputChange, handleSubmit} = useForm({
-        id: course[0].courseId, 
-        name: course[0].title,
-    }, updateStudent);
+const EditCourseForm = ({course, updateCourse, edited}) => {
 
     const [isCourseOpen, setIsCourseOpen] = useState(false);
     const toggleCourse = () => setIsCourseOpen(!isCourseOpen);
+    
+    const [imgURLArr, setImgURLArr] = useState([])
+    const [imgURL, setImgURL] = useState(course[0].imgUrl)
 
+    const [newTitle, setNewTitle] = useState(course[0].title)
+
+    const handleInputChange = (e) => {
+        setNewTitle(e)
+    }
+
+    useEffect(() => {
+      let arr_img = []
+      console.log('render img')
+      storage
+          .ref("list_course")
+          .listAll()
+          .then(function(result) {
+            console.log(result.items);
+            result.items.forEach(function(fileRef) {
+              fileRef.getDownloadURL().then(function(fileURL) {
+                  console.log(fileURL);
+                  arr_img.push(fileURL);
+              })
+          });
+        });
+        setImgURLArr(arr_img)
+    },[])
+
+    console.log('course', course)
+
+    useEffect(() => {
+        setImgURL(course[0].imgUrl)
+    }, [course[0].imgUrl])
+
+
+    const hanldeSaveCourse = () => {
+        updateCourse(course, newTitle)
+    }
 
     return(
-        <Form onSubmit={handleSubmit}>
+        <Form>
             <Container>
             <Row md="12">
                 <Col md="5">
                     <Label htmlFor="name">Course ID</Label>
-                    <Input type="text" id="name" value={inputs.id} onChange={handleInputChange} disabled></Input>
+                    <Input type="text" id="courseId" value={course[0].courseId} disabled></Input>
                 </Col>
             </Row>
             <Row md="12">
                 <Col md="12">
                     <Label htmlFor="srn">Name</Label>
-                    <Input type="text" id="srn" value={inputs.name} onChange={handleInputChange}></Input>
+                    <Input type="text" id="title" value={newTitle} onChange={(e) => handleInputChange(`${e.target.value}`)}></Input>
                 </Col>
             </Row>
-            <Row md="12">
-                <Col md="8">
-                    <img src="" alt='image' width={"50px"} heigh={"50px"}></img>
+            <div className='course_form__edit_group'>
+                <Col md="6">
+                    <img className='modal_image__custom' src={imgURL ? imgURL : ""} alt='image' height={"50px"}></img>
                 </Col>
-                <Col md="4">
-                    <Button onClick={toggleCourse}>Change Image</Button>
+                <Col md="6" style={{margin: "auto"}}>
+                    <Button outline color='success' onClick={toggleCourse}>Change Image</Button>
                 </Col>
-            </Row>
-            <Button type="submit" className="mt-3 mb-3" color="primary">Save</Button>
+            </div>
+            <Button onClick={() => hanldeSaveCourse()} className="mt-3 mb-3" color="primary">Save</Button>
             {edited && <CustomAlert alert={edited}></CustomAlert>}
             </Container>
-            <CustomModal title="Add New Course" modal={isCourseOpen} toggle={toggleCourse}>
-                <GalleryImageForm course={course}/>
-            </CustomModal>
+            <CustomModalL title="Select Image" modal={isCourseOpen} toggle={toggleCourse}>
+                <GalleryImageForm dataCourse={false} course={course} arr_img={imgURLArr}/>
+            </CustomModalL>
         </Form>
     )
 }
@@ -60,15 +89,15 @@ const EditCourseForm = ({course, updateStudentInfo, edited}) => {
 const mapStateToProps = (state) => {
     console.log(state)
     return{
-        edited: state.student.edited
+        edited: state.student.upload
     }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        updateStudentInfo: (student) => {
-            dispatch(updateStudentInfo(student))
+        updateCourse: (course, newTitle) => {
+            dispatch(updateCourse(course, newTitle))
         }
     })
 }

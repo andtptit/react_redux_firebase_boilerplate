@@ -562,6 +562,27 @@ body{
   font-weight: 500;
 }
 
+.modal_image__custom
+{
+  margin: 3px;
+  border: 1px solid rgb(255, 221, 221);
+}
+
+.modal_image__custom.active
+{
+  border: 2px solid #333;
+}
+
+.course_form__edit_group
+{
+  display: flex;
+  justify-content: space-between;
+  background-color: #fdfdfd;
+  width: 100%;
+  padding: 15px;
+}
+
+
 @media all and (max-width: 1000px)
 {
   .course-card__custom {

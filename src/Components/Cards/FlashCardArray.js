@@ -7,7 +7,6 @@ import { Row, Col, Button, Progress, Container } from 'reactstrap'
 import { addLearned, addLearned_Title } from '../../Store/actions/courseActions'
 import {NextFilled, PreviousFilled} from '@carbon/icons-react'
 import CustomBreadcurmb from "../Breadcrumb";
-import {storage} from "../../config/fbConfig"
 
 
 const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Title}) => {
@@ -102,29 +101,8 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
   let iconStyles = { color: "#3c3c3c" }
 
   const str_href = window.location.pathname
-  const url_bred = str_href.split("/")
-
-  const [imgURL, setImgURL] = useState([])
-  useEffect(() => {
-    let arr_img = []
-    console.log('render img')
-    storage
-        .ref("list_course")
-        .listAll()
-        .then(function(result) {
-          console.log(result.items);
-          result.items.forEach(function(fileRef) {
-            fileRef.getDownloadURL().then(function(fileURL) {
-                console.log(fileURL);
-                arr_img.push(fileURL);
-            })
-        });
-      });
-    setImgURL(arr_img)
-  },[])
-
-  console.log('arr_img', imgURL)
-  
+  const url_bred = str_href.split("/")  
+  let xxx = []
 
   return (
     <Container className="mt-4 mb-4 card-container__custom">
@@ -148,7 +126,7 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
                 </div>
                 <div className="back">
                   <div className="cardsImg__group">
-                    <img className="cardsImg" src="https://www.pdiam.com/wp-content/uploads/2018/08/khai-niem-la-gi-2.jpg" width="150px" heigh="150px"></img>
+                    <img className="cardsImg" src={currentCard && currentCard.image} width="150px" heigh="150px"></img>
                   </div>
                   <div className="content">
                     <div className="cards__meaning__group">
@@ -157,9 +135,16 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
                     </div>
                     <div className="cards_example__group">
                       <h6 className="cards__subtitle">Ví dụ:</h6>
-                      {currentCard.example ? currentCard.example.map(function(item, index){
+                      {/* {currentCard.example ? currentCard.example.map(function(item, index){
                         return <h4 className="cards__example" key={index}>{item}</h4>;
-                      }) : ""}
+                      }) : ""} */}
+                      {
+
+                      currentCard.example ? currentCard.example.split("|").map(function(item, index){
+                        return <h4 className="cards__example" key={index}>{item}</h4>;
+                      }) : ""
+                      }
+                        
                     </div>
                   </div>
                 </div>
