@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
-import {Row, Col, Button} from 'reactstrap'
+import { Row, Col, Button, Container } from 'reactstrap'
 import { compose } from 'redux'
 import CustomModal from '../Modal'
 import 'react-circular-progressbar/dist/styles.css';
-import { updateStudentLearnedCount } from '../../Store/actions/courseActions'
+import { updateStudentLearnedCount, removeDataFromCourse, updateCourseLength } from '../../Store/actions/courseActions'
 import EditCourseForm from '../Forms/EditCourseForm'
 import EditDataCourseForm from '../Forms/EditDataCourseForm'
 import AddDataCourseForm from '../Forms/AddDataCourseForm'
@@ -20,16 +20,17 @@ const dummy = {
 }
 
 
-const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount}) => {
-
-    const currentCourse = course ? course[0] : dummy
-    const isStudent = profile.userType === 'Student' ? true :  false
-    const isAdmin = profile.userType === 'Admin' ? true :  false
-
+const CourseContainer = ({course, profile, dataCourse, removeDataFromCourse, updateCourseLength}) => {
     const [isCourseOpen, setIsCourseOpen] = useState(false)
     const [isAddataOpen, setIsAddDataOpen] = useState(false)
     const [isDataCourseOpen, setIsDataCourseOpen] = useState(false)
     const [dataEdit, setDataEdit] = useState({})
+    const [isOpen, setIsOpen] = useState(false)
+
+    const toggle = (item) => {
+        setIsOpen(!isOpen)
+        setDataEdit(item)
+    }
 
     const toggleCourse = () => setIsCourseOpen(!isCourseOpen)
     const toggleAddDataCourse = () => setIsAddDataOpen(!isAddataOpen)
@@ -37,6 +38,16 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
     const toggleDataCourse = (item) => {
         setIsDataCourseOpen(!isDataCourseOpen);
         setDataEdit(item)
+    }
+
+
+    const actionX = "delete"
+    const handleRemoveDataCourse = (item) => {
+        setDataEdit(item)
+        removeDataFromCourse(course, dataEdit)
+
+        updateCourseLength(course, actionX)
+        setIsOpen(false)
     }
 
 
@@ -61,17 +72,32 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
                     <div>
                         <h4>Danh sách từ vựng</h4>
                     </div>
-                    {dataCourse ? dataCourse.map(function(item, index){
-                        return <div key={index} className="words_statistic__group admin"> 
-                                    <h4 className="words_statistic__title admin">{item.wordTitle}</h4>
-                                    <h4 className="words_statistic__meaning admin">{item.meaning}</h4>
-                                    <img className='modal_image__custom' src={item.image ? item.image : ""} alt='image' height={"50px"}></img>
-                                    <div>
-                                        <Button onClick={() => toggleDataCourse(item)} outline color='danger'>Edit</Button>
-                                    </div>
-                                    {/* <h4 className="words_statistic__speaker" key={index}>{item.voice}</h4> */}
+                    {dataCourse ? dataCourse.map((item, index) => 
+                        <div key={index} className="words_statistic__group admin">
+                                    <Col md="3">
+                                        <h4 className="words_statistic__title admin">{item.wordTitle}</h4>
+                                    </Col>
+                                    <Col md="4">
+                                        <h4 className="words_statistic__meaning admin">{item.meaning}</h4>
+                                    </Col>
+                                    <Col md="3">
+                                        <img className='modal_image__custom' src={item.image ? item.image : ""} alt='image' height={"50px"}></img>
+                                    </Col>
+                                    <Col md="2">
+                                        <div>
+                                            <Button className='mr-3' onClick={() => toggleDataCourse(item)} outline color='primary'>Edit</Button>
+                                            <Button onClick={() => toggle(item)} outline color='danger'>Delete</Button> 
+                                        </div>
+                                    </Col>
+                                    <CustomModal toggle={toggle} modal={isOpen} title="Remove Data">
+                                        <Container>
+                                            <h4>Are you sure?</h4>
+                                            <Button color="danger" className="card-button w-25" onClick={() => handleRemoveDataCourse(index)}>Yes</Button>
+                                            <Button color="primary" className="card-button w-25 ml-2 mr-2" onClick={toggle}>No</Button>
+                                        </Container>
+                                    </CustomModal>
                                 </div>
-                        }) : ""}
+                        ) : ""}
                 </Col>
                 <Col md="12" style={{marginTop: "10px"}}>
                     <div className='xxxm'></div>
@@ -82,7 +108,7 @@ const CourseContainer = ({course, profile, dataCourse, updateStudentLearnedCount
                 <EditCourseForm course={course}/>
             </CustomModal>
             <CustomModal title="Thêm từ vựng" modal={isAddataOpen} toggle={toggleAddDataCourse}>
-                <AddDataCourseForm course={course}/>
+                <AddDataCourseForm course={course} dataCourse={dataCourse}/>
             </CustomModal>
             <CustomModal title="Edit data khóa học" modal={isDataCourseOpen} toggle={toggleDataCourse}>
                 <EditDataCourseForm course={course} dataEdit={dataEdit}/>
@@ -104,7 +130,13 @@ const mapDispatchToProps = (dispatch) => {
     return{
         updateStudentLearnedCount: (course) => {
             dispatch(updateStudentLearnedCount(course))
-        }
+        },
+        removeDataFromCourse: (course, item) => {
+            dispatch(removeDataFromCourse(course, item))
+        },
+        updateCourseLength: (course, actionX) => {
+            dispatch(updateCourseLength(course, actionX))
+        }    
     }
 }
 
@@ -118,7 +150,7 @@ export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreCo
         },
         {
             collection: `${props.courseId}`,
-            where: [['image', '!=', '']],
+            where: [['wordId', '!=', '']],
             storeAs: 'dataCourse'
         }]
 }

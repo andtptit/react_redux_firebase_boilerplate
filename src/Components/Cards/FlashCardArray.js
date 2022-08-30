@@ -102,7 +102,6 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
 
   const str_href = window.location.pathname
   const url_bred = str_href.split("/")  
-  let xxx = []
 
   return (
     <Container className="mt-4 mb-4 card-container__custom">
@@ -130,14 +129,11 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
                   </div>
                   <div className="content">
                     <div className="cards__meaning__group">
-                      <h6 className="cards__subtitle">Nghĩa tiếng việt:</h6>
+                      <h6 className="cards__subtitle"></h6>
                       <h3 className="cards__meaning">{currentCard && currentCard.meaning}</h3>
                     </div>
                     <div className="cards_example__group">
                       <h6 className="cards__subtitle">Ví dụ:</h6>
-                      {/* {currentCard.example ? currentCard.example.map(function(item, index){
-                        return <h4 className="cards__example" key={index}>{item}</h4>;
-                      }) : ""} */}
                       {
 
                       currentCard.example ? currentCard.example.split("|").map(function(item, index){
@@ -256,7 +252,7 @@ export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreCo
       },
       {
         collection: `${props.match.params.course}`,
-        where: [['image', '!=', '']],
+        where: [['wordId', '!=', '']],
         storeAs: 'dataCourse'
       },
       {

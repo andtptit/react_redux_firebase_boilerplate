@@ -10,6 +10,12 @@ body{
   height:100%;
 }
 
+@font-face {
+	font-family: "BatangBold";
+	src: local("BatangBold"), url("./fonts/Batang.ttf") format ("truetype");
+  
+}
+
 .welcome-card{
   font-weight: 600;
   width: 100%;
@@ -524,7 +530,7 @@ body{
   color: #fff;
   border-radius: 9px;
   text-align: center;
-  line-height: 42px;
+  /* line-height: 42px; */
   font-size: 15px;
   margin: 12px 0px 0px;
   border-color: none !important;

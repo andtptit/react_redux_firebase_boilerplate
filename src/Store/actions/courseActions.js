@@ -1,6 +1,17 @@
 import { storage } from "../../config/fbConfig";
 import { uid } from 'uid';
 
+function makeid(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+
 export const addCourse = (course) => {
         return (dispatch, getState, {getFirestore, getFirebase}) => {
             const firestore = getFirestore();
@@ -162,6 +173,29 @@ export const removeDataCourse = (course) => {
     }
 }
 
+export const removeDataFromCourse = (course, item) => {
+    console.log('item', item)
+    return (dispatch, getState, {getFirebase}) => {
+        const firestore = getFirebase().firestore();
+        firestore
+            .collection(`${course[0].courseId}`)
+            .doc(`${item.id}`)
+            .delete()
+            .then(() => {
+                dispatch({
+                    type: 'REMOVED_COURSE'
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: 'REMOVE_TASK_ERR',
+                    err
+                })
+            })
+    }
+}
+
+
 
 export const updateDataCourse = (currentData, datasearch) => {
     console.log('khoahoc', currentData)
@@ -285,7 +319,7 @@ export const addNewCourse = (courseId, courseName, courseFile) => {
                 .add({collection: courseId},
                     {
                         courseName: courseName,
-                        wordId: courseId + index,
+                        wordId: makeid(10),
                         wordTitle: result.wordTitle,
                         meaning: result.meaning,
                         example: result.example,
@@ -295,6 +329,10 @@ export const addNewCourse = (courseId, courseName, courseFile) => {
                         learned: {}
                     }).catch((err)=> {
                     console.log(err)
+                    dispatch({
+                        type: 'IMAGE_UPLOAD_ERROR',
+                        error: err,
+                    })
                 })
           })
     }
@@ -315,6 +353,65 @@ export const addNewCourseList = (courseId, courseName, courseLength, url) => {
                 .catch((err)=> {
                     console.log(err)
                 });
+    }
+}
+
+export const addDataToCourseList = (course, dataFlash, url) => {
+    return (dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
+        firestore
+            .add({collection: `${course[0].courseId}`},
+                {
+                    wordId: makeid(10),
+                    courseName: course[0].title,
+                    wordTitle: dataFlash.wordTitle,
+                    meaning: dataFlash.meaning,
+                    example: dataFlash.example,
+                    meaning_key: "",
+                    voice: "",
+                    image: url,
+                    learned: {}
+                })
+                .catch((err)=> {
+                    console.log(err)
+                });
+    }
+}
+
+export const updateCourseLength = (course, action) => {
+    return (dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
+        if (action == "add") {
+            firestore
+                .collection('courses')
+                .doc(`${course[0].id}`)
+                .update({
+                    courseLength: course[0].courseLength + 1
+                },
+                {merge: true}
+                )
+                .then(() => {
+                })
+                .catch((err)=> {
+                    console.log(err)
+                })
+        }
+        else
+        {
+            firestore
+            .collection('courses')
+            .doc(`${course[0].id}`)
+            .update({
+                courseLength: course[0].courseLength - 1
+            },
+            {merge: true}
+            )
+            .then(() => {
+            })
+            .catch((err)=> {
+                console.log(err)
+            })
+        }
     }
 }
 
@@ -344,7 +441,7 @@ export const addLearned = (course, dataCourse, profile, datenow)  => {
                 dispatch({
                     type: 'IMAGE_UPLOAD_ERROR',
                     error: err,
-                }) 
+                })
             })
     }
 }

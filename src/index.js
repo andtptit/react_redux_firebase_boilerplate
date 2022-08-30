@@ -15,6 +15,8 @@ import firebase from 'firebase/app';
 import { useSelector } from 'react-redux';
 import { isLoaded } from 'react-redux-firebase';
 
+import './fonts/Batang.ttf'
+
 
 const store = createStore(
   rootReducer,

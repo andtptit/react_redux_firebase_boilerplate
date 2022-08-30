@@ -50,7 +50,7 @@ const Courses = ({course, branches, profile}) => {
                 <AddNewDataCourse course={course}/>
             </CustomModal>
             <CustomModal title="Add New Course" modal={isCourseOpen} toggle={toggleCourse}>
-                <AddNewCourse course={course}/>
+                <AddNewCourse course={course} />
             </CustomModal>
     </Container>
  )

@@ -103,15 +103,15 @@ h3.cardTitle {
 
 .cards__words {
   margin: auto;
-  font-family: Noto Serif Korean;
-  font-weight: bold;
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 600;
   color: rgb(194, 61, 9);
   font-size: 35px;
 }
 
 .content {
   font-weight: 100;
-  text-align: left;
+  text-align: center;
   width: 100%;
 }
 
@@ -122,7 +122,7 @@ h3.cardTitle {
 }
 
 .cards__meaning {
-  font-family: Noto Serif Korean;
+  font-family: 'Noto Serif KR', serif;
   font-weight: 500;
   color: #ff1d1d;
 }
@@ -133,9 +133,10 @@ h3.cardTitle {
 }
 
 .cards__example {
-  font-family: Noto Serif Korean;
-  font-size: 18px;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
   color: #00118b;
+  padding-bottom: 5px;
 }
 
 .cards__button-wapper {
@@ -246,7 +247,7 @@ h3.cardTitle {
 .words_statistic__title,
 .words_statistic__meaning
 {
-  font-family: Noto Serif Korean;
+  font-family: 'Noto Serif KR', serif;
   font-size: 18px;
   color: #542b00;
 }
@@ -335,6 +336,22 @@ h3.cardTitle {
     /* margin: 20px; */
   }
 
+  .cards__words
+  {
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  .cards__meaning
+  {
+    font-size: 25px;
+  }
+
+  .cards__example
+  {
+    font-size: 17px;
+  }
+
 
 }
 
@@ -387,8 +404,8 @@ h3.cardTitle {
   .words_statistic__title,
   .words_statistic__meaning
   {
-    font-family: Noto Serif Korean;
-    font-size: 16px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
     color: #542b00;
   }
 
