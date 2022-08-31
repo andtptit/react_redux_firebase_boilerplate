@@ -54,14 +54,14 @@ export const TEACHER_ROUTES = [
 ];
 
 export const STUDENT_ROUTES = [
-    {
-        'route': 'Trang chủ',
-        'url':'/'
-    },
+    // {
+    //     'route': 'Trang chủ',
+    //     'url':'/'
+    // },
     {
         'route': 'Học FlashCard',
         'url': '/courses'
-    },
+    }
     // {
     //     'route': 'Assignments',
     //     'url': '/assignments'

@@ -20,6 +20,7 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
   const [percent, setPercent] = useState(0)
   const [percentNum, setPercentNum] = useState(0)
   const [isShuffer, setIsShuffer] = useState(false)
+  const [meaning, setMeaning] = useState('')
 
 
   let objDataCourseNew = []
@@ -68,7 +69,6 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
   let arr_indexx = []
 
   let arr_index = useMemo(() => {
-    console.log('Usememo')
     for (let i = dataCourse && dataCourse.length - 1; i >= 0; i--) {
       arr_indexx.push(i)
     }
@@ -77,17 +77,23 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
   }, [dataCourse != undefined, isShuffer])
 
   useEffect(() => {
-    console.log('cardNum', cardNum)
-    console.log('arr_index', arr_index)
     if (dataCourse && cardNum <= dataCourse.length){
       dataCourse && setCurrentCard(dataCourse[arr_index[cardNum - 1]])
+
+      setMeaning(dataCourse[arr_index[cardNum - 1]].meaning)
+
     }
   },[dataCourse != undefined, cardNum, isShuffer])
 
 
-  console.log("objDataCourseNew", objDataCourseNew)
-  console.log("objDataCourseRemind", objDataCourseRemind)
+  console.log("meaning", meaning)
+  
+  let arr_meaning = ''
+  useEffect(() => {
+    arr_meaning = meaning.split(":")
+  },)
 
+  console.log('arr_meaning', arr_meaning)
 
   const handleRestartCourse = () => {
     setCardNum(1)
@@ -119,25 +125,39 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
               <Progress  color="success" value={percentNum}>{cardNum} / {dataCourse && dataCourse.length}</Progress>
               <div className={isFlip ? 'cards' : 'cards flipped'} onClick={() => handleChangeClass()}>
                 <div className="front">
-                  <div className="cards__words">
+                  <div className="cards__words__group">
                     <h3 className="cards__words">{currentCard && currentCard.wordTitle}</h3>
+                    <h5 className="cards__subtitle">{currentCard && currentCard.subTitle}</h5>
                   </div>
                 </div>
                 <div className="back">
                   <div className="cardsImg__group">
-                    <img className="cardsImg" src={currentCard && currentCard.image} width="150px" heigh="150px"></img>
+                    {
+                      currentCard.image ? <img className="cardsImg" src={currentCard && currentCard.image} width="150px" heigh="150px"></img> : ""
+                    }
                   </div>
                   <div className="content">
                     <div className="cards__meaning__group">
                       <h6 className="cards__subtitle"></h6>
-                      <h3 className="cards__meaning">{currentCard && currentCard.meaning}</h3>
+                      {meaning && meaning.split(":").length > 1 ? 
+                      <>
+                        <h3 className="cards__meaning__kr">{meaning.split(":")[0]}</h3>
+                        <h3 className="cards__meaning__vn">{meaning.split(":")[1]}</h3>
+                        </> : <h3 className="cards__meaning__vn">{meaning.split(":")[0]}</h3>}
+                      
                     </div>
                     <div className="cards_example__group">
                       <h6 className="cards__subtitle">Ví dụ:</h6>
                       {
 
                       currentCard.example ? currentCard.example.split("|").map(function(item, index){
-                        return <h4 className="cards__example" key={index}>{item}</h4>;
+                        if(item.split(":").length > 1) {
+                          return <div className="cards__example__split">
+                                  <h4 className="cards__example__kr" key={index}>{item.split(":")[0]}</h4>
+                                  <h4 className="cards__example__vn" key={index}>{item.split(":")[1]}</h4>
+                                </div>
+                        }else
+                        {return <h4 className="cards__example__kr" key={index}>{item}</h4>}
                       }) : ""
                       }
                         

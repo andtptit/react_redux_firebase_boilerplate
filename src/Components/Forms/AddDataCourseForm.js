@@ -14,6 +14,7 @@ const AddDataCourseForm = ({addDataToCourseList, course, dataCourse, updateCours
     const dummy = {
         wordId: "",
         wordTitle: "",
+        subTitle: "",
         meaning: "",
         meaning_key: "",
         example: "",
@@ -33,6 +34,13 @@ const AddDataCourseForm = ({addDataToCourseList, course, dataCourse, updateCours
         setDataFlash({
             ...dataFlash,
             wordTitle: e
+        })
+    }
+
+    const handleInputChangeSubTitle = (e) => {
+        setDataFlash({
+            ...dataFlash,
+            subTitle: e
         })
     }
 
@@ -96,6 +104,10 @@ const AddDataCourseForm = ({addDataToCourseList, course, dataCourse, updateCours
                     <Input type="text" id="title" value={dataFlash && dataFlash.wordTitle} onChange={(e) => handleInputChangeTitle(`${e.target.value}`)}></Input>
                 </Col>
                 <Col md="12">
+                    <Label htmlFor="subTitle">SubTitle</Label>
+                    <Input type="text" id="subTitle" value={dataFlash && dataFlash.subTitle} onChange={(e) => handleInputChangeSubTitle(`${e.target.value}`)}></Input>
+                </Col>
+                <Col md="12">
                     <Label htmlFor="meaning">Meaning</Label>
                     <Input type="text" id="meaning" value={dataFlash && dataFlash.meaning} onChange={(e) => handleInputChangeMeaning(`${e.target.value}`)}></Input>
                 </Col>
@@ -117,7 +129,7 @@ const AddDataCourseForm = ({addDataToCourseList, course, dataCourse, updateCours
             </Row>
             {dataFlash.wordTitle != '' && dataFlash.meaning != '' && dataFlash.example != '' ? 
                 <Button onClick={() => handleAddDataToCourse(imageFile, name)} className="mt-3 mb-3" color="primary">Add Data</Button> :
-                <Button disabled onClick={() => handleAddDataToCourse(imageFile, name)} className="mt-3 mb-3" color="primary">Add Data</Button>
+                <Button disabled  className="mt-3 mb-3" color="primary">Add Data</Button>
             }
             <CustomModalL title="Select Image" modal={isCourseOpen} toggle={toggleCourse}>
                 

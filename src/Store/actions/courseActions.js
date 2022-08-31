@@ -101,7 +101,8 @@ export const updateDataCourseFull = (course, newObjData) => {
             .collection(`${course[0].courseId}`)
             .doc(`${newObjData.id}`)
             .update({
-                wordId: newObjData.wordId,
+                wordTitle: newObjData.wordTitle,
+                subTitle: newObjData.subTitle,
                 example: newObjData.example,
                 meaning: newObjData.meaning
             },
@@ -321,6 +322,7 @@ export const addNewCourse = (courseId, courseName, courseFile) => {
                         courseName: courseName,
                         wordId: makeid(10),
                         wordTitle: result.wordTitle,
+                        subTitle: result.subTitle,
                         meaning: result.meaning,
                         example: result.example,
                         meaning_key: result.meaning_key,
@@ -365,6 +367,7 @@ export const addDataToCourseList = (course, dataFlash, url) => {
                     wordId: makeid(10),
                     courseName: course[0].title,
                     wordTitle: dataFlash.wordTitle,
+                    subTitle: dataFlash.subTitle,
                     meaning: dataFlash.meaning,
                     example: dataFlash.example,
                     meaning_key: "",

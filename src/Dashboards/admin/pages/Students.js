@@ -1,14 +1,21 @@
 import React, { useState } from 'react'
 import { firestoreConnect } from 'react-redux-firebase'
-import { Container, Input,Row, Col} from 'reactstrap'
+import { Container, Input,Row, Col, Button} from 'reactstrap'
 import { compose } from 'redux'
 import {connect} from 'react-redux';
 import StudentTable from '../../../Components/Table/StudentTable'
+import CustomModal from '../../../Components/Modal'
+import AddNewCourse from '../../../Components/Forms/AddNewCourse';
+import AddStudentForm from '../../../Components/Forms/AddStudentForm';
 
 
 
-const Students = ({branches}) => {
-    const [selectedBranch, setSelectedBranch] = useState('All');
+const Students = ({course}) => {
+    const [selectedBranch, setSelectedBranch] = useState('All')
+    const admin = true
+
+    const toggleCourse = () => setIsCourseOpen(!isCourseOpen)
+    const [isCourseOpen, setIsCourseOpen] = useState(false)
 
     const handleBranch = (e) => {
         setSelectedBranch(e.target.value)
@@ -17,26 +24,21 @@ const Students = ({branches}) => {
 
     return(
         <Container className="mt-4 mb-4">
-            <h1 className="table-title">Students</h1>
-            <Row>
-                <Col md='2'>
-                    <h3 className="branch">Branch: <span>{selectedBranch}</span></h3>
-                </Col>
-                <Row md='12'>
-                    <Col md='5'>
-                        <p>Select Branch</p>
-                        </Col>
-                    <Col md="auto">
-                        <Input type="select" className="selector" name="select" id="branch" onChange={handleBranch}>
-                            <option value='All' defaultValue>All Students</option>
-                            {branches && branches.map(branch => (
-                            <option key={branch.id} value={branch.name}>{branch.name}</option>
-                            ))}           
-                        </Input>
+            <h1 className="table-title">Danh sách Students</h1>
+            <Row className="mt-4 mb-4">
+                    <Col md="4">
                     </Col>
-                </Row>
+                    <Col md="4">
+                    </Col>
+                    <Col md="4">
+                        {admin ? <Button color='primary' className="mt-auto w-auto" onClick={toggleCourse}>Add Student</Button> : undefined}
+                    </Col>
+                
             </Row>
             <StudentTable branch={selectedBranch}></StudentTable>
+            <CustomModal title="Add Student" modal={isCourseOpen} toggle={toggleCourse}>
+                <AddStudentForm course={course} />
+            </CustomModal>
         </Container>        
     )
 }

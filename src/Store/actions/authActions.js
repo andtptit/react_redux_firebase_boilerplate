@@ -51,3 +51,29 @@ export const signUp = (newUser) => {
       });
     }
   }
+
+
+  export const addStudent = (studentInfo) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+    
+        firebase.auth().createUserWithEmailAndPassword(
+          studentInfo.email, 
+          studentInfo.password
+        ).then(resp => {
+          return firestore.collection('users').doc(resp.user.uid).set({
+            name: studentInfo.name,
+            SRN: resp.user.uid,
+            userType: "Student", 
+            phone: studentInfo.phone,
+            email: studentInfo.email,
+            gender: "male",
+          });
+        }).then(() => {
+          
+        }).catch((err) => {
+          
+        });
+      }
+    }

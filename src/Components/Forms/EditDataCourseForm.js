@@ -35,8 +35,15 @@ const EditDataCourseForm = ({dataEdit2, course, updateDataCourseFull, edited, da
 
     const handleInputChangeTitle = (e) => {
         setNewObjData({
-            ...dataEdit,
+            ...newObjData,
             wordTitle: e
+        })
+    }
+
+    const handleInputChangeSubTitle = (e) => {
+        setNewObjData({
+            ...newObjData,
+            subTitle: e
         })
     }
 
@@ -44,14 +51,14 @@ const EditDataCourseForm = ({dataEdit2, course, updateDataCourseFull, edited, da
         e = e.replace('\n', '|');
 
         setNewObjData({
-            ...dataEdit,
+            ...newObjData,
             example: e
         })
     }
 
     const handleInputChangeMeaning = (e) => {
         setNewObjData({
-            ...dataEdit,
+            ...newObjData,
             meaning: e
         })
     }
@@ -74,6 +81,10 @@ const EditDataCourseForm = ({dataEdit2, course, updateDataCourseFull, edited, da
                 <Col md="12">
                     <Label htmlFor="title">Title</Label>
                     <Input type="text" id="title" value={newObjData.wordTitle} onChange={(e) => handleInputChangeTitle(`${e.target.value}`)}></Input>
+                </Col>
+                <Col md="12">
+                    <Label htmlFor="subTitle">SubTitle</Label>
+                    <Input type="text" id="subTitle" value={newObjData.subTitle} onChange={(e) => handleInputChangeSubTitle(`${e.target.value}`)}></Input>
                 </Col>
                 <Col md="12">
                     <Label htmlFor="meaning">Meaning</Label>

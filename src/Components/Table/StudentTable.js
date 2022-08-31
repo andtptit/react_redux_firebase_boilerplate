@@ -27,29 +27,24 @@ const StudentTable = ({students, sortedByBranch, branch, setStudentSuspended}) =
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Branch</th>
-                <th>SRN</th>
-                <th>Semester</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Suspend Student</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {studentData && studentData.map((student)=> (
             <tr key={student.SRN}>
-            <td>
-                <NavLink to={`/students/${student.name}`}>
-                    {student.name}
-                </NavLink></td>
-            <td>{student.Branch}</td>
-            <td>{student.SRN}</td>
-            <td>{student.semester}</td>
-            <td>{student.email}</td>
-            <td>{student.phone}</td>
-            <td>
-            <Button outline color='danger' className="suspend-button" onClick={() => handleSuspend(student)}>{student.suspended ? 'Unsuspend':'Suspend'}</Button>
-            </td>
+                <td>
+                    <NavLink to={`/students/${student.name}`}>
+                        {student.name}
+                    </NavLink></td>
+                <td>{student.email}</td>
+                <td>{student.phone}</td>
+                <td>
+                    <Button outline color='success'  onClick={() => handleSuspend(student)} className="mr-3">Edit</Button>
+                    <Button outline color='danger'  onClick={() => handleSuspend(student)}>Remove</Button>
+                </td>
             </tr>   
         ))}
         </tbody>
