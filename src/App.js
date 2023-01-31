@@ -12,6 +12,7 @@ import ErrorPage from './Errorpage';
 import CustomNavbar from './Components/Navbar/Navbar';
 import {ADMIN_ROUTES, STUDENT_ROUTES, TEACHER_ROUTES} from './Routes'
 import CustomAlert from './Components/Alert'
+import { ThemeProvider } from '@material-ui/core/styles';
 
 
 
@@ -32,24 +33,27 @@ class App extends React.Component{
   
   return(
         <div>
-         {auth && !auth.uid ? '' : <CustomNavbar links={links} currentUser={profile}></CustomNavbar>}
-         <Switch>
-          <Route path="/signup" exact component={Signup}></Route>
-          <Route path="/login" exact component={Login}></Route>
-          <Route path="/404" component={ErrorPage}></Route>
-          {
-            auth && !auth.uid && <Redirect to="/login"></Redirect>
-          }
-          {
-            profile.userType === "Admin" && <AdminDashboard></AdminDashboard> 
-          }
-          {
-            profile.userType === "Student" && <StudentDashboard></StudentDashboard>
-          }
-          {
-            profile.userType === "Teacher" && <TeacherDashboard></TeacherDashboard> 
-          }
+          {auth && !auth.uid ? '' : <CustomNavbar links={links} currentUser={profile}></CustomNavbar>}
+        <ThemeProvider>
+          <Switch>
+            <Route path="/signup" exact component={Signup}></Route>
+            <Route path="/login" exact component={Login}></Route>
+            <Route path="/404" component={ErrorPage}></Route>
+            {
+              auth && !auth.uid && <Redirect to="/login"></Redirect>
+            }
+            {
+              profile.userType === "Admin" && <AdminDashboard></AdminDashboard> 
+            }
+            {
+              profile.userType === "Student" && <StudentDashboard></StudentDashboard>
+            }
+            {
+              profile.userType === "Teacher" && <TeacherDashboard></TeacherDashboard> 
+            }
           </Switch>
+
+        </ThemeProvider>
         </div>
       )
   }

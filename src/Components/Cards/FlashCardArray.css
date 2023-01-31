@@ -2,10 +2,9 @@
 .cards
 {
   width: 100%;
-  height: 330px;
+  height: 100%;
   cursor: pointer;
   margin: auto;
-
   padding-top: 20px;
 
   /*transition effects */
@@ -31,7 +30,7 @@
 .cards .back {
   display: block;
   width: 100%;
-  height: 300px;
+  height: 325px;
   color: rgb(0, 0, 0);
   /* text-align: center; */
   font-size: 4em;
@@ -56,8 +55,8 @@ p {
   /* box-shadow: 0px 3px 10px 1px rgb(252 56 56 / 20%); */
   border-radius: 10px;
   overflow: hidden;
-  margin: 30px;  
-  border: 2px solid #fff;
+  margin: 0 15px 0 15px;
+  border: 1px solid rgb(226, 226, 226);
   width: 220px;
   height: auto;
 }
@@ -69,25 +68,32 @@ p {
   font-size: 16px;
   line-height: 25px;
   margin: auto;
-}
 
-.cards .back {
   -webkit-transform: rotateY( 180deg );
   -moz-transform: rotateY( 180deg );
   -o-transform: rotateY( 180deg );
   transform: rotateY( 180deg );
 }
 
+.cardContainer
+{
+  padding: 0px 25px 0 25px !important;
+  height: 350px;
+  margin: 20px 0 10px 0px;
+}
+
 /*Colors for front and back applied here*/
 .cardContainer .cards .front  {
-  background: linear-gradient(147deg, rgb(230 255 229) 0%, rgb(236 255 241) 50%);
+  /* background: linear-gradient(147deg, rgb(230 255 229) 0%, rgb(236 255 241) 50%); */
+  background-color: #fff;
   display: flex;
   align-items: center;
   /* border: 1px solid rgb(243, 243, 243); */
 }
 
 .cardContainer .cards .back {
-  background: linear-gradient(147deg, rgb(236 239 255) 0%, rgb(243 249 255) 50%);
+  /* background: linear-gradient(147deg, rgb(236 239 255) 0%, rgb(243 249 255) 50%); */
+  background-color: #fff;
   display: flex;
   align-items: center;
   /* border: 1px solid rgb(243, 243, 243); */
@@ -106,9 +112,11 @@ h3.cardTitle {
 .cards__words {
   margin: auto;
   font-family: 'Noto Serif KR', serif;
-  font-weight: 600;
-  color: rgb(194, 61, 9);
-  font-size: 35px;
+  font-weight: 700;
+  /* color: rgb(194, 61, 9); */
+  color: rgb(0, 0, 0);
+  font-size: 42px;
+  /* text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black; */
 }
 
 .cards__words__group {
@@ -124,7 +132,7 @@ h3.cardTitle {
 
 .cards__meaning__group
 {
-  display: flex;
+  /* display: flex; */
   padding: 10px;
   margin: 0 10px 0 10px;
   box-shadow: rgb(188 194 207) 0px 1px 0px;
@@ -132,16 +140,18 @@ h3.cardTitle {
 
 .cards__meaning__kr {
   font-family: 'Noto Serif KR', serif;
-  font-weight: 500;
-  color: rgb(194, 61, 9);
+  color: rgb(41 55 73);
   padding-right: 15px;
   font-size: 30px;
+  font-weight: 600;
 }
 .cards__meaning__vn {
-  font-weight: 500;
-  color: rgb(194, 61, 9);
+  font-family: 'Itim', cursive;
+  color: rgb(41 55 73);
   margin-top: 5px;
-  font-size: 28px;
+  font-size: 25px;
+  font-weight: 600;
+  text-align: center;
 }
 
 h5.cards__subtitle
@@ -154,23 +164,36 @@ h5.cards__subtitle
   font-weight: 600;
 }
 
+.cards__subtitle
+{
+  font-family: 'Noto Serif KR', serif;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: rgb(255, 0, 0);
+  padding-bottom: 7px;
+}
+
 .cards__example__kr {
   font-family: 'Noto Serif KR', serif;
-  font-size: 20px;
+  font-size: 21px;
   color: #ff0000;
   padding-bottom: 5px;
+  font-weight: 500;
   padding-right: 10px;
 }
 
 .cards__example__vn
 {
-  font-size: 20px;
+  font-size: 21px;
   color: #00118b;
+  font-weight: 600;
 }
 
 .cards__example__split
 {
   display: flex;
+  justify-content: center;
 }
 
 .cards__button-wapper {
@@ -215,8 +238,8 @@ h5.cards__subtitle
 
 .button__group__button
 {
-  
-  margin-bottom: 20px;
+  height: 50px;
+  margin: 20px 15px 20px 0;
 }
 
 .cards__process
@@ -247,6 +270,7 @@ h5.cards__subtitle
   padding: 25px 10px 25px 10px;
   margin: 0px 10px 0px 10px;
   /* box-shadow: rgb(188 194 207) 0px 1px 0px; */
+  border: 1px solid #e5e4e4;
 }
 
 
@@ -282,7 +306,7 @@ h5.cards__subtitle
 .words_statistic__title,
 .words_statistic__meaning
 {
-  font-family: 'Noto Serif KR', serif;
+  /* font-family: 'Noto Serif KR', serif; */
   font-size: 18px;
   color: #542b00;
 }
@@ -323,6 +347,11 @@ h5.cards__subtitle
     font-weight: 500px;
   }
 
+  .content {
+    font-weight: 100;
+    text-align: center;
+  }
+
   .cards__meaning__group
   {
     justify-content: center;
@@ -338,6 +367,8 @@ h5.cards__subtitle
   {
     /* padding-right: 0 !important;
     padding-left: 0 !important; */
+    padding: 0px 25px 0 25px !important;
+    height: 550px;
   }
   
   .cards
@@ -348,76 +379,64 @@ h5.cards__subtitle
   .cards .front,
   .cards .back 
   {
-    height: 470px;
+    height: 520px;
+  }
+
+  .cards__words
+  {
+    font-size: 35px;
+    font-weight: bold;
+  }
+
+  .cards__meaning__vn
+  {
+    font-size: 23px;
+    padding-top: 10px;
+  }
+
+  .cards_example__group
+  {
+    padding: 15px 10px 15px 10px;
+  }
+
+  .cards__meaning__kr
+  {
+    font-size: 27px;
+  }
+
+  .cards__example__kr
+  {
+    font-size: 19px;
+    padding-right: 5px;
+  }
+
+  .cards__example__vn
+  {
+    font-size: 19px;
+  }
+
+  .cardContainer .cards .back
+  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   
+  .cards__example__split
+  {
+    justify-content: center;
+  }
+
+  .cardsImg {
+    width: 260px;
+  }
 
   .button__group
   {
     margin-top: 20px;
     flex-direction: row;
     justify-content: space-around;
-  }
-
-  .cards__button-wapper
-  {
-    padding: 15px 0 15px 0;
-    flex-direction: column;
-  }
-
-  .button__group__button
-  {
-    
-    font-size: 15px;
-  }
-
-  .cardsImg
-  {
-    width: auto;
-    height: 150px;
-  }
-
-  .cards .back
-  {
-    flex-direction: column;
-    justify-content: center;
-    /* margin: 20px; */
-  }
-
-  .cards__words
-  {
-    font-size: 28px;
-    font-weight: 600;
-  }
-
-  .cards__meaning__kr
-  {
-    font-size: 25px;
-  }
-
-  .cards__meaning__vn
-  {
-    margin-top: 4px;
-    font-size: 24px;
-  }
-
-  .cards__example__kr
-  {
-    font-size: 18px;
-    padding: 0;
-  }
-
-  .content {
-    font-weight: 100;
-    text-align: center;
-  }
-
-  .cards__example__split
-  {
-    display: block;
-    padding-bottom: 10px;
-  }
-  
+  }  
 
 }
 
@@ -425,8 +444,18 @@ h5.cards__subtitle
   
   .cards
   {
-  width:100%;
+    width:100%;
     height: 565px;
+  }
+
+  .content {
+    font-weight: 100;
+    text-align: center;
+  }
+
+  .cards .back
+  {
+    flex-direction: column;
   }
 
   .cards__button-wapper
@@ -477,7 +506,449 @@ h5.cards__subtitle
 
   .cards__example__kr
   {
-    font-size: 17px;
+    font-size: 19px;
   }
 
+}
+
+@media all and (max-width : 600px) {
+  .course_name--custom
+  {
+    font-size: 43px !important;
+  }
+
+  .main_flashcard
+  {
+    margin: 15px 30px 15px 30px;
+  }
+
+  .cards
+  {
+    height: 500px;
+  }
+
+  .cardContainer
+  {
+    margin: 10px 0 10px 0;
+    padding: 0 7px 0 7px !important;
+    height: 490px;
+  }
+
+  .cards .front, .cards .back {
+    height: 450px;
+  }
+
+  .cardsImg {
+    flex-shrink: 0;
+    /* background-image: linear-gradient(147deg, #000 0%, #000 74%); */
+    /* box-shadow: 0px 3px 10px 1px rgb(252 56 56 / 20%); */
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 15px 0 15px;
+    border: 1px solid rgb(226, 226, 226);
+    width: 190px;
+    height: auto;
+  }
+
+  .cards__button-wapper
+  {
+    padding: 15px 0 15px 0;
+    flex-direction: column;
+  }
+
+  .button__group__button
+  {
+    font-size: 15px;
+    margin: 0 !important;
+  }
+
+  .cardsImg
+  {
+    width: auto;
+    height: 125px;
+  }
+
+  .cards .back
+  {
+    flex-direction: column;
+    justify-content: center;
+    /* margin: 20px; */
+  }
+
+  .cards__words
+  {
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+  .cards_example__group
+  {
+    padding: 15px 10px 15px 10px;
+  }
+
+  .cards__meaning__kr
+  {
+    font-size: 23px;
+  }
+
+  .cards__meaning__vn
+  {
+    margin-top: 4px;
+    font-size: 22px;
+  }
+
+  .cards__example__kr
+  {
+    font-size: 16px;
+    padding: 0;
+  }
+
+  .cards__example__vn
+  {
+    font-size: 18px;
+  }
+
+  .content {
+    font-weight: 100;
+    text-align: center;
+  }
+
+  .cards__example__split
+  {
+    display: block;
+    padding-bottom: 10px;
+  }
+
+  #button-cus {
+    display: flex;
+    justify-content: center;
+    padding: 0 !important;
+    margin: auto;
+    z-index: 1000;
+  }
+  
+  .button-cus {
+    border: none;
+    border-radius: 10px;
+    width: 48px !important;
+    height: 45px !important;
+    cursor: pointer;
+    margin: 0 10px 7px 10px !important;
+  }
+
+  #button-cus-group
+  {
+    display: flex;
+  }
+
+  .button-cus-option
+  {
+    
+    margin: 10px 0px 10px 0 !important;
+  }
+
+  .button__group__button
+  {
+    font-size: 15px;
+  }
+
+  .logo img {
+    top: 25px !important;
+    right: -25px !important;
+    width: 50px !important;
+  }
+ 
+  .cards__subtitle
+  {
+    font-size: 25px !important;
+    padding: 0;
+  }
+
+}
+
+#button-cus-group
+{
+  display: flex;
+  justify-content: center;
+}
+
+#button-cus {
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.button-cus {
+  border: none;
+  border-radius: 10px;
+  width: 60px;
+  height: 50px;
+  margin: 0 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.button-cus--shuffer
+{
+  background-color: var(--success);
+}
+
+.button-cus--restart
+{
+  background-color: var(--warning);
+}
+
+.button-cus:hover
+{
+  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.26);
+}
+
+.tooltiptext 
+{
+  text-align: center;
+  font-size: 16px;
+  font-family: 'Source Sans Pro';
+  margin-top: auto;
+  background-color: #AFD1FF;
+  color: navy;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.button-cus span {
+  font-size: 30px;
+}
+
+.main_flashcard
+{
+  background-color: var(--flashcard);
+  /* background-color: #293749; */
+  border-radius: 30px;
+  padding: 40px 15px 15px 15px;
+}
+
+.course_name--custom
+{
+  /* font-family: "DynaPuff", cursive; */
+  font-family: 'Itim', cursive;
+  font-size: 48px;
+  line-height: 40px;
+  text-align: center;
+  color: #293749;
+  padding: 50px 0 30px 0;
+  font-weight: 600;
+}
+
+.progress--custom
+{
+  border-radius: 2px !important;
+  background-color: #fff !important;
+  font-size: 14px !important;
+  height: 17px !important;
+  font-weight: 700 !important;
+}
+
+.logo--custom
+{
+  display: block;
+  width: 50px;
+  height: 50px;
+  background-color: #333;
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/tuvungtienghanthaytu-2f56b.appspot.com/o/courses%2Ft%E1%BA%A3i_xu%E1%BB%91ng-removebg-preview%20(1).png?alt=media&token=d249e283-a4ea-405d-8daa-63be9dbf1f85");
+}
+
+.center-elements{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 100%;
+  float: right;
+  text-align: center;
+
+}
+.logo img {
+  top: 40px;
+  right: -30px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 65px;
+}
+
+/* Text Shadow */
+
+.text_with_1px_border
+{
+  text-shadow: 
+    -1px -1px 0px #000,
+      0px -1px 0px #000,
+      1px -1px 0px #000,
+    -1px  0px 0px #000,
+      1px  0px 0px #000,
+    -1px  1px 0px #000,
+      0px  1px 0px #000,
+      1px  1px 0px #000;
+}
+
+.text_with_2px_border
+{
+  text-shadow: 
+    /* first layer at 1px */
+    -1px -1px 0px #000,
+      0px -1px 0px #000,
+      1px -1px 0px #000,
+    -1px  0px 0px #000,
+      1px  0px 0px #000,
+    -1px  1px 0px #000,
+      0px  1px 0px #000,
+      1px  1px 0px #000,
+    /* second layer at 2px */
+    -2px -2px 0px #000,
+    -1px -2px 0px #000,
+      0px -2px 0px #000,
+      1px -2px 0px #000,
+      2px -2px 0px #000,
+      2px -1px 0px #000,
+      2px  0px 0px #000,
+      2px  1px 0px #000,
+      2px  2px 0px #000,
+      1px  2px 0px #000,
+      0px  2px 0px #000,
+    -1px  2px 0px #000,
+    -2px  2px 0px #000,
+    -2px  1px 0px #000,
+    -2px  0px 0px #000,
+    -2px -1px 0px #000;
+}
+
+.text_with_2px_border_blue
+{
+  text-shadow:
+    -2px   -2px lightblue,
+    -2px -1.5px lightblue,
+    -2px   -1px lightblue,
+    -2px -0.5px lightblue,
+    -2px    0px lightblue,
+    -2px  0.5px lightblue,
+    -2px    1px lightblue,
+    -2px  1.5px lightblue,
+    -2px    2px lightblue,
+    -1.5px  2px lightblue,
+    -1px    2px lightblue,
+    -0.5px  2px lightblue,
+    0px     2px lightblue,
+    0.5px   2px lightblue,
+    1px     2px lightblue,
+    1.5px   2px lightblue,
+    2px     2px lightblue,
+    2px   1.5px lightblue,
+    2px     1px lightblue,
+    2px   0.5px lightblue,
+    2px     0px lightblue,
+    2px  -0.5px lightblue,
+    2px    -1px lightblue,
+    2px  -1.5px lightblue,
+    2px    -2px lightblue,
+    1.5px  -2px lightblue,
+    1px    -2px lightblue,
+    0.5px  -2px lightblue,
+    0px    -2px lightblue,
+    -0.5px -2px lightblue,
+    -1px   -2px lightblue,
+    -1.5px -2px lightblue;
+}
+
+.text_with_1px_normal
+{
+  text-shadow: 0 0 1px rgb(230, 230, 230), 0 0 1px rgb(230, 230, 230), 0 0 1px rgb(230, 230, 230), 0 0 1px rgb(230, 230, 230);
+}
+
+.front_bg_monday
+{
+  background: #fff url("https://wallpaperaccess.com/full/4086256.jpg") no-repeat center;
+  background-size: cover;
+  
+}
+
+.back_bg_monday
+{
+  background: #fff url("https://wallpaperaccess.com/full/4086256.jpg") no-repeat center;
+  background-size: cover;
+  
+}
+
+.front_bg_tuesday
+{
+  background: #fff url("https://wallart.vn/Portals/37/DNNGo_Combobox/64349/0/Gi%E1%BA%A5y%20d%C3%A1n%20t%C6%B0%E1%BB%9Dng%20tr%C6%A1n%20m%C3%A0u%20v%C3%A0ng%20nh%E1%BA%A1t%20%207906-2.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.back_bg_tuesday
+{
+  background: #fff url("https://wallart.vn/Portals/37/DNNGo_Combobox/64349/0/Gi%E1%BA%A5y%20d%C3%A1n%20t%C6%B0%E1%BB%9Dng%20tr%C6%A1n%20m%C3%A0u%20v%C3%A0ng%20nh%E1%BA%A1t%20%207906-2.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.front_bg_wednesday
+{
+  background: #fff url("https://img.freepik.com/free-vector/neutral-soft-abstract-watercolor-background-vector_53876-140748.jpg?w=2000") no-repeat center;
+  background-size: cover;
+}
+
+.back_bg_wednesday
+{
+  background: #fff url("https://img.freepik.com/free-vector/neutral-soft-abstract-watercolor-background-vector_53876-140748.jpg?w=2000") no-repeat center;
+  background-size: cover;
+}
+
+.front_bg_thursday
+{
+  background: #fff url("https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700451514.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.back_bg_thursday
+{
+  background: #fff url("https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700451514.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.front_bg_friday
+{
+  background: #fff url("https://wallart.vn/Portals/37/DNNGo_Combobox/64349/0/Gi%E1%BA%A5y%20d%C3%A1n%20t%C6%B0%E1%BB%9Dng%20tr%C6%A1n%20m%C3%A0u%20v%C3%A0ng%20nh%E1%BA%A1t%20%207906-2.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.back_bg_friday
+{
+  background: #fff url("https://wallart.vn/Portals/37/DNNGo_Combobox/64349/0/Gi%E1%BA%A5y%20d%C3%A1n%20t%C6%B0%E1%BB%9Dng%20tr%C6%A1n%20m%C3%A0u%20v%C3%A0ng%20nh%E1%BA%A1t%20%207906-2.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.front_bg_saturday
+{
+  background: #fff url("https://wallpaperaccess.com/full/4086256.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.back_bg_saturday
+{
+  background: #fff url("https://wallpaperaccess.com/full/4086256.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.front_bg_sunday
+{
+  background: #fff url("https://wallpaperaccess.com/full/4086256.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.back_bg_sunday
+{
+  background: #fff url("https://wallpaperaccess.com/full/4086256.jpg") no-repeat center;
+  background-size: cover;
 }

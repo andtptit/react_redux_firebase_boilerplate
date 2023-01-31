@@ -47,7 +47,7 @@ const CourseCard = ({courses, removeCourse, removeDataCourse, admin, profile}) =
                             <h4>Khóa bạn đang học</h4>
                         </div>
                     </Col>
-                    {objCourseLearned && objCourseLearned.map((c) =>
+                    {objCourseLearned && objCourseLearned.slice(0, 8).map((c) =>
                         <Col className='pr-2 pl-2' md='3' xs='6' key={c.id}>
                             <Card className="course-card course-card__custom" body outline color="info">
                             <CardImg height={"100px"} top src={c.imgUrl} alt="Card image cap" />
@@ -71,7 +71,7 @@ const CourseCard = ({courses, removeCourse, removeDataCourse, admin, profile}) =
                         <h4>Danh sách các khóa học</h4>
                     </div>
                 </Col>
-                {objCourseNew && objCourseNew.map((c) =>
+                {objCourseNew && objCourseNew.slice(0, 8).map((c) =>
                     <Col className='pr-2 pl-2' md='3' xs='6' key={c.id}>
                         <Card className="course-card course-card__custom" body outline color="info">
                         <CardImg top src={c && c.imgUrl} alt="Card image cap" />

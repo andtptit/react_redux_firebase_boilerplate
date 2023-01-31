@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import "./FlashCardArray.css";
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
@@ -13,7 +13,7 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
 
   const profileX = profile.SRN
   let datenow = Date.now()
-
+  let date = new Date()
   const [currentCard, setCurrentCard] = useState({})
   const [cardNum, setCardNum] = useState(1)
   const [isFlip, setIsFlip] = useState(true)
@@ -21,7 +21,10 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
   const [percentNum, setPercentNum] = useState(0)
   const [isShuffer, setIsShuffer] = useState(false)
   const [meaning, setMeaning] = useState('')
-
+  const [weekday, setWeekday] = useState(0)
+  // const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const background_front = ["front_bg_monday","front_bg_tuesday","front_bg_wednesday","front_bg_thursday","front_bg_friday","front_bg_saturday","front_bg_sunday"];
+  const background_back = ["back_bg_monday","back_bg_tuesday","back_bg_wednesday","back_bg_thursday","back_bg_friday","back_bg_saturday","back_bg_sunday"];
 
   let objDataCourseNew = []
   let objDataCourseRemind = []
@@ -34,6 +37,10 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
       }
     }
   }
+
+  date.toLocaleString('en-US', {
+    timeZone: 'Asia/Ho_Chi_Minh',
+  })
 
 
   useEffect(() => {
@@ -84,16 +91,11 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
 
     }
   },[dataCourse != undefined, cardNum, isShuffer])
-
-
-  console.log("meaning", meaning)
   
   let arr_meaning = ''
   useEffect(() => {
     arr_meaning = meaning.split(":")
   },)
-
-  console.log('arr_meaning', arr_meaning)
 
   const handleRestartCourse = () => {
     setCardNum(1)
@@ -102,6 +104,7 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
   const handleShufferCourse = () => {
     setCardNum(1)
     setIsShuffer(!isShuffer)
+    setWeekday(Math.floor(Math.random() * 7));
   }
 
   let iconStyles = { color: "#3c3c3c" }
@@ -111,34 +114,43 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
 
   return (
     <Container className="mt-4 mb-4 card-container__custom">
-     <h1 className="table-title mt-3 mb-3">Học FlashCard</h1>
-     <CustomBreadcurmb url_bred={url_bred} />
-      <Row md="12">
+     {/* <h1 className="table-title mt-3 mb-3">Học FlashCard</h1> */}
+     {/* <CustomBreadcurmb url_bred={url_bred} /> */}
+      <Row style={{ justifyContent: "center", marginBottom: "35px" }} md="12">
           <Col md='12'>
-            <div className="header__custom">
-              <h4>Bạn đang học khóa học: {course ? course[0].title : 'Khoa hoc'}</h4>
-            </div>
+            <h1 className="course_name--custom">{course ? course[0].title : 'Khoa hoc'}</h1>
           </Col>
-          <Col md='9'>
+          <Col md='9' className="main_flashcard">
             {dataCourse && cardNum <= dataCourse.length ? 
             <div className="col-md-12 cardContainer">
-              <Progress  color="success" value={percentNum}>{cardNum} / {dataCourse && dataCourse.length}</Progress>
+              <Progress className="progress--custom"  color="success" value={percentNum}>{cardNum} / {dataCourse && dataCourse.length}</Progress>
               <div className={isFlip ? 'cards' : 'cards flipped'} onClick={() => handleChangeClass()}>
-                <div className="front">
+
+                <div className={`front ${background_front[weekday]}`}>
+                  <div className="center-elements">
+                    <div className="logo">
+                      <img src="https://firebasestorage.googleapis.com/v0/b/tuvungtienghanthaytu-2f56b.appspot.com/o/list_course%2Flogo_thtt.png?alt=media&token=bbf3c9e0-0648-4a24-8356-f0301ca4b147"/>
+                    </div>
+                  </div>
                   <div className="cards__words__group">
-                    <h3 className="cards__words">{currentCard && currentCard.wordTitle}</h3>
-                    <h5 className="cards__subtitle">{currentCard && currentCard.subTitle}</h5>
+                    <h3 className="text_with_1px_normal cards__words">{currentCard && currentCard.wordTitle}</h3>
+                    {/* <h5 className="cards__subtitle">{currentCard && currentCard.subTitle}</h5> */}
                   </div>
                 </div>
-                <div className="back">
-                  <div className="cardsImg__group">
+                <div className={`back ${background_back[weekday]}`}>
+                  {/* <div className="cardsImg__group">
                     {
                       currentCard.image ? <img className="cardsImg" src={currentCard && currentCard.image} width="150px" heigh="150px"></img> : ""
                     }
-                  </div>
+                  </div> */}
                   <div className="content">
+                  <div className="center-elements">
+                    <div className="logo">
+                      <img src="https://firebasestorage.googleapis.com/v0/b/tuvungtienghanthaytu-2f56b.appspot.com/o/list_course%2Flogo_thtt.png?alt=media&token=bbf3c9e0-0648-4a24-8356-f0301ca4b147"/>
+                    </div>
+                  </div>
                     <div className="cards__meaning__group">
-                      <h6 className="cards__subtitle"></h6>
+                      <h6 className="cards__subtitle">{currentCard && currentCard.subTitle}</h6>
                       {meaning && meaning.split(":").length > 1 ? 
                       <>
                         <h3 className="cards__meaning__kr">{meaning.split(":")[0]}</h3>
@@ -147,17 +159,17 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
                       
                     </div>
                     <div className="cards_example__group">
-                      <h6 className="cards__subtitle">Ví dụ:</h6>
+                      {/* <h6 className="cards__subtitle">Ví dụ:</h6> */}
                       {
 
                       currentCard.example ? currentCard.example.split("|").map(function(item, index){
                         if(item.split(":").length > 1) {
-                          return <div className="cards__example__split">
-                                  <h4 className="cards__example__kr" key={index}>{item.split(":")[0]}</h4>
-                                  <h4 className="cards__example__vn" key={index}>{item.split(":")[1]}</h4>
+                          return <div key={index + "spl"} className="cards__example__split">
+                                  <h4 className="cards__example__kr" key={index + "vn"}>{item.split(":")[0]}</h4>
+                                  <h4 className="cards__example__vn" key={index + "kr"}>{item.split(":")[1]}</h4>
                                 </div>
                         }else
-                        {return <h4 className="cards__example__kr" key={index}>{item}</h4>}
+                        {return <h4 className="cards__example__kr" key={index + "kr"}>{item}</h4>}
                       }) : ""
                       }
                         
@@ -166,25 +178,6 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
                 </div>
 
               </div>
-              <div className="cards__button-wapper__cards">
-                {cardNum == 1 ? <Button disabled onClick={() => handlePrevCard()} className="cards__button-wapper__prev">
-                    <PreviousFilled style={iconStyles} className="left" size={30}/>
-                  </Button> : 
-                  <Button onClick={() => handlePrevCard()} className="cards__button-wapper__prev">
-                    <PreviousFilled style={iconStyles} className="left" size={30}/>
-                  </Button>}
-                
-                {
-                  dataCourse && cardNum > dataCourse.length ? <Button disabled onClick={() => handleNextCard()} className="cards__button-wapper__next">
-                    <NextFilled style={iconStyles} className="right" size={30}/>
-                  </Button> :
-                  <Button onClick={() => handleNextCard()} className="cards__button-wapper__next">
-                      <NextFilled style={iconStyles} className="right" size={30}/>
-                  </Button>
-                }
-                
-              </div>
-              <div className="xxxm"></div>
             </div> :
             <div className="cards_finish__group">
               <div className="cards_finish__group__title">
@@ -197,8 +190,29 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
                 </Button>
             </div>
             }
+            <div id="button-cus-group" className="col-md-12">
+              <div id="button-cus">
+                {cardNum == 1 ?
+                  <button disabled onClick={() => handlePrevCard()} className="button-cus" ><span className="material-symbols-outlined">Navigate_Before</span></button> : 
+                  <button onClick={() => handlePrevCard()} className="button-cus" ><span className="material-symbols-outlined">Navigate_Before</span></button>}
+                
+                {
+                  dataCourse && cardNum > dataCourse.length ?
+                    <button className="button-cus" disabled onClick={() => handleNextCard()} ><span className="material-symbols-outlined">Navigate_Next</span></button> :
+                    <button className="button-cus" onClick={() => handleNextCard()} ><span className="material-symbols-outlined">Navigate_Next</span></button>
+                }
+                <button className="button-cus button-cus--shuffer" onClick={() => handleShufferCourse()} ><span className="material-symbols-outlined">cached</span></button>
+                
+                <button className="button-cus button-cus--restart" onClick={() => handleRestartCourse()} ><span className="material-symbols-outlined">Restart_Alt</span></button>
+              </div>
+              {/* <div className="button-cus-option">
+                    <Button color="info" className="button__group__button ml-2 mt2"  onClick={() => handleShufferCourse()} >Trộn</Button>
+                    <Button color="danger" className="button__group__button ml-2 mt2"  onClick={() => handleRestartCourse()} >Học lại</Button>
+              </div> */}
+            </div>
+
           </Col>
-          <Col md="3">
+          {/* <Col md="3">
             <div className="cards__button-wapper">
                 <Button onClick={() => handleShufferCourse()} color="danger" className="button__group__button ml-2 mt2">
                   Trộn
@@ -207,7 +221,7 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
                   Học lại
                 </Button>
             </div>
-          </Col>
+          </Col> */}
 
       </Row>
       <Row md="12">
@@ -216,22 +230,22 @@ const FlashCardArray = ({course, profile, dataCourse, addLearned, addLearned_Tit
               <h4>Từ vựng đã học</h4>
           </div>
           {objDataCourseRemind.length ? objDataCourseRemind.map(function(item, index){
-                  return <div key={index} className="words_statistic__group"> 
-                            <h4 className="words_statistic__title">{item.wordTitle}</h4>
-                            <h4 className="words_statistic__meaning">{item.meaning}</h4>
+                  return <div key={index + "group_rm"} className="words_statistic__group"> 
+                            <h4 key={index + "title_rm"} className="words_statistic__title">{item.wordTitle}</h4>
+                            <h4 key={index + "meaning_rm"} className="words_statistic__meaning">{item.meaning}</h4>
                             {/* <h4 className="words_statistic__speaker" key={index}>{item.voice}</h4> */}
                         </div>
-                }) : <h4 className="words_statistic__title" >Bắt đầu học ngay</h4>}
+                }) : <h4 key={index + "title_start"} className="words_statistic__title" >Bắt đầu học ngay</h4>}
           <div className="header__custom">
               <h4>Từ vựng chưa học</h4>
           </div>
           {objDataCourseNew.length ? objDataCourseNew.map(function(item, index){
-                  return <div key={index} className="words_statistic__group"> 
-                            <h4 className="words_statistic__title" >{item.wordTitle}</h4>
-                            <h4 className="words_statistic__meaning" >{item.meaning}</h4>
+                  return <div key={index + "group_new"} className="words_statistic__group"> 
+                            <h4 key={index + "title_new"} className="words_statistic__title" >{item.wordTitle}</h4>
+                            <h4 key={index + "meaning_new"} className="words_statistic__meaning" >{item.meaning}</h4>
                             {/* <h4 className="words_statistic__speaker" key={index}>{item.voice}</h4> */}
                         </div>
-                }) : <h4 className="words_statistic__title" >Bạn đã học hết tất cả các từ vựng</h4>}
+                }) : <h4 key={index + "title_end"} className="words_statistic__title" >Bạn đã học hết tất cả các từ vựng</h4>}
         </Col>
       </Row>
       
