@@ -29,7 +29,7 @@ const TeacherDashboard = ({profile, auth, authSuccess}) => {
                     {/* <Route exact path="/myclasses" component={MyClasses}></Route> */}
                     <Route exact path="/forum" component={StudentForum}></Route>
             </Switch>
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
         </div>
 
     )

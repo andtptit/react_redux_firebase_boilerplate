@@ -42,7 +42,7 @@ const AdminDashboard = ({auth, authSuccess, profile}) => {
                     <Route exact path="/flashstores/:flashstore" component={FlashStore}></Route>
                     
             </Switch>
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
         </div>
     )
 }

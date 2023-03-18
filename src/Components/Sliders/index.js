@@ -1,9 +1,25 @@
 import React from 'react';
 import { Carousel, CarouselItem } from "../Carousel";
 import {Card, CardBody, CardImg, Button, Row, Col, CardSubtitle, Container, CardHeader} from 'reactstrap'
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    carouselItem: {
+      width: 300,
+      textAlign: 'center',
+      boxSizing: 'border-box'
+    },
+
+    "@media (max-width: 992px)": {
+        carouselItem: {
+            width: 200,
+          },
+    }
+  });
 
 const Sliders = ({courseData, isSnapPoint, profile}) => {
     const admin = profile.userType === "Admin" ? true : false
+    const classes = useStyles();
 
   return (
     <>
@@ -14,11 +30,7 @@ const Sliders = ({courseData, isSnapPoint, profile}) => {
             renderItem={({ item, isSnapPoint }) => (
                 <CarouselItem key={item.id} isSnapPoint={isSnapPoint}> 
                     <div
-                    style={{
-                        width: 300,
-                        textAlign: "center",
-                        boxSizing: "border-box",
-                    }}
+                        className={`${classes.carouselItem}`}
                     >
                     <Card className="course-card course-card__custom" body outline color="info">
                         {/* <CardImg height={"100px"} top src={c.imgUrl} alt="Card image cap" /> */}

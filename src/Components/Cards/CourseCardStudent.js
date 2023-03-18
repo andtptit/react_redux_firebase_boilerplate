@@ -4,8 +4,20 @@ import Sliders from '../Sliders';
 
 const useStyles = makeStyles({
     element: {
-      paddingTop: '30px',
+      paddingTop: '20px',
     },
+
+    leaderboard: {
+        fontSize: '2.5rem'
+    },
+
+    "@media (max-width: 992px)": {
+        element: {
+            paddingTop: '5px'
+        },
+
+        
+    }
   });
 
 const CourseCard = ({profile, courseNew, courseLearned}) => {
@@ -14,7 +26,7 @@ const CourseCard = ({profile, courseNew, courseLearned}) => {
     return(
         <div className="container my-10">
             <div className={`${classes.element} leaderboard`}>
-                <h1 className={`leaderboard-title flex-start`}>
+                <h1 className={`${classes.leaderboard} flex-start`}>
                     Đã học
                 </h1>
             </div>
@@ -22,7 +34,7 @@ const CourseCard = ({profile, courseNew, courseLearned}) => {
             <Sliders profile={profile} courseData={courseLearned} />
 
             <div className={`${classes.element} leaderboard`}>
-                <h1 className="leaderboard-title flex-start">
+                <h1 className={`${classes.leaderboard} flex-start`}>
                     Chưa học
                 </h1>
             </div>

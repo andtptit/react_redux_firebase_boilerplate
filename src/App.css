@@ -548,6 +548,7 @@
 .card-header__custom
 {
   background: linear-gradient(147deg, rgb(188, 250, 180) 0%, rgb(196 255 200) 50%) !important;
+  font-size: 1.35rem;
 }
 
 .card-button__custom
@@ -623,7 +624,7 @@
 
   .card-header__custom
   {
-    padding: 0.5rem 0.5rem !important;
+    padding: 0.75rem 0.75rem !important;
   }
 
   .card-body__custom
