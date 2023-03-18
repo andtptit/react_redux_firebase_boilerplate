@@ -153,12 +153,11 @@ export const updateCourse = (course, title) => {
 
 
 export const removeDataCourse = (course) => {
-    console.log('course', course)
     return (dispatch, getState, {getFirebase}) => {
         const firestore = getFirebase().firestore();
         firestore
             .collection('courses')
-            .doc(`${course.id}`)
+            .doc(`${course[0].id}`)
             .delete()
             .then(() => {
                 dispatch({
@@ -175,7 +174,6 @@ export const removeDataCourse = (course) => {
 }
 
 export const removeDataFromCourse = (course, item) => {
-    console.log('item', item)
     return (dispatch, getState, {getFirebase}) => {
         const firestore = getFirebase().firestore();
         firestore
@@ -255,15 +253,16 @@ export const updateStudentLearnedCount = (course) => {
 }
 
 export const removeCourse = (course) => {
+    console.log('removeCourse', course)
     return (dispatch, getState, {getFirebase}) => {
         const firestore = getFirebase().firestore();
         firestore
-            .collection(course.courseId)
+            .collection(course[0].courseId)
             .get()
             .then(querySnapshot => {
             querySnapshot.docs.map(doc => {
                 firestore
-                .collection(course.courseId)
+                .collection(course[0].courseId)
                 .doc(doc.id)
                 .delete()
             });
@@ -350,6 +349,7 @@ export const addNewCourseList = (courseId, courseName, courseLength, url) => {
                     title: courseName,
                     courseLength: courseLength,
                     studentLearned: {},
+                    learned: [],
                     imgUrl: url
                 })
                 .catch((err)=> {
@@ -450,37 +450,62 @@ export const addLearned = (course, dataCourse, profile, datenow)  => {
 }
 
 export const addLearned_Title = (course, profile, datenow)  => {
-    console.log('course_xx', course)
     return (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase();
         const firestore = getFirebase().firestore();
 
-        firestore
-            .collection("courses")
-            .doc(course[0].id)
-            .update({
-                studentLearned: 
-                {
-                    ...course[0].studentLearned,
-                    [profile]: {
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                        time: datenow
-                    }
-                }
-                
-            },
-            {merge: true}
-            )
-            .catch((err)=> {
-                console.log(err)
-                dispatch({
-                    type: 'IMAGE_UPLOAD_ERROR',
-                    error: err,
-                }) 
-            })
+        if (!course[0].learned.includes(profile)) {
+            firestore
+                .collection("courses")
+                .doc(course[0].id)
+                .update(
+                    {
+                        studentLearned: 
+                        {
+                            ...course[0].studentLearned,
+                            [profile]: {
+                                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                                time: datenow
+                            }
+                        },
+                        learned: [...course[0].learned, profile]
+                    },
+                    {merge: true}
+                )
+                .catch((err)=> {
+                    console.log(err)
+                    dispatch({
+                        type: 'IMAGE_UPLOAD_ERROR',
+                        error: err,
+                    }) 
+                });
+        }else{
+            firestore
+                .collection("courses")
+                .doc(course[0].id)
+                .update(
+                    {
+                        studentLearned: 
+                        {
+                            ...course[0].studentLearned,
+                            [profile]: {
+                                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                                time: datenow
+                            }
+                        }
+                    },
+                    {merge: true}
+                )
+                .catch((err)=> {
+                    console.log(err)
+                    dispatch({
+                        type: 'IMAGE_UPLOAD_ERROR',
+                        error: err,
+                    }) 
+                });
+        }
     }
 }
-
 
 export const removeVideo = (course, title, url) => {
     return (dispatch, getState, {getFirebase}) => {

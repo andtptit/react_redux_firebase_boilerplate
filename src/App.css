@@ -9,25 +9,15 @@
   --lang1-hover: #c7fa9e;
   --lang2-hover: #ffc9a3;
   --lang3-hover: #fdf59b;
+
 }
 
-*{
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-body{
-  margin:0px;
-  font-family: 'Source Sans Pro' !important; 
-  height:100%;
-}
 
 @font-face {
 	font-family: "BatangBold";
 	src: local("BatangBold"), url("./fonts/Batang.ttf") format ("truetype");
-  
 }
+
 
 .navbar-custom
 {
@@ -292,7 +282,7 @@ body{
   bottom: 0;
   width: 100%;
   overflow: hidden;
-  
+  z-index: 9999999;
 }
 
 .notif-heading{
@@ -494,7 +484,6 @@ body{
   font-family: 'Source Sans Pro' !important;
   font-size: 18px;
   font-weight: 600;
-  margin-top: 50px;
 }
 
 .signup-button{
@@ -539,7 +528,7 @@ body{
     background: none;
   }
   .signup-container{
-    margin-top: 150px;
+    
     margin-bottom: 50px;
   }
 

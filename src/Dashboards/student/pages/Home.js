@@ -4,12 +4,50 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { Card, Row, Container, Col, CardTitle, CardText, Button } from 'reactstrap';
 import { compose } from 'redux';
 import Notification from '../../../Components/Notification';
-import Slider from '../../../Components/Slider';
+import useTitle from '../../../Hooks/useTitle';
+import useScrollTop from '../../../Hooks/useScrollTop';
+import ipaIcon from '../../../Assets/icons/ipa.png';
+import favoriteIcon from '../../../Assets/icons/favorite.png';
+import grammarIcon from '../../../Assets/icons/grammar.png';
+import Grid from '@material-ui/core/Grid';
+import FeatureBox from '../../../Components/FeatureBox';
+import { makeStyles } from '@material-ui/core/styles';
+import CustomAlert from '../../../Components/Alert';
 
 
+const FEATURE_LIST = [
+    {
+      title: 'Học từ vựng',
+      subTitle:
+        'Học từ vựng cùng Tiếng Hàn Thầy Tư',
+      imgUrl: ipaIcon,
+      to: '/courses',
+    },
+    {
+        title: 'Ngữ Pháp',
+        subTitle: 'Luyện ngữ pháp cùng Tiếng Hàn Thầy Tư',
+        imgUrl: grammarIcon,
+        to: '/',
+    },
+    {
+        title: 'Từ vựng yêu thích của bạn',
+        subTitle: 'Danh sách những từ vựng yêu thích mà bạn đã lưu',
+        imgUrl: favoriteIcon,
+        to: '/',
+    }
+];
 
-const TeacherOverview = ({profile, listcourse}) => {
-    
+const useStyles = makeStyles({
+    element: {
+      paddingTop: '30px',
+    },
+  });
+
+const Home = ({profile, listcourse, authSuccess}) => {
+
+    useTitle('Ứng dụng học tiếng Hàn miễn phí')
+    useScrollTop()
+    const classes = useStyles()
     const profileX = profile.SRN
     let objCourseNew = []
     let objCourseLearned = []
@@ -23,39 +61,22 @@ const TeacherOverview = ({profile, listcourse}) => {
             }
         }
     }
-
     return(
-        <Container className="mt-4 mb-4 card-container__custom">
-        <Row>
-            <Slider></Slider>
-            <Col md="12">
-                <div className="header__custom">
-                <h4>Học tập</h4>
-                </div>
-            </Col>
-            <Col md="6">
-                <div className='home_course__group'>
-                    <h5>
-                        Khóa học: {listcourse && listcourse.length}
-                    </h5>
-                </div>
-            </Col>
-            <Col md="6">
-                <div className='home_course__group'>
-                    <h5>
-                        Đã học: {objCourseLearned && objCourseLearned.length}
-                    </h5>
-                </div>
-            </Col>
-            <Col md="12">
-                <div className='home_course__group'>
-                    <h5>
-                        Khóa học gần nhất:
-                    </h5>
-                </div>
-            </Col>
-        </Row>
-        </Container>
+        <div className={`${classes.element} container my-10`}>
+            {authSuccess && <CustomAlert alert={authSuccess}></CustomAlert>}
+            <Grid container spacing={3}>
+            {FEATURE_LIST.map((box, index) => (
+                <Grid item xs={12} md={6} lg={4} key={index}>
+                <FeatureBox
+                    imgUrl={box.imgUrl}
+                    title={box.title}
+                    to={box.to}
+                    subTitle={box.subTitle}
+                />
+                </Grid>
+            ))}
+            </Grid>
+        </div>
     )
 }
 
@@ -64,6 +85,7 @@ const mapStateToProps = (state) => {
     return {
         profile: state.firebase.profile, 
         listcourse: state.firestore.ordered.listcourse,
+        authSuccess: state.auth.authSuccess,
     }
 }
 
@@ -76,4 +98,4 @@ export default compose(connect(mapStateToProps), firestoreConnect((props) =>
             storeAs: 'listcourse'
         },
     ]
-} ))(TeacherOverview);
+} ))(Home);

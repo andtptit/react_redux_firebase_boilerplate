@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import firebase from 'firebase/app';
 import { useSelector } from 'react-redux';
 import { isLoaded } from 'react-redux-firebase';
+import './utils/index.scss';
 
 import './fonts/Batang.ttf'
 
@@ -34,7 +35,6 @@ const profileSpecificProps = {
 }
 
 const newfbConfig = Object.assign(fbConfig,profileSpecificProps);
-
 
 
 const rrfProps = {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Row, Col, Container, Form, FormGroup, Label, Input, Button} from 'reactstrap'
 import '../App.css'
 import { Link, Redirect } from 'react-router-dom'
@@ -8,180 +8,165 @@ import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import Footer from '../Components/Footer/Footer'
 import CustomAlert from '../Components/Alert'
+import useStyle from './style';
 
-class Signup extends React.Component{
- constructor(props){
-     super(props);
+function Signup(props){
+ 
+    const [input, setInput] = useState({
+        email: '',
+        name: '',
+        password: '',
+        type: 'Student',
+        phone: '',
+    });
 
-     this.state={
-        input:{
-         email: '',
-         name: '',
-         password: '',
-         type: 'Student',
-         phone: '',
-        },
-        errors: {}
-    }
- }
+    const [errors, setErrors] = useState({});
+    const classes = useStyle();
 
- handleChange  = (e) => {
-     const input = this.state.input
-     const errors = this.state.errors
-     input[e.target.name] = e.target.value.trim();
-     errors[e.target.name] = "";
-     this.setState({input})
-     this.setState({errors})
- }
+    const handleChange = (e) => {
+        const newInput = { ...input };
+        const newErrors = { ...errors };
+        newInput[e.target.name] = e.target.value.trim();
+        newErrors[e.target.name] = '';
+        setInput(newInput);
+        setErrors(newErrors);
+    };
 
- handleSubmit = (e) => {
-     e.preventDefault();
-      if(this.validate()){
-        this.props.signUp(this.state.input);
-    }
- }
-
- validate = () => {
-     let input = this.state.input;
-     let errors = {};
-     let isValid = true;
-
-     if(!input["email"]){
-        isValid = false;
-        errors["email"] = "Please enter your email address"
-     }
-
-     if (typeof input["email"] !== "undefined") {
-            
-        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-        if (!pattern.test(input["email"])) {
-          isValid = false;
-          errors["email"] = "Please enter valid email address.";
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validate()) {
+        props.signUp(input);
         }
-      }
-  
-      if (!input["password"]) {
-        isValid = false;
-        errors["password"] = "Please enter your password.";
-      }
+    };
 
-      if (!input["name"]) {
-        isValid = false;
-        errors["name"] = "Please enter your name.";
-      }
-      if(!input["phone"]){
+    const validate = () => {
+        let newErrors = {};
+        let isValid = true;
+        
+        if (!input['email']) {
           isValid = false;
-          errors["phone"] = "Please add your phone number"
-      }
+          newErrors['email'] = 'Please enter your email address';
+        }
+        
+        if (typeof input['email'] !== 'undefined') {
+          var pattern = new RegExp(
+            /^(([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+          );
+          if (!pattern.test(input['email'])) {
+            isValid = false;
+            newErrors['email'] = 'Please enter valid email address.';
+          }
+        }
+        
+        if (!input['password']) {
+          isValid = false;
+          newErrors['password'] = 'Please enter your password.';
+        }
+        
+        if (!input['name']) {
+          isValid = false;
+          newErrors['name'] = 'Please enter your name.';
+        }
+        if (!input['phone']) {
+          isValid = false;
+          newErrors['phone'] = 'Please add your phone number';
+        }
+        
+        setErrors(newErrors);
+        
+        return isValid;
+    };
 
+    const { auth, authError } = props;
+    if (auth.uid) return <Redirect to='/'></Redirect>;
 
-     this.setState({
-         errors: errors
-     })
-
-     return isValid;
- }
-
-
-    
- render(){
-    const {auth, authError} = this.props;
-    if(auth.uid) return (<Redirect to="/"></Redirect>)
     return(
-     <Row>
-         <Col md="4" className="signup-background">
-             <div className="signup-box">
-                    <div className="logo-container">
-                        
+        <div className="pos-rel w-100vw h-100vh">
+    <Row className={`${classes.rootSignup} flex-col`}>
+        <Col md="12">
+            <Form onSubmit={handleSubmit}>
+            <Container className="signup-container">
+                <div className="flex-col">
+                    <h1 className={`${classes.title} t-left`}>Đăng ký</h1>
+                    <div className="t-center mt-5">
                     </div>
-             </div>
-         </Col>
-         <Col md="8">
-                <Form onSubmit={this.handleSubmit}>
-                <Container className="signup-container">
-                <h1 className="heading m-auto p-auto">Signup</h1>
-                <Row className="mt-4 mb-4">
-                    <Col md='5'>
-                        <FormGroup>
-                            <Label>Name</Label>
-                            <Input type="text" name="name" id="name" placeholder="Your Name" onChange={this.handleChange}/>
-                            {this.state.errors.name && <p className="error">{this.state.errors.name}</p>}
+                </div>
+            <Row className="mt-4 mb-4">
+                <Col md='5'>
+                    <FormGroup className={`${classes.form}`}>
+                        <Label>Tên</Label>
+                        <Input type="text" name="name" id="name" placeholder="Họ và tên" className={`${classes.label}`} onChange={handleChange}/>
+                        {errors.name && <p className="error">{errors.name}</p>}
+                    </FormGroup>
+                </Col>
+                <Col md='5'>
+                    <FormGroup className={`${classes.form}`}>
+                        <Label>Email</Label>
+                        <Input name="email" id="email" placeholder="Email" className={`${classes.label}`} onChange={handleChange} />
+                        {errors.email && <p className="error">{errors.email}</p>}
+                    </FormGroup>
+                </Col>
+                <Col md='5' className="mt-3">
+                    <FormGroup className={`${classes.form}`}>
+                        <Label>Mật khẩu</Label>
+                        <Input type="password" name="password" id="password" className={`${classes.label}`} placeholder="Password" onChange={handleChange} />                        
+                        {errors.password && <p className="error">{errors.password}</p>}
+                    </FormGroup>
+                </Col>
+                <Col md='5' className="mt-3">
+                    <FormGroup className={`${classes.form}`}>
+                        <Label>Số điện thoại</Label>
+                        <Input type="text" name="phone" id="phone" placeholder="Phone" className={`${classes.label}`} onChange={handleChange} />                        
+                        {errors.phone && <p className="error">{errors.phone}</p>}
+                    </FormGroup>
+                </Col>
+                <Col md='5' className="mt-3 mb-0"> 
+                    <Label for="exampleSelect">Giới tính</Label>
+                    <Row>
+                    <Col>
+                        <FormGroup check>
+                        <Input type="radio" name="gender" value="male" id="male" className={`${classes.radio}`} onChange={handleChange}/>
+                        <Label check for="male">
+                            Nam
+                        </Label>
                         </FormGroup>
                     </Col>
-                    <Col md='5'>
-                        <FormGroup>
-                            <Label>Email</Label>
-                            <Input name="email" id="email" placeholder="Email" onChange={this.handleChange} />
-                            {this.state.errors.email && <p className="error">{this.state.errors.email}</p>}
+                    <Col>
+                        <FormGroup check>
+                        <Input type="radio" name="gender" value="female" id="female" className={`${classes.radio}`} onChange={handleChange}/>
+                        <Label check for="female">
+                            Nữ
+                        </Label>
                         </FormGroup>
                     </Col>
-                    <Col md='5' className="mt-3">
-                        <FormGroup>
-                            <Label>Password</Label>
-                            <Input type="password" name="password" id="password" placeholder="Password" onChange={this.handleChange} />                        
-                            {this.state.errors.password && <p className="error">{this.state.errors.password}</p>}
+                    </Row>
+                </Col>
+                <Col md='5' className="mt-3 mb-0"> 
+                <Label for="exampleSelect">Bạn là</Label>
+                    <Row>
+                    <Col>
+                        <FormGroup check>
+                        <Input type="radio" name="type" value="Student" id="student" className={`${classes.radio}`} onChange={handleChange}/>
+                        <Label check for="student">
+                            Học sinh
+                        </Label>
                         </FormGroup>
                     </Col>
-                    <Col md='5' className="mt-3">
-                        <FormGroup>
-                            <Label>Phone</Label>
-                            <Input type="text" name="phone" id="phone" placeholder="Phone" onChange={this.handleChange} />                        
-                            {this.state.errors.phone && <p className="error">{this.state.errors.phone}</p>}
-                        </FormGroup>
-                    </Col>
-                    <Col md='5' className="mt-3 mb-0"> 
-                        <Label for="exampleSelect">Select Your Gender</Label>
-                        <Row>
-                        <Col>
-                            <FormGroup check>
-                            <Input type="radio" name="gender" value="male" id="male" onChange={this.handleChange}/>
-                            <Label check for="male">
-                                Male
-                            </Label>
-                            </FormGroup>
-                        </Col>
-                        <Col>
-                            <FormGroup check>
-                            <Input type="radio" name="gender" value="female" id="female" onChange={this.handleChange}/>
-                            <Label check for="female">
-                                Female
-                            </Label>
-                            </FormGroup>
-                        </Col>
-                        </Row>
-                    </Col>
-                    <Col md='5' className="mt-3 mb-0"> 
-                    <Label for="exampleSelect">Select Your Type</Label>
-                        <Row>
-                        <Col>
-                            <FormGroup check>
-                            <Input type="radio" name="type" value="Student" id="student" onChange={this.handleChange}/>
-                            <Label check for="student">
-                                Student
-                            </Label>
-                            </FormGroup>
-                        </Col>
-                        <Col>
-                            <FormGroup check>
-                            <Input type="radio" name="type" value="Teacher" id="teacher" onChange={this.handleChange}/>
-                            <Label check for="teacher">
-                                Teacher
-                            </Label>
-                            </FormGroup>
-                        </Col>
-                        </Row>
-                    </Col>
-                </Row>
-                <Button color="primary" className="signup-button" type="submit">Submit</Button>
-                <p className="login-helper">Have an account already? <Link to="/login">Login</Link></p>
-                {authError && <CustomAlert authError alert={authError}></CustomAlert>}
-                </Container> 
-                </Form> 
-         </Col>
-         <Footer/>
+                    </Row>
+                </Col>
+            </Row>
+            <Button color="primary" className={`${classes.buttonSign} signup-button`} type="submit">Đăng ký</Button>
+            <p className="login-helper">Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link></p>
+            {authError && <CustomAlert authError alert={authError}></CustomAlert>}
+            </Container> 
+            </Form> 
+        </Col>
      </Row>
+
+     <Footer/>
+     </div>
     )
-  }
+  
 }
 
 const mapStateToProps = (state) => {

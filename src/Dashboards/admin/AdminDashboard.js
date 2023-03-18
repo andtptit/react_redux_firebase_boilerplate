@@ -21,9 +21,8 @@ import EditFlashStore from './pages/EditFlashStore';
 
 const AdminDashboard = ({auth, authSuccess, profile}) => {
 
-    if(!auth.uid) return <Redirect to="/login"></Redirect>   
+    if(!auth.uid) return <Redirect to="/login"></Redirect>
 
-    console.log(profile);
     
     return(
         <div>

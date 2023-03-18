@@ -5,28 +5,20 @@ import { Row, Col, Button, Container } from 'reactstrap'
 import { compose } from 'redux'
 import CustomModal from '../Modal'
 import 'react-circular-progressbar/dist/styles.css';
-import { updateStudentLearnedCount, removeDataFromCourse, updateCourseLength } from '../../Store/actions/courseActions'
+import { updateStudentLearnedCount, removeDataFromCourse, updateCourseLength, removeDataCourse, removeCourse } from '../../Store/actions/courseActions'
 import EditCourseForm from '../Forms/EditCourseForm'
 import EditDataCourseForm from '../Forms/EditDataCourseForm'
 import AddDataCourseForm from '../Forms/AddDataCourseForm'
 
 
-
-const dummy = {
-    title: 'Test Course',
-    branch: 'CSE',
-    teacher: 'John Doe',
-    courseId: ''
-}
-
-
-const CourseContainer = ({course, profile, dataCourse, removeDataFromCourse, updateCourseLength}) => {
+const CourseContainer = ({course, profile, dataCourse, removeCourse, removeDataCourse, removeDataFromCourse, updateCourseLength}) => {
     const [isCourseOpen, setIsCourseOpen] = useState(false)
     const [isAddataOpen, setIsAddDataOpen] = useState(false)
     const [isDataCourseOpen, setIsDataCourseOpen] = useState(false)
     const [dataEdit, setDataEdit] = useState({})
     const [isOpen, setIsOpen] = useState(false)
-
+    const [isDeleteCourseOpen, setIsDeleteCourseOpen] = useState(false)
+    
     const toggle = (item) => {
         setIsOpen(!isOpen)
         setDataEdit(item)
@@ -34,25 +26,28 @@ const CourseContainer = ({course, profile, dataCourse, removeDataFromCourse, upd
 
     const toggleCourse = () => setIsCourseOpen(!isCourseOpen)
     const toggleAddDataCourse = () => setIsAddDataOpen(!isAddataOpen)
+    const toggleDeleteCourse = () => setIsDeleteCourseOpen(!isDeleteCourseOpen)
 
     const toggleDataCourse = (item) => {
         setIsDataCourseOpen(!isDataCourseOpen);
         setDataEdit(item)
     }
 
-
-    const actionX = "delete"
     const handleRemoveDataCourse = (item) => {
         setDataEdit(item)
         removeDataFromCourse(course, dataEdit)
 
-        updateCourseLength(course, actionX)
+        updateCourseLength(course, "delete")
         setIsOpen(false)
     }
 
+    const handleCourseRemoval = (course) => {
+        removeCourse(course)
+        removeDataCourse(course)
+        setIsDeleteCourseOpen(false)
+        
+    }
 
-    console.log('course', course);
-    console.log('dataCourse', dataCourse);
 
     return(
         <Col>
@@ -62,6 +57,9 @@ const CourseContainer = ({course, profile, dataCourse, removeDataFromCourse, upd
                 </Col>
                 <Col md="3">
                     <Button outline color='primary' onClick={toggleAddDataCourse}>Thêm từ vựng</Button>
+                </Col>
+                <Col md="3">
+                    <Button outline color='danger' onClick={toggleDeleteCourse}>Xóa khóa học</Button>
                 </Col>
                 <Col md="12" style={{marginTop: "10px"}}>
                     <div className='xxxm'></div>
@@ -113,6 +111,14 @@ const CourseContainer = ({course, profile, dataCourse, removeDataFromCourse, upd
             <CustomModal title="Edit data khóa học" modal={isDataCourseOpen} toggle={toggleDataCourse}>
                 <EditDataCourseForm course={course} dataEdit={dataEdit}/>
             </CustomModal>
+
+            <CustomModal toggle={toggleDeleteCourse} modal={isDeleteCourseOpen} title="Xóa khóa học">
+                <Container>
+                    <h4>Are you sure?</h4>
+                    <Button color="danger" className="card-button w-25" onClick={() => handleCourseRemoval(course)}>Yes</Button>
+                    <Button color="primary" className="card-button w-25 ml-2 mr-2" onClick={toggleDeleteCourse}>No</Button>
+                </Container>
+            </CustomModal>
         </Col>
   )
 }
@@ -136,7 +142,13 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateCourseLength: (course, actionX) => {
             dispatch(updateCourseLength(course, actionX))
-        }    
+        },
+        removeCourse: (course) => {
+            dispatch(removeCourse(course))
+        },
+        removeDataCourse: (course) => {
+            dispatch(removeDataCourse(course))
+        }
     }
 }
 
