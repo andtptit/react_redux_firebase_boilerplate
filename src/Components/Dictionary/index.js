@@ -8,7 +8,7 @@ const MAX_LEN_NAME = 20;
 
 function LeaderBoardItem({ classes, nthTop, avt, name, score, unit, wordTitle, meaning, subTitle }) {
 
-    const color = '#C0C0C0'
+    const color = 'rgba(0, 0, 0, 0.15)'
 
     
   return (
@@ -20,9 +20,7 @@ function LeaderBoardItem({ classes, nthTop, avt, name, score, unit, wordTitle, m
         <h5 className={classes.name}>{wordTitle}</h5>
       </div>
 
-        <div className={classes.name}>
-            {subTitle ? `${subTitle} :` : ""} {meaning}
-        </div>
+        <div className={classes.meaning}>{meaning}</div>
 
     </div>
   );

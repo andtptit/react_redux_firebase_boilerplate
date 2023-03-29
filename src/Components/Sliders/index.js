@@ -1,25 +1,12 @@
 import React from 'react';
 import { Carousel, CarouselItem } from "../Carousel";
-import {Card, CardBody, CardImg, Button, Row, Col, CardSubtitle, Container, CardHeader} from 'reactstrap'
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles({
-    carouselItem: {
-      width: 300,
-      textAlign: 'center',
-      boxSizing: 'border-box'
-    },
-
-    "@media (max-width: 992px)": {
-        carouselItem: {
-            width: 200,
-          },
-    }
-  });
+import { Card, CardContent, Button, Typography } from '@material-ui/core';
+import useStyle from './style';
+import { Link } from 'react-router-dom';
 
 const Sliders = ({courseData, isSnapPoint, profile}) => {
     const admin = profile.userType === "Admin" ? true : false
-    const classes = useStyles();
+    const classes = useStyle();
 
   return (
     <>
@@ -32,22 +19,20 @@ const Sliders = ({courseData, isSnapPoint, profile}) => {
                     <div
                         className={`${classes.carouselItem}`}
                     >
-                    <Card className="course-card course-card__custom" body outline color="info">
-                        {/* <CardImg height={"100px"} top src={c.imgUrl} alt="Card image cap" /> */}
-                        <CardHeader className="course-title card-header__custom"><strong>{item.title}</strong></CardHeader>
-                        <CardBody className='card-body__custom'>
-                            <CardSubtitle className="mb-2 subtitle">Số lượng từ vựng: {item.courseLength}</CardSubtitle>
-                            <Button  className="mt-2 card-button__custom continue">
-                                <a href={`/courses/${item.courseId}`} className="link">
-                                    Bắt đầu
-                                </a>
-                            </Button>
-                        </CardBody>
+                    <Card onClick={() => window.location.href = `/courses/${item.courseId}`} className={classes.card}>
+                        <CardContent>
+                            <Typography className={classes.cardTitle} gutterBottom>
+                            {item.title}
+                            </Typography>
+                            <Typography className={classes.cardContent} variant="body2" component="p">
+                            Số lượng từ vựng: {item.courseLength}
+                            </Typography>
+                        </CardContent>
                     </Card>
                     </div>
                 </CarouselItem>
             )}
-        /> : <div className="course-title">Không có khóa học nào</div>)
+        /> : <div className={classes.title}>Không có khóa học nào</div>)
     }
 
     {admin && 
@@ -56,30 +41,21 @@ const Sliders = ({courseData, isSnapPoint, profile}) => {
             items={courseData}
             renderItem={({ item, isSnapPoint }) => (
                 <CarouselItem key={item.id} isSnapPoint={isSnapPoint}> 
-                    <div
-                    style={{
-                        width: 300,
-                        textAlign: "center",
-                        boxSizing: "border-box",
-                    }}
-                    >
-                    <Card className="course-card course-card__custom" body outline color="info">
-                        {/* <CardImg height={"100px"} top src={c.imgUrl} alt="Card image cap" /> */}
-                        <CardHeader className="course-title card-header__custom"><strong>{item.title}</strong></CardHeader>
-                        <CardBody className='card-body__custom'>
-                            <CardSubtitle className="mb-2 subtitle">Số lượng từ vựng: {item.courseLength}</CardSubtitle>
-                            <Button  className="mt-2 card-button__custom continue">
-                                <a href={`/courses/${item.courseId}`} className="link">
-                                    Xem khóa học
-                                </a>
-                            </Button>
-
-                        </CardBody>
+                    <div className={`${classes.carouselItem}`} >
+                    <Card onClick={() => window.location.href = `/courses/${item.courseId}`} className={classes.card}>
+                        <CardContent>
+                            <Typography className={classes.cardTitle} gutterBottom>
+                            {item.title}
+                            </Typography>
+                            <Typography className={classes.cardContent} variant="body2" component="p">
+                            Số lượng từ vựng: {item.courseLength}
+                            </Typography>
+                        </CardContent>
                     </Card>
                     </div>
                 </CarouselItem>
             )}
-        /> : <div className="course-title">Không có khóa học nào</div>)
+        /> : <div className={classes.title}>Không có khóa học nào</div>)
     }
     </>
 

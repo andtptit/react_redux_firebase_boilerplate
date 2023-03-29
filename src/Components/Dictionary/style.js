@@ -78,7 +78,15 @@ export default makeStyles(() => ({
     fontSize: '1.4rem',
     fontWeight: 500,
     lineHeight: 1.75,
-    color: 'var(--text-color)',
+    color: 'var(--title-color)',
+    fontFamily: "'Noto Serif KR', serif",
+  },
+
+  meaning: {
+    fontSize: '1.4rem',
+    fontWeight: 500,
+    lineHeight: 1.75,
+    color: 'var(--title-color)',
   },
 
   "@media (max-width: 992px)": {
@@ -92,6 +100,10 @@ export default makeStyles(() => ({
 
     box: {
       padding: '0.2rem 0.5rem',
+    },
+
+    meaning: {
+      fontSize: '1.1rem',
     },
   },
 

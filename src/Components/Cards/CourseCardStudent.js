@@ -8,7 +8,8 @@ const useStyles = makeStyles({
     },
 
     leaderboard: {
-        fontSize: '2.5rem'
+        fontSize: '2.1rem',
+        color: 'var(--text-color)'        
     },
 
     "@media (max-width: 992px)": {
@@ -27,7 +28,7 @@ const CourseCard = ({profile, courseNew, courseLearned}) => {
         <div className="container my-10">
             <div className={`${classes.element} leaderboard`}>
                 <h1 className={`${classes.leaderboard} flex-start`}>
-                    Đã học
+                    Khóa học đã học
                 </h1>
             </div>
             <div className="dyno-break"></div>
@@ -35,7 +36,7 @@ const CourseCard = ({profile, courseNew, courseLearned}) => {
 
             <div className={`${classes.element} leaderboard`}>
                 <h1 className={`${classes.leaderboard} flex-start`}>
-                    Chưa học
+                    Khóa học mới
                 </h1>
             </div>
             <div className="dyno-break"></div>
